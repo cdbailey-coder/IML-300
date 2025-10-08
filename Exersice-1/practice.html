@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        a {
+            color: red;
+            font-size: 18px;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        img {
+            position: absolute;
+            max-width: 250px;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        img:nth-child(2) {
+            top: 8%;
+            left: 15%;
+        }
+        
+        img:nth-child(3) {
+            top: 22%;
+            right: 12%;
+        }
+        
+        img:nth-child(4) {
+            top: 65%;
+            left: 7%;
+        }
+        
+        img:nth-child(5) {
+            bottom: 18%;
+            left: 25%;
+        }
+        
+        img:nth-child(6) {
+            bottom: 12%;
+            right: 8%;
+        }
+        
+        img:nth-child(7) {
+            top: 15%;
+            left: 35%;
+        }
+        
+        img:nth-child(8) {
+            top: 55%;
+            right: 18%;
+        }
+        
+        img:nth-child(9) {
+            bottom: 25%;
+            left: 5%;
+        }
+    </style>
+</head>
+<body>
+    <img src="Screenshot 2025-10-07 110258.png" alt="Image 1">
+    <img src="Screenshot 2025-10-07 110310.png" alt="Image 2">
+    <img src="Screenshot 2025-10-07 110350.png" alt="Image 3">
+    <img src="Screenshot 2025-10-07 114253.png" alt="Image 4">
+    <img src="Screenshot 2025-10-07 114309.png" alt="Image 5">
+    <img src="Screenshot 2025-10-07 114328.png" alt="Image 6">
+    <img src="Screenshot 2025-10-07 114342.png" alt="Image 7">
+    <img src="Screenshot 2025-10-07 114403.png" alt="Image 8">
+    
+    <div class="center-content">
+        <h1>Click on the link...if you dare...</h1>
+        <a href="secret-page.html" target="_blank">super secret link</a>
+    </div>
+</body>
+</html>
