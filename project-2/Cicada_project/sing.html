@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sing</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: serif;
+        }
+        
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .sing-text {
+            font-size: 48px;
+            color: #FFD700;
+            text-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.8),
+                0 0 40px rgba(255, 215, 0, 0.6),
+                0 0 60px rgba(255, 215, 0, 0.4),
+                0 0 80px rgba(255, 215, 0, 0.2),
+                0 0 100px rgba(255, 215, 0, 0.1);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 20px rgba(255, 215, 0, 0.8),
+                    0 0 40px rgba(255, 215, 0, 0.6),
+                    0 0 60px rgba(255, 215, 0, 0.4),
+                    0 0 80px rgba(255, 215, 0, 0.2),
+                    0 0 100px rgba(255, 215, 0, 0.1);
+            }
+            to {
+                text-shadow: 
+                    0 0 30px rgba(255, 215, 0, 1),
+                    0 0 60px rgba(255, 215, 0, 0.8),
+                    0 0 90px rgba(255, 215, 0, 0.6),
+                    0 0 120px rgba(255, 215, 0, 0.4),
+                    0 0 150px rgba(255, 215, 0, 0.2);
+            }
+        }
+        
+        .back-link-container {
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #3a3a3a;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #3a3a3a;
+            transition: all 0.3s;
+        }
+        
+        .back-link:hover {
+            background-color: #3a3a3a;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="sing-text">He sings — and the world answers.</div>
+    </div>
+    
+    <div class="back-link-container">
+        <a href="./index.html" class="back-link">← Back to Poem</a>
+    </div>
+</body>
+</html>

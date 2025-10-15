@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #c9a57b;
+            background-image: url("main_page_bg.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        
+        .cicada-container {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .cicada-container img {
+            max-width: 300px;
+            height: auto;
+        }
+        
+        .poem {
+            text-align: left;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 0 20px;
+            font-family: serif;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #3a3a3a;
+        }
+        
+        .hover-word {
+            cursor: pointer;
+            transition: color 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            color: #3a3a3a;
+        }
+        
+        .hover-word:hover {
+            color: #f5f5dc;
+            animation: vibrate 0.15s infinite;
+        }
+        
+        .poet-link {
+            cursor: pointer;
+            transition: color 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            color: #3a3a3a;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        
+        .poet-link.unlocked {
+            pointer-events: auto;
+            opacity: 1;
+        }
+        
+        .poet-link.unlocked:hover {
+            color: #f5f5dc;
+            animation: vibrate 0.15s infinite;
+        }
+        
+        @keyframes vibrate {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-3px, 3px) rotate(-1deg); }
+            50% { transform: translate(3px, -3px) rotate(1deg); }
+            75% { transform: translate(-3px, -2px) rotate(-1deg); }
+            100% { transform: translate(2px, 2px) rotate(1deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicada-container">
+        <img src="main_cicada.png" alt="Cicada">
+    </div>
+    
+    <div class="poem">
+        Sick of his own <a href="face.html" target="_self" class="hover-word" data-page="face">face</a>,<br>
+        sick of his <a href="skin.html" target="_self" class="hover-word" data-page="skin">skin</a>, of the <a href="dark.html" target="_self" class="hover-word" data-page="dark">dark</a>,<br>
+        he crawls outside himself<br>
+        to <a href="sing.html" target="_self" class="hover-word" data-page="sing">sing –</a>
+        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="poet.html" target="_self" class="poet-link" id="poetLink">a better poet than most.</a>
+    </div>
+
+    <script>
+        const visitedPages = new Set(JSON.parse(localStorage.getItem('visitedPages') || '[]'));
+        const requiredPages = ['face', 'skin', 'dark', 'sing'];
+        const poetLink = document.getElementById('poetLink');
+        
+        function checkAllVisited() {
+            const allVisited = requiredPages.every(page => visitedPages.has(page));
+            if (allVisited) {
+                poetLink.classList.add('unlocked');
+            }
+        }
+        
+        document.querySelectorAll('.hover-word').forEach(link => {
+            link.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                visitedPages.add(page);
+                localStorage.setItem('visitedPages', JSON.stringify([...visitedPages]));
+            });
+        });
+        
+        checkAllVisited();
+    </script>
+</body>
+</html>
