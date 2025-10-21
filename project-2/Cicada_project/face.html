@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Face</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -11,41 +12,89 @@
             min-height: 100vh;
             font-family: serif;
             color: white;
-            animation: creepyShift 4s infinite alternate;
+            background-color: #000000;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
         
-        @keyframes creepyShift {
-            0% { background-color: #000000; }
-            25% { background-color: #1a1a1a; }
-            50% { background-color: #333333; }
-            75% { background-color: #4d4d4d; }
-            100% { background-color: #666666; }
+        .background-words {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .floating-word {
+            position: absolute;
+            color: white;
+            font-size: 24px;
+            font-family: serif;
+            opacity: 0;
+            animation: fadeInOut 8s infinite;
+            filter: blur(10px);
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                filter: blur(10px);
+            }
+            25% {
+                opacity: 0.3;
+                filter: blur(5px);
+            }
+            50% {
+                opacity: 0.7;
+                filter: blur(0px);
+            }
+            75% {
+                opacity: 0.3;
+                filter: blur(5px);
+            }
+            100% {
+                opacity: 0;
+                filter: blur(10px);
+            }
         }
         
         .content {
-            max-width: 600px;
+            max-width: 814px;
             margin: 0 auto;
             padding: 40px 20px;
             flex-grow: 1;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
-        h1 {
-            text-align: center;
-            font-size: 36px;
+        .mirror-container {
+            position: relative;
+            width: 407px;
+            height: 570.5px;
         }
         
-        .quote {
-            text-align: center;
-            font-size: 18px;
-            line-height: 1.6;
-            margin: 40px 0;
+        .mirror-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
         }
         
         .back-link-container {
             padding: 30px 20px;
             text-align: center;
+            position: relative;
+            z-index: 4;
         }
         
         .back-link {
@@ -64,14 +113,193 @@
     </style>
 </head>
 <body>
+    <div class="background-words" id="backgroundWords"></div>
+    
     <div class="content">
-        <div class="quote">
-            "for here there is no place that does not see you. You must change your life."<br>
-            -Maria Rilke, "Archaic Torso of Apollo"
+        <div class="mirror-container">
+            <img src="mirror.png" alt="Mirror" class="mirror-image">
         </div>
     </div>
     <div class="back-link-container">
         <a href="./cicada.html" class="back-link">← Back to Poem</a>
     </div>
+    
+    <script>
+        // Animated poem words
+        const poem = "sick of his own face, sick of his own skin, of the dark, he crawls outside of himself to sing -- -- a better poet than most";
+        const words = poem.split(/\s+/);
+        const container = document.getElementById('backgroundWords');
+        
+        words.forEach((word, index) => {
+            const span = document.createElement('span');
+            span.className = 'floating-word';
+            span.textContent = word;
+            
+            const x = Math.random() * 90;
+            const y = Math.random() * 90;
+            span.style.left = x + '%';
+            span.style.top = y + '%';
+            span.style.animationDelay = (Math.random() * 8) + 's';
+            
+            container.appendChild(span);
+        });
+        
+        // p5.js sketch
+        let capture;
+        let mirrorX = 35;
+        let mirrorY = 85;
+        let mirrorW = 335;
+        let mirrorH = 365;
+        let videoScale = 0.7;
+        let startTime = 0;
+        let wordsActivated = false;
+        
+        let wordSets = [
+            ["sick", "of", "his", "own", "face"],
+            ["becoming", "growth", "emerging", "sing"]
+        ];
+        let currentSet = 0;
+        let wordAlpha = 0;
+        let wordTimer = 0;
+        let fadeDuration = 180;
+        let holdDuration = 240;
+        let transitionState = -1;
+        
+        function setup() {
+            let cnv = createCanvas(windowWidth, windowHeight);
+            cnv.position(0, 0);
+            cnv.style("z-index", "1");
+            noStroke();
+            capture = createCapture(VIDEO);
+            capture.size(windowWidth, windowHeight);
+            capture.hide();
+            startTime = millis();
+        }
+        
+        function draw() {
+            clear();
+            
+            let mirrorContainer = document.querySelector('.mirror-container');
+            let rect = mirrorContainer ? mirrorContainer.getBoundingClientRect() : null;
+            
+            let actualMirrorX, actualMirrorY;
+            if (rect) {
+                actualMirrorX = rect.left + mirrorX;
+                actualMirrorY = rect.top + mirrorY;
+            } else {
+                let centerX = width / 2;
+                let centerY = height / 2;
+                actualMirrorX = centerX - 407 / 2 + mirrorX;
+                actualMirrorY = centerY - 570.5 / 2 + mirrorY;
+            }
+            
+            if (!wordsActivated && millis() - startTime > 10000) {
+                wordsActivated = true;
+                transitionState = 0;
+            }
+            
+            capture.loadPixels();
+            if (capture.pixels.length > 0) {
+                for (let y = 0; y < capture.height; y++) {
+                    for (let x = 0; x < capture.width; x++) {
+                        let i = (x + y * capture.width) * 4;
+                        let r = capture.pixels[i];
+                        let g = capture.pixels[i + 1];
+                        let b = capture.pixels[i + 2];
+                        let gray = (r + g + b) / 3;
+                        gray = gray * 0.4;
+                        
+                        let edgeDistX = Math.min(x, capture.width - x);
+                        let edgeDistY = Math.min(y, capture.height - y);
+                        let edgeDist = Math.min(edgeDistX, edgeDistY);
+                        let edgeFactor = Math.min(edgeDist / 50, 1);
+                        
+                        gray = gray * edgeFactor;
+                        
+                        capture.pixels[i] = gray;
+                        capture.pixels[i + 1] = gray;
+                        capture.pixels[i + 2] = gray;
+                    }
+                }
+                capture.updatePixels();
+            }
+            
+            push();
+            drawingContext.save();
+            drawingContext.beginPath();
+            drawingContext.rect(actualMirrorX, actualMirrorY, mirrorW, mirrorH);
+            drawingContext.clip();
+            
+            let scaledW = mirrorW * videoScale;
+            let scaledH = mirrorH * videoScale;
+            let offsetX = (mirrorW - scaledW) / 2;
+            let offsetY = (mirrorH - scaledH) / 2;
+            
+            translate(width, 0);
+            scale(-1, 1);
+            image(capture, width - actualMirrorX - offsetX - scaledW, actualMirrorY + offsetY, scaledW, scaledH);
+            
+            drawingContext.restore();
+            pop();
+            
+            if (wordsActivated) {
+                push();
+                drawingContext.save();
+                drawingContext.beginPath();
+                drawingContext.rect(actualMirrorX, actualMirrorY, mirrorW, mirrorH);
+                drawingContext.clip();
+                
+                textAlign(CENTER, CENTER);
+                textSize(20);
+                fill(255, wordAlpha);
+                noStroke();
+                
+                let currentWords = wordSets[currentSet];
+                let spacing = 30;
+                let totalHeight = currentWords.length * spacing;
+                let startY = actualMirrorY + mirrorH / 2 - totalHeight / 2;
+                
+                for (let i = 0; i < currentWords.length; i++) {
+                    text(currentWords[i], actualMirrorX + mirrorW / 2, startY + i * spacing);
+                }
+                
+                drawingContext.restore();
+                pop();
+                
+                wordTimer++;
+                
+                if (transitionState === 0) {
+                    wordAlpha = map(wordTimer, 0, fadeDuration, 0, 80);
+                    if (wordTimer >= fadeDuration) {
+                        transitionState = 1;
+                        wordTimer = 0;
+                    }
+                } else if (transitionState === 1) {
+                    wordAlpha = 80;
+                    if (wordTimer >= holdDuration) {
+                        transitionState = 2;
+                        wordTimer = 0;
+                    }
+                } else if (transitionState === 2) {
+                    wordAlpha = map(wordTimer, 0, fadeDuration, 80, 0);
+                    if (wordTimer >= fadeDuration) {
+                        transitionState = 3;
+                        wordTimer = 0;
+                        currentSet = (currentSet + 1) % wordSets.length;
+                    }
+                } else if (transitionState === 3) {
+                    wordAlpha = 0;
+                    if (wordTimer >= 120) {
+                        transitionState = 0;
+                        wordTimer = 0;
+                    }
+                }
+            }
+        }
+        
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
 </body>
 </html>
