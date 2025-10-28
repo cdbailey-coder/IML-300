@@ -26,6 +26,7 @@
       justify-content: flex-end;
       align-items: center;
       overflow: hidden;
+      transition: opacity 2s ease;
     }
 
     .audience-row {
@@ -49,7 +50,7 @@
       background-size: auto 100%;
       opacity: 0.9;
       pointer-events: none;
-      transition: transform 0.1s ease;
+      transition: transform 0.1s ease, opacity 2s ease;
     }
 
     .chairs {
@@ -68,6 +69,7 @@
       border-top: 3px solid #5c4747;
       border-bottom: 2px solid #1a1010;
       opacity: 0.85;
+      transition: opacity 2s ease;
     }
 
     .row1 { height: 160px; z-index: 10; }
@@ -87,10 +89,9 @@
     .row8 { height: 40px; z-index: 3; }
     .row8 .cicadas { background-size: auto 40px; opacity: 0.65; }
 
-    /* Lyrics styling */
     .lyrics-container {
       position: fixed;
-      top: 15%;
+      top: 10%;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
@@ -101,6 +102,7 @@
       transition: opacity 1.5s ease;
       width: 80%;
       pointer-events: none;
+      z-index: 50;
     }
 
     .lyrics-line {
@@ -112,13 +114,81 @@
       opacity: 1;
     }
 
-    .lyrics-line.fade-out {
+    .poem {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: left;
+      max-width: 500px;
+      padding: 0 20px;
+      font-family: serif;
+      font-size: 18px;
+      line-height: 1.6;
+      color: white;
       opacity: 0;
+      transition: opacity 2s ease;
+      z-index: 60;
+      pointer-events: none;
+    }
+
+    .poem.visible {
+      pointer-events: auto;
+    }
+
+    .hover-word {
+      cursor: pointer;
+      transition: color 0.3s;
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+    }
+
+    .hover-word:hover {
+      color: #f5f5dc;
+      animation: vibrate 0.15s infinite;
+    }
+
+    .hover-word.no-buzz {
+      color: white;
+    }
+
+    .hover-word.no-buzz:hover {
+      color: white;
+      animation: none;
+    }
+
+    .poet-link {
+      cursor: pointer;
+      transition: color 0.3s;
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .poet-link.unlocked {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .poet-link.unlocked:hover {
+      color: #f5f5dc;
+      animation: vibrate 0.15s infinite;
+    }
+
+    @keyframes vibrate {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-3px, 3px) rotate(-1deg); }
+      50% { transform: translate(3px, -3px) rotate(1deg); }
+      75% { transform: translate(-3px, -2px) rotate(-1deg); }
+      100% { transform: translate(2px, 2px) rotate(1deg); }
     }
   </style>
 </head>
 <body>
-  <div class="audience">
+  <div class="audience" id="audienceContainer">
     <div class="audience-row row8"><div class="cicadas"></div><div class="chairs"></div></div>
     <div class="audience-row row7"><div class="cicadas"></div><div class="chairs"></div></div>
     <div class="audience-row row6"><div class="cicadas"></div><div class="chairs"></div></div>
@@ -137,6 +207,17 @@
     <div class="lyrics-line" id="line5">Purple waves of ancient chemicals just whisper</div>
   </div>
 
+  <div class="poem" id="poemContainer">
+    Sick of his own <a href="face.html" target="_self" class="hover-word" data-page="face">face</a>,<br>
+    sick of his <a href="skin.html" target="_self" class="hover-word" data-page="skin">skin</a>, of the <a href="dark.html" target="_self" class="hover-word" data-page="dark">dark</a>,<br>
+    he crawls outside himself<br>
+    to <a href="sing.html" target="_self" class="hover-word no-buzz" data-page="sing">sing –</a>
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="poet.html" target="_self" class="poet-link" id="poetLink">a better poet than most.</a>
+  </div>
+
+  <audio id="buzzAudio" src="buzzz.mp3" preload="auto" loop></audio>
+
   <script>
     let userInput = [];
     let correctSequence = ['d', 'd', 'e', 'g'];
@@ -148,6 +229,7 @@
 
     let crowdSound, buzzSound, songSound;
 
+    // Collect cicada layers
     document.querySelectorAll('.cicadas').forEach(c => {
       cicadaLayers.push(c);
       cheerOffsets.push(Math.random() * 1000);
@@ -155,9 +237,9 @@
 
     function preload() {
       soundFormats('mp3');
-      crowdSound = loadSound('crowd.mp3');
-      buzzSound = loadSound('buzzz.mp3');
-      songSound = loadSound('cicadadays.mp3');
+      crowdSound = loadSound('crowd.mp3', () => console.log('crowd loaded'), () => console.log('crowd failed'));
+      buzzSound = loadSound('buzzz.mp3', () => console.log('buzz loaded'), () => console.log('buzz failed'));
+      songSound = loadSound('cicadadays.mp3', () => console.log('song loaded'), () => console.log('song failed'));
     }
 
     let chords = {
@@ -172,7 +254,6 @@
         cnv.style('z-index', '100');
         cnv.style('pointer-events', 'none');
         textFont('Courier New');
-        preload();
     }
     
     function draw() {
@@ -374,10 +455,10 @@
         setTimeout(() => {
           line1.classList.remove('visible');
           line2.classList.remove('visible');
-        }, 17000); // 17s
+        }, 17000);
       }, 1500);
 
-      // Second section appears 8s after first two disappear
+      // Second section appears 8s after first two disappear and lasts 20s
       setTimeout(() => {
         line3.classList.add('visible');
         line4.classList.add('visible');
@@ -386,13 +467,71 @@
           line3.classList.remove('visible');
           line4.classList.remove('visible');
           line5.classList.remove('visible');
-        }, 6000);
-      }, 1500 + 17000 + 8000); // 1.5s + 17s + 8s delay
+          
+          // After last lyrics fade, fade out cicadas and chairs
+          fadeOutAudience();
+        }, 20000);
+      }, 1500 + 17000 + 8000);
+    }
+
+    function fadeOutAudience() {
+      const audienceContainer = document.getElementById('audienceContainer');
+      const chairElements = document.querySelectorAll('.chairs');
+      const poemContainer = document.getElementById('poemContainer');
+      
+      // Fade out cicadas and chairs
+      cicadaLayers.forEach(c => c.style.opacity = '0');
+      chairElements.forEach(ch => ch.style.opacity = '0');
+      
+      // After fade completes, show poem
+      setTimeout(() => {
+        poemContainer.style.opacity = '1';
+        poemContainer.classList.add('visible');
+      }, 2000);
     }
 
     function windowResized() {
       resizeCanvas(windowWidth, windowHeight);
     }
+
+    // Link and buzz audio logic
+    const visitedPages = new Set(JSON.parse(localStorage.getItem('visitedPages') || '[]'));
+    const requiredPages = ['face', 'skin', 'dark', 'sing'];
+    const poetLink = document.getElementById('poetLink');
+    const buzzAudio = document.getElementById('buzzAudio');
+
+    function checkAllVisited() {
+      const allVisited = requiredPages.every(page => visitedPages.has(page));
+      if (allVisited) {
+        poetLink.classList.add('unlocked');
+      }
+    }
+
+    // Add buzzing only to links without the no-buzz class
+    document.querySelectorAll('.hover-word').forEach(link => {
+      if (!link.classList.contains('no-buzz')) {
+        link.addEventListener('mouseenter', () => {
+          buzzAudio.currentTime = 0;
+          buzzAudio.play();
+        });
+        link.addEventListener('mouseleave', () => {
+          buzzAudio.pause();
+          buzzAudio.currentTime = 0;
+        });
+      }
+
+      // Track visited pages
+      link.addEventListener('click', function() {
+        const page = this.getAttribute('data-page');
+        visitedPages.add(page);
+        localStorage.setItem('visitedPages', JSON.stringify([...visitedPages]));
+        checkAllVisited();
+      });
+    });
+
+    // Check if all pages have been visited on load
+    checkAllVisited();
   </script>
+  
 </body>
 </html>
