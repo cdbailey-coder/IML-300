@@ -228,6 +228,7 @@
     let cheerOffsets = [];
 
     let crowdSound, buzzSound, songSound;
+    let dSound, eSound, gSound;
 
     // Collect cicada layers
     document.querySelectorAll('.cicadas').forEach(c => {
@@ -240,6 +241,9 @@
       crowdSound = loadSound('crowd.mp3', () => console.log('crowd loaded'), () => console.log('crowd failed'));
       buzzSound = loadSound('buzzz.mp3', () => console.log('buzz loaded'), () => console.log('buzz failed'));
       songSound = loadSound('cicadadays.mp3', () => console.log('song loaded'), () => console.log('song failed'));
+      dSound = loadSound('d.mp3', () => console.log('d note loaded'), () => console.log('d note failed'));
+      eSound = loadSound('e.mp3', () => console.log('e note loaded'), () => console.log('e note failed'));
+      gSound = loadSound('g.mp3', () => console.log('g note loaded'), () => console.log('g note failed'));
     }
 
     let chords = {
@@ -386,6 +390,15 @@
       if (gameState !== 'playing') return;
       let k = key.toLowerCase();
       if (k === 'd' || k === 'e' || k === 'g') {
+        // Play the corresponding note sound
+        if (k === 'd' && dSound) {
+          dSound.play();
+        } else if (k === 'e' && eSound) {
+          eSound.play();
+        } else if (k === 'g' && gSound) {
+          gSound.play();
+        }
+        
         userInput.push(k);
         if (userInput.length === correctSequence.length) {
           let isCorrect = userInput.every((v, i) => v === correctSequence[i]);
@@ -436,7 +449,7 @@
 
     function startSong() {
       if (songSound) {
-        songSound.setVolume(0.7);
+        songSound.setVolume(1);
         songSound.play();
       }
 

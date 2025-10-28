@@ -26,16 +26,103 @@
       z-index: 10;
       transform: translateX(-50%);
       pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .poem {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: left;
+      max-width: 500px;
+      padding: 0 20px;
+      font-family: serif;
+      font-size: 18px;
+      line-height: 1.6;
+      color: white;
+      opacity: 0;
+      transition: opacity 2s ease;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .poem.visible {
+      pointer-events: auto;
+    }
+
+    .hover-word {
+      cursor: pointer;
+      transition: color 0.3s;
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+    }
+
+    .hover-word:hover {
+      color: #f5f5dc;
+      animation: vibrate 0.15s infinite;
+    }
+
+    .hover-word.no-buzz {
+      color: white;
+    }
+
+    .hover-word.no-buzz:hover {
+      color: white;
+      animation: none;
+    }
+
+    .poet-link {
+      cursor: pointer;
+      transition: color 0.3s;
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .poet-link.unlocked {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .poet-link.unlocked:hover {
+      color: #f5f5dc;
+      animation: vibrate 0.15s infinite;
+    }
+
+    @keyframes vibrate {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-3px, 3px) rotate(-1deg); }
+      50% { transform: translate(3px, -3px) rotate(1deg); }
+      75% { transform: translate(-3px, -2px) rotate(-1deg); }
+      100% { transform: translate(2px, 2px) rotate(1deg); }
     }
   </style>
 </head>
 <body>
   <!-- Individual poem lines to fade in one by one -->
-  <div class="poem-line" id="line1" style="top: 40%;">You do not have to be good.</div>
-  <div class="poem-line" id="line2" style="top: 48%;">You do not have to walk on your knees</div>
-  <div class="poem-line" id="line3" style="top: 56%;">for a hundred miles through the desert repenting.</div>
-  <div class="poem-line" id="line4" style="top: 64%;">You only have to let the soft animal of your body love what it loves.</div>
-  <div class="poem-line" id="line5" style="top: 72%;">— Mary Oliver</div>
+  <div class="poem-line" id="line1" style="top: 30%;">You do not have to be good.</div>
+  <div class="poem-line" id="line2" style="top: 37%;">You do not have to walk on your knees</div>
+  <div class="poem-line" id="line3" style="top: 44%;">for a hundred miles through the desert repenting.</div>
+  <div class="poem-line" id="line4" style="top: 51%;">You only have to let the soft animal of your body</div>
+  <div class="poem-line" id="line5" style="top: 58%;">love what it loves.</div>
+  <div class="poem-line" id="line6" style="top: 65%;">— Mary Oliver</div>
+
+  <div class="poem" id="poemContainer">
+    Sick of his own <a href="face.html" target="_self" class="hover-word" data-page="face">face</a>,<br>
+    sick of his <a href="skin.html" target="_self" class="hover-word no-buzz" data-page="skin">skin</a>, of the <a href="dark.html" target="_self" class="hover-word" data-page="dark">dark</a>,<br>
+    he crawls outside himself<br>
+    to <a href="sing.html" target="_self" class="hover-word" data-page="sing">sing –</a>
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="poet.html" target="_self" class="poet-link" id="poetLink">a better poet than most.</a>
+  </div>
+
+  <!-- Audio elements -->
+  <audio id="buzzAudio" src="buzzz.mp3" preload="auto" loop></audio>
+  <audio id="glassAudio" src="glass.mp3" preload="auto"></audio>
 
   <script>
     let cells = [];
@@ -48,6 +135,8 @@
     let clickCount = 0;
     const maxClicks = 15;
     let cellGroups = [];
+    
+    const glassAudio = document.getElementById('glassAudio');
 
     function setup() {
       createCanvas(windowWidth, windowHeight);
@@ -190,16 +279,22 @@
       if (poemShown) return;
       if (clickCount >= maxClicks) return;
 
+      // Play glass sound for first 15 clicks (clickCount 0-14)
+      if (clickCount < maxClicks) {
+        glassAudio.currentTime = 0;
+        glassAudio.play().catch(e => console.log('Audio play error:', e));
+      }
+
       let group = cellGroups[clickCount];
       if (group) {
         group.forEach(clickedCell => {
           let cellPixels = patternPixels.filter(p => p.cell === clickedCell);
-          let numFragments = int(random(25, 40)); // more dramatic shatter
+          let numFragments = int(random(25, 40));
 
           for (let i = 0; i < numFragments; i++) {
             let fragPixels = [];
             let startIdx = int(random(cellPixels.length));
-            let fragSize = int(random(5, 12)); // larger fragments
+            let fragSize = int(random(5, 12));
 
             for (let j = 0; j < fragSize && startIdx + j < cellPixels.length; j++) {
               let p = cellPixels[startIdx + j];
@@ -240,7 +335,8 @@
         document.getElementById("line2"),
         document.getElementById("line3"),
         document.getElementById("line4"),
-        document.getElementById("line5")
+        document.getElementById("line5"),
+        document.getElementById("line6")
       ];
 
       lines.forEach((line, index) => {
@@ -248,6 +344,20 @@
           line.style.opacity = "1";
         }, 2000 * index);
       });
+
+      // After all lines are shown, wait 3 seconds then fade them out
+      setTimeout(() => {
+        lines.forEach(line => {
+          line.style.opacity = "0";
+        });
+        
+        // After fade out, show the poem with links
+        setTimeout(() => {
+          const poemContainer = document.getElementById('poemContainer');
+          poemContainer.style.opacity = '1';
+          poemContainer.classList.add('visible');
+        }, 2000);
+      }, 2000 * lines.length + 3000);
     }
 
     function windowResized() {
@@ -256,6 +366,44 @@
       divideCellsIntoGroups();
       loop();
     }
+
+    // Link and buzz audio logic
+    const visitedPages = new Set(JSON.parse(localStorage.getItem('visitedPages') || '[]'));
+    const requiredPages = ['face', 'skin', 'dark', 'sing'];
+    const poetLink = document.getElementById('poetLink');
+    const buzzAudio = document.getElementById('buzzAudio');
+
+    function checkAllVisited() {
+      const allVisited = requiredPages.every(page => visitedPages.has(page));
+      if (allVisited) {
+        poetLink.classList.add('unlocked');
+      }
+    }
+
+    // Add buzzing only to links without the no-buzz class
+    document.querySelectorAll('.hover-word').forEach(link => {
+      if (!link.classList.contains('no-buzz')) {
+        link.addEventListener('mouseenter', () => {
+          buzzAudio.currentTime = 0;
+          buzzAudio.play();
+        });
+        link.addEventListener('mouseleave', () => {
+          buzzAudio.pause();
+          buzzAudio.currentTime = 0;
+        });
+      }
+
+      // Track visited pages
+      link.addEventListener('click', function() {
+        const page = this.getAttribute('data-page');
+        visitedPages.add(page);
+        localStorage.setItem('visitedPages', JSON.stringify([...visitedPages]));
+        checkAllVisited();
+      });
+    });
+
+    // Check if all pages have been visited on load
+    checkAllVisited();
   </script>
 </body>
 </html>

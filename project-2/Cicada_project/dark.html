@@ -111,8 +111,9 @@
     </div>
 </div>
 
-<!-- Audio element for cicada buzz -->
+<!-- Audio elements -->
 <audio id="buzzAudio" src="buzzz.mp3" preload="auto" loop></audio>
+<audio id="nightAudio" src="noght.mp3" preload="auto" loop></audio>
 
 <script>
 // Mark this page as visited immediately
@@ -160,9 +161,27 @@ function checkAllVisited() {
     }
 }
 
-// Handle hover-word links
+// Handle audio
 const buzzAudio = document.getElementById('buzzAudio');
+const nightAudio = document.getElementById('nightAudio');
+nightAudio.volume = 1.0;
+let audioStarted = false;
 
+// Start background audio on first mouse movement
+function startBackgroundAudio() {
+    if (!audioStarted) {
+        audioStarted = true;
+        nightAudio.play().then(() => {
+            console.log('Background audio playing');
+        }).catch(e => {
+            console.log('Audio error:', e);
+        });
+    }
+}
+
+document.addEventListener('mousemove', startBackgroundAudio, { once: true });
+
+// Handle hover-word links
 document.querySelectorAll('.hover-word').forEach(link => {
     link.addEventListener('mouseenter', () => {
         buzzAudio.currentTime = 0;

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cicada Animation</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url('paperbg.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.cicada-cover { position: absolute; width: 250px; height: 250px; opacity: 0; pointer-events: none; }
+
+@keyframes appear { 0% {opacity:0;} 100% {opacity:1;} }
+
+@keyframes scrollCredits {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-150%);
+  }
+}
+
+@keyframes fadeInLink {
+  0% {opacity:0; transform:translateY(20px);}
+  100% {opacity:1; transform:translateY(0);}
+}
+
+.glow-overlay {
+  position: fixed; top:0; left:0; width:100vw; height:100vh;
+  background: radial-gradient(circle, rgba(255,255,0,0) 0%, rgba(255,255,0,0) 100%);
+  pointer-events:none; opacity:0; z-index:1000;
+}
+
+.black-overlay {
+  position: fixed; top:0; left:0; width:100vw; height:100vh;
+  background:black; pointer-events:none; opacity:0; z-index:1001;
+}
+
+.credits-container {
+  position: fixed; 
+  top: 100vh;
+  left: 0; 
+  width: 100vw; 
+  height: auto;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  z-index: 2000; 
+  opacity: 0; 
+  pointer-events: none;
+  font-family: 'Courier New', Courier, monospace;
+  color: white;
+  text-align: center;
+  padding: 40px;
+}
+
+.credits-container.show {
+  opacity: 1;
+  animation: scrollCredits 30s linear forwards;
+}
+
+.credits-title {
+  font-size: 32px;
+  margin-bottom: 60px;
+  letter-spacing: 3px;
+  margin-top: 50vh;
+}
+
+.credit-item {
+  font-size: 20px;
+  margin: 30px 0;
+  line-height: 1.6;
+}
+
+.credit-author {
+  font-style: italic;
+  display: block;
+  margin-top: 5px;
+}
+
+.read-again {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 24px;
+  z-index: 2001;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.read-again.show {
+  opacity: 1;
+  pointer-events: auto;
+  animation: fadeInLink 2s ease-out forwards;
+}
+
+.read-again a {
+  color: white;
+  text-decoration: none;
+  border-bottom: 2px solid white;
+  padding-bottom: 2px;
+  transition: all 0.3s ease;
+}
+
+.read-again a:hover {
+  color: #ffff99;
+  border-bottom-color: #ffff99;
+}
+
+.click-prompt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.7);
+  z-index: 3000;
+  pointer-events: none;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<audio id="mainAudio" src="cicadavo.mp3" preload="auto" playsinline></audio>
+<audio id="creditsAudio" src="willwood.mp3" preload="auto" playsinline></audio>
+
+<div class="glow-overlay" id="glowOverlay"></div>
+<div class="black-overlay" id="blackOverlay"></div>
+
+<div class="click-prompt" id="clickPrompt">Click to begin</div>
+
+<div class="credits-container" id="creditsContainer">
+  <div class="credits-title">REFERENCES</div>
+  <div class="credit-item">"Cicada" <span class="credit-author">by Hosho McCreesh</span></div>
+  <div class="credit-item">"Mirror" <span class="credit-author">by Sylvia Plath</span></div>
+  <div class="credit-item">"Wild Geese" <span class="credit-author">by Mary Oliver</span></div>
+  <div class="credit-item">"Cicada Days" <span class="credit-author">by Will Wood</span></div>
+  <div class="credit-item">p5.js <span class="credit-author">JavaScript Library</span></div>
+  <div class="credit-item">CSS <span class="credit-author">Reference Library</span></div>
+</div>
+
+<div class="read-again" id="readAgain"><a href="cicada.html">Read Again?</a></div>
+
+<script>
+const mainAudio = document.getElementById('mainAudio');
+const creditsAudio = document.getElementById('creditsAudio');
+const glowOverlay = document.getElementById('glowOverlay');
+const blackOverlay = document.getElementById('blackOverlay');
+const creditsContainer = document.getElementById('creditsContainer');
+const readAgain = document.getElementById('readAgain');
+const clickPrompt = document.getElementById('clickPrompt');
+let hasClicked = false;
+let coveringStarted = false;
+
+// Covering cicadas - random appearance, centered, slower
+function createCoveringCicadas() {
+  if (!hasClicked || coveringStarted) return;
+  coveringStarted = true;
+  
+  clickPrompt.style.display = 'none';
+  
+  setTimeout(() => {
+    const spacing = 60;
+    const cicadaSize = 250;
+    const cols = Math.ceil(window.innerWidth / spacing) + 6;
+    const rows = Math.ceil(window.innerHeight / spacing) + 6;
+    
+    // Create array of all positions
+    const positions = [];
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        positions.push({row, col});
+      }
+    }
+    
+    // Shuffle positions randomly
+    for (let i = positions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [positions[i], positions[j]] = [positions[j], positions[i]];
+    }
+    
+    const duration = 18000; // Slower - 18 seconds instead of 11
+    const interval = duration / positions.length;
+    
+    // Center the grid
+    const gridWidth = cols * spacing;
+    const gridHeight = rows * spacing;
+    const offsetX = (window.innerWidth - gridWidth) / 2;
+    const offsetY = (window.innerHeight - gridHeight) / 2;
+
+    positions.forEach((pos, index) => {
+      setTimeout(() => {
+        const cicada = document.createElement('img');
+        cicada.src = 'ecicada.png';
+        cicada.className = 'cicada-cover';
+        const x = pos.col * spacing + (Math.random() - 0.5) * 20 - cicadaSize/4 + offsetX;
+        const y = pos.row * spacing + (Math.random() - 0.5) * 20 - cicadaSize/4 + offsetY;
+        cicada.style.left = x + 'px';
+        cicada.style.top = y + 'px';
+        cicada.style.animation = 'appear 0.15s ease-out forwards';
+        document.body.appendChild(cicada);
+      }, index * interval);
+    });
+  }, 3000);
+}
+
+// Start animations & autoplay
+function startAnimation() {
+  mainAudio.play().catch(() => {});
+}
+
+// Click handler
+document.body.addEventListener('click', () => {
+  if (!hasClicked) {
+    hasClicked = true;
+    mainAudio.play().catch(() => {});
+    createCoveringCicadas();
+  }
+});
+
+// Glow effect at 14 seconds, remove cicadas at 17 seconds
+let glowStarted = false;
+let cicadasRemoved = false;
+
+mainAudio.addEventListener('timeupdate', () => {
+  // Start glow at 14 seconds
+  if (mainAudio.currentTime >= 14 && !glowStarted) {
+    glowStarted = true;
+
+    // Glow effect - longer, smoother buildup
+    let glowProgress = 0;
+    const glowDuration = 6; // Increased to 6 seconds to reach full white
+    const glowInterval = 50;
+    const steps = (glowDuration * 1000) / glowInterval;
+
+    const glowTimer = setInterval(() => {
+      glowProgress++;
+      const progress = glowProgress / steps;
+      // Build to full opaque white
+      const yellowIntensity = Math.min(progress * 1.3, 1);
+      const whiteIntensity = Math.max((progress - 0.4) * 2, 0);
+      const finalOpacity = Math.min(progress * 1.5, 1);
+
+      glowOverlay.style.opacity = finalOpacity;
+      glowOverlay.style.background = `radial-gradient(circle, 
+        rgba(255,255,255,${finalOpacity}) 0%, 
+        rgba(255,255,${100 + 155 * whiteIntensity},${yellowIntensity * 0.9}) 100%)`;
+
+      if (glowProgress >= steps) clearInterval(glowTimer);
+    }, glowInterval);
+  }
+
+  // Remove cicadas at 17 seconds
+  if (mainAudio.currentTime >= 17 && !cicadasRemoved) {
+    cicadasRemoved = true;
+    const allCicadas = document.querySelectorAll('.cicada-cover');
+    allCicadas.forEach(c => {
+      c.style.transition = 'opacity 1s'; // Slower fade
+      c.style.opacity = '0';
+      setTimeout(() => c.remove(), 1000);
+    });
+  }
+});
+
+// End of audio → black screen and credits
+mainAudio.addEventListener('ended', () => {
+  blackOverlay.style.transition = 'opacity 0.5s';
+  blackOverlay.style.opacity = '1';
+  
+  // Start credits music and scrolling immediately after fade to black
+  setTimeout(() => {
+    creditsAudio.play().catch(() => {});
+    creditsContainer.classList.add('show');
+    
+    // Show "Read Again?" link after credits scroll completely off (30s animation + 3s buffer)
+    setTimeout(() => {
+      readAgain.classList.add('show');
+    }, 33000);
+  }, 100);
+});
+
+// Start after page load
+window.addEventListener('load', startAnimation);
+</script>
+
+</body>
+</html>

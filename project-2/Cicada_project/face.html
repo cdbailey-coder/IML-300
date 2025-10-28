@@ -175,11 +175,16 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="poet.html" target="_self" class="poet-link" id="poetLink">a better poet than most.</a>
     </div>
     
+    <audio id="backgroundAudio" loop>
+        <source src="facesfx.mp3" type="audio/mpeg">
+    </audio>
+    
     <script>
         // Animated poem words
         const poem = "sick of his own face, sick of his own skin, of the dark, he crawls outside of himself to sing -- -- a better poet than most";
         const words = poem.split(/\s+/);
         const container = document.getElementById('backgroundWords');
+        const bgAudio = document.getElementById('backgroundAudio');
         
         words.forEach((word, index) => {
             const span = document.createElement('span');
@@ -251,6 +256,12 @@
             capture.size(windowWidth, windowHeight);
             capture.hide();
             startTime = millis();
+            
+            // Start background audio when camera loads
+            bgAudio.play().catch(e => {
+                // Handle autoplay restrictions - audio will play on first user interaction
+                console.log('Audio autoplay prevented:', e);
+            });
         }
         
         function draw() {
