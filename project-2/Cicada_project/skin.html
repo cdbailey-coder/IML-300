@@ -1,127 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skin</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            font-family: serif;
-            color: #3a3a3a;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-color: #000;
-        }
-        
-        .bg-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0;
-            animation: imageSlide 36s infinite;
-        }
-        
-        .bg-image:nth-child(1) {
-            background-image: url("1.jpeg.png");
-            animation-delay: 0s;
-        }
-        
-        .bg-image:nth-child(2) {
-            background-image: url("2.jpeg.png");
-            animation-delay: 6s;
-        }
-        
-        .bg-image:nth-child(3) {
-            background-image: url("3.jpeg.png");
-            animation-delay: 12s;
-        }
-        
-        .bg-image:nth-child(4) {
-            background-image: url("4.jpeg.png");
-            animation-delay: 18s;
-        }
-        
-        .bg-image:nth-child(5) {
-            background-image: url("5.jpeg.png");
-            animation-delay: 24s;
-        }
-        
-        .bg-image:nth-child(6) {
-            background-image: url("wing.jpeg.png");
-            animation-delay: 30s;
-        }
-        
-        @keyframes imageSlide {
-            0% { opacity: 0; }
-            8% { opacity: 1; }
-            16.66% { opacity: 1; }
-            25% { opacity: 0; }
-            100% { opacity: 0; }
-        }
-        
-        .content {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 1;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            margin-top: 40px;
-        }
-        
-        h1 {
-            text-align: center;
-            font-size: 36px;
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-top: 30px;
-            color: #3a3a3a;
-            text-decoration: none;
-            padding: 10px 20px;
-            border: 2px solid #3a3a3a;
-            transition: all 0.3s;
-        }
-        
-        .back-link:hover {
-            background-color: #3a3a3a;
-            color: #f5f5dc;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cracked Skin</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #000000;
+    }
+
+    .poem-line {
+      position: fixed;
+      left: 50%;
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 24px;
+      text-align: center;
+      line-height: 1.8;
+      opacity: 0;
+      transition: opacity 2s ease-in;
+      z-index: 10;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="background">
-        <div class="bg-image"></div>
-        <div class="bg-image"></div>
-        <div class="bg-image"></div>
-        <div class="bg-image"></div>
-        <div class="bg-image"></div>
-        <div class="bg-image"></div>
-    </div>
-    
-    <div class="content">
-        <h1>Skin</h1>
-        <p>This is the skin page.</p>
-        <a href="./cicada.html" class="back-link">← Back to Poem</a>
-    </div>
+  <!-- Individual poem lines to fade in one by one -->
+  <div class="poem-line" id="line1" style="top: 40%;">You do not have to be good.</div>
+  <div class="poem-line" id="line2" style="top: 48%;">You do not have to walk on your knees</div>
+  <div class="poem-line" id="line3" style="top: 56%;">for a hundred miles through the desert repenting.</div>
+  <div class="poem-line" id="line4" style="top: 64%;">You only have to let the soft animal of your body love what it loves.</div>
+  <div class="poem-line" id="line5" style="top: 72%;">— Mary Oliver</div>
+
+  <script>
+    let cells = [];
+    let fragments = [];
+    let numCellsX = 8;
+    let numCellsY = 8;
+    let patternPixels = [];
+    let poemShown = false;
+
+    let clickCount = 0;
+    const maxClicks = 15;
+    let cellGroups = [];
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      background(0);
+      generatePattern();
+      divideCellsIntoGroups();
+    }
+
+    function generatePattern() {
+      cells = [];
+      fragments = [];
+      patternPixels = [];
+
+      let cellWidth = width / numCellsX;
+      let cellHeight = height / numCellsY;
+
+      for (let i = 0; i < numCellsX; i++) {
+        for (let j = 0; j < numCellsY; j++) {
+          let centerX = i * cellWidth + cellWidth / 2;
+          let centerY = j * cellHeight + cellHeight / 2;
+          centerX += random(-cellWidth * 0.2, cellWidth * 0.2);
+          centerY += random(-cellHeight * 0.2, cellHeight * 0.2);
+          cells.push({
+            x: centerX,
+            y: centerY,
+            size: random(cellWidth * 0.4, cellWidth * 0.8),
+            active: true,
+          });
+        }
+      }
+
+      // Boundary cells
+      for (let i = 0; i <= numCellsX; i++) {
+        cells.push({ x: i * cellWidth, y: 0, size: 0, active: false });
+        cells.push({ x: i * cellWidth, y: height, size: 0, active: false });
+      }
+      for (let j = 0; j <= numCellsY; j++) {
+        cells.push({ x: 0, y: j * cellHeight, size: 0, active: false });
+        cells.push({ x: width, y: j * cellHeight, size: 0, active: false });
+      }
+
+      calculatePatternPixels();
+    }
+
+    function calculatePatternPixels() {
+      for (let x = 0; x < width; x += 3) {
+        for (let y = 0; y < height; y += 3) {
+          let minDist1 = Infinity;
+          let minDist2 = Infinity;
+          let closestCell = null;
+
+          for (let cell of cells) {
+            let d = dist(x, y, cell.x, cell.y);
+            if (d < minDist1) {
+              minDist2 = minDist1;
+              minDist1 = d;
+              closestCell = cell;
+            } else if (d < minDist2) {
+              minDist2 = d;
+            }
+          }
+
+          let threshold = 3;
+          if (abs(minDist1 - minDist2) < threshold && closestCell) {
+            patternPixels.push({
+              x: x,
+              y: y,
+              cell: closestCell,
+            });
+          }
+        }
+      }
+    }
+
+    function divideCellsIntoGroups() {
+      cellGroups = [];
+      for (let i = 0; i < maxClicks; i++) cellGroups.push([]);
+      let activeCells = cells.filter(c => c.active);
+      activeCells.sort(() => random() - 0.5);
+      activeCells.forEach((cell, index) => {
+        let groupIndex = index % maxClicks;
+        cellGroups[groupIndex].push(cell);
+      });
+    }
+
+    function draw() {
+      background(0);
+      stroke(255);
+      strokeWeight(2);
+
+      for (let pixel of patternPixels) {
+        if (pixel.cell.active) {
+          strokeWeight(random(1, 2));
+          point(pixel.x, pixel.y);
+
+          if (random() < 0.05) {
+            let angle = random(TWO_PI);
+            let len = random(3, 8);
+            line(
+              pixel.x,
+              pixel.y,
+              pixel.x + cos(angle) * len,
+              pixel.y + sin(angle) * len
+            );
+          }
+        }
+      }
+
+      for (let i = fragments.length - 1; i >= 0; i--) {
+        let frag = fragments[i];
+        frag.x += frag.vx;
+        frag.y += frag.vy;
+        frag.vy += 0.3;
+        frag.rotation += frag.rotSpeed;
+        frag.alpha -= 3;
+
+        push();
+        translate(frag.x, frag.y);
+        rotate(frag.rotation);
+        stroke(255, frag.alpha);
+        strokeWeight(1);
+        for (let j = 0; j < frag.points.length - 1; j++) {
+          line(
+            frag.points[j].x,
+            frag.points[j].y,
+            frag.points[j + 1].x,
+            frag.points[j + 1].y
+          );
+        }
+        pop();
+
+        if (frag.alpha <= 0) fragments.splice(i, 1);
+      }
+
+      if (fragments.length > 0) loop();
+      else noLoop();
+    }
+
+    function mousePressed() {
+      if (poemShown) return;
+      if (clickCount >= maxClicks) return;
+
+      let group = cellGroups[clickCount];
+      if (group) {
+        group.forEach(clickedCell => {
+          let cellPixels = patternPixels.filter(p => p.cell === clickedCell);
+          let numFragments = int(random(25, 40)); // more dramatic shatter
+
+          for (let i = 0; i < numFragments; i++) {
+            let fragPixels = [];
+            let startIdx = int(random(cellPixels.length));
+            let fragSize = int(random(5, 12)); // larger fragments
+
+            for (let j = 0; j < fragSize && startIdx + j < cellPixels.length; j++) {
+              let p = cellPixels[startIdx + j];
+              fragPixels.push({ x: p.x - clickedCell.x, y: p.y - clickedCell.y });
+            }
+
+            if (fragPixels.length > 0) {
+              fragments.push({
+                x: clickedCell.x,
+                y: clickedCell.y,
+                vx: random(-5, 5),
+                vy: random(-7, -2),
+                rotation: 0,
+                rotSpeed: random(-0.2, 0.2),
+                alpha: 255,
+                points: fragPixels,
+              });
+            }
+          }
+
+          clickedCell.active = false;
+        });
+      }
+
+      clickCount++;
+
+      if (clickCount >= maxClicks && !poemShown) {
+        poemShown = true;
+        revealPoem();
+      }
+
+      loop();
+    }
+
+    function revealPoem() {
+      const lines = [
+        document.getElementById("line1"),
+        document.getElementById("line2"),
+        document.getElementById("line3"),
+        document.getElementById("line4"),
+        document.getElementById("line5")
+      ];
+
+      lines.forEach((line, index) => {
+        setTimeout(() => {
+          line.style.opacity = "1";
+        }, 2000 * index);
+      });
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+      generatePattern();
+      divideCellsIntoGroups();
+      loop();
+    }
+  </script>
 </body>
 </html>

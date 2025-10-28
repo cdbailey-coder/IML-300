@@ -10,7 +10,7 @@
             padding: 0;
             min-height: 100vh;
             background-color: #c9a57b;
-            background-image: url("main_page_bg.png");
+            background-image: url("paperbg.png");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -94,26 +94,43 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="poet.html" target="_self" class="poet-link" id="poetLink">a better poet than most.</a>
     </div>
 
+    <!-- Audio element for buzzing -->
+    <audio id="buzzAudio" src="buzzz.mp3" preload="auto" loop></audio>
+
     <script>
         const visitedPages = new Set(JSON.parse(localStorage.getItem('visitedPages') || '[]'));
         const requiredPages = ['face', 'skin', 'dark', 'sing'];
         const poetLink = document.getElementById('poetLink');
-        
+        const buzzAudio = document.getElementById('buzzAudio');
+
         function checkAllVisited() {
             const allVisited = requiredPages.every(page => visitedPages.has(page));
             if (allVisited) {
                 poetLink.classList.add('unlocked');
             }
         }
-        
+
+        // Add buzzing only to the four main links
         document.querySelectorAll('.hover-word').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                buzzAudio.currentTime = 0;
+                buzzAudio.play();
+            });
+            link.addEventListener('mouseleave', () => {
+                buzzAudio.pause();
+                buzzAudio.currentTime = 0;
+            });
+
+            // Track visited pages
             link.addEventListener('click', function() {
                 const page = this.getAttribute('data-page');
                 visitedPages.add(page);
                 localStorage.setItem('visitedPages', JSON.stringify([...visitedPages]));
+                checkAllVisited();
             });
         });
-        
+
+        // Poet link remains silent until unlocked
         checkAllVisited();
     </script>
 </body>

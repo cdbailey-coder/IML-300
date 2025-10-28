@@ -1,88 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sing</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: serif;
-        }
-        
-        .content {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        
-        .sing-text {
-            font-size: 48px;
-            color: #FFD700;
-            text-shadow: 
-                0 0 20px rgba(255, 215, 0, 0.8),
-                0 0 40px rgba(255, 215, 0, 0.6),
-                0 0 60px rgba(255, 215, 0, 0.4),
-                0 0 80px rgba(255, 215, 0, 0.2),
-                0 0 100px rgba(255, 215, 0, 0.1);
-            animation: glow 3s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow {
-            from {
-                text-shadow: 
-                    0 0 20px rgba(255, 215, 0, 0.8),
-                    0 0 40px rgba(255, 215, 0, 0.6),
-                    0 0 60px rgba(255, 215, 0, 0.4),
-                    0 0 80px rgba(255, 215, 0, 0.2),
-                    0 0 100px rgba(255, 215, 0, 0.1);
-            }
-            to {
-                text-shadow: 
-                    0 0 30px rgba(255, 215, 0, 1),
-                    0 0 60px rgba(255, 215, 0, 0.8),
-                    0 0 90px rgba(255, 215, 0, 0.6),
-                    0 0 120px rgba(255, 215, 0, 0.4),
-                    0 0 150px rgba(255, 215, 0, 0.2);
-            }
-        }
-        
-        .back-link-container {
-            padding: 30px 20px;
-            text-align: center;
-        }
-        
-        .back-link {
-            display: inline-block;
-            color: #3a3a3a;
-            text-decoration: none;
-            padding: 10px 20px;
-            border: 2px solid #3a3a3a;
-            transition: all 0.3s;
-        }
-        
-        .back-link:hover {
-            background-color: #3a3a3a;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cicada Audience with Song</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+  <style>
+    body {
+      background-color: #111;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100vh;
+      font-family: 'Courier New', monospace;
+    }
+
+    .audience {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .audience-row {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: -40px;
+    }
+
+    .cicadas {
+      position: absolute;
+      bottom: 25px;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background-image: url('audience.png');
+      background-repeat: repeat-x;
+      background-position: center bottom;
+      background-size: auto 100%;
+      opacity: 0.9;
+      pointer-events: none;
+      transition: transform 0.1s ease;
+    }
+
+    .chairs {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 25px;
+      background: repeating-linear-gradient(
+        to right,
+        #3b2f2f 0px,
+        #3b2f2f 45px,
+        #2b2222 45px,
+        #2b2222 50px
+      );
+      border-top: 3px solid #5c4747;
+      border-bottom: 2px solid #1a1010;
+      opacity: 0.85;
+    }
+
+    .row1 { height: 160px; z-index: 10; }
+    .row1 .cicadas { background-size: auto 160px; opacity: 1; }
+    .row2 { height: 140px; z-index: 9; }
+    .row2 .cicadas { background-size: auto 140px; opacity: 0.95; }
+    .row3 { height: 120px; z-index: 8; }
+    .row3 .cicadas { background-size: auto 120px; opacity: 0.9; }
+    .row4 { height: 100px; z-index: 7; }
+    .row4 .cicadas { background-size: auto 100px; opacity: 0.85; }
+    .row5 { height: 80px; z-index: 6; }
+    .row5 .cicadas { background-size: auto 80px; opacity: 0.8; }
+    .row6 { height: 60px; z-index: 5; }
+    .row6 .cicadas { background-size: auto 60px; opacity: 0.75; }
+    .row7 { height: 50px; z-index: 4; }
+    .row7 .cicadas { background-size: auto 50px; opacity: 0.7; }
+    .row8 { height: 40px; z-index: 3; }
+    .row8 .cicadas { background-size: auto 40px; opacity: 0.65; }
+
+    /* Lyrics styling */
+    .lyrics-container {
+      position: fixed;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: white;
+      font-size: 22px;
+      line-height: 1.8;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      width: 80%;
+      pointer-events: none;
+    }
+
+    .lyrics-line {
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    .lyrics-line.visible {
+      opacity: 1;
+    }
+
+    .lyrics-line.fade-out {
+      opacity: 0;
+    }
+  </style>
 </head>
 <body>
-    <div class="content">
-        <div class="sing-text">He sings — and the world answers.</div>
-    </div>
+  <div class="audience">
+    <div class="audience-row row8"><div class="cicadas"></div><div class="chairs"></div></div>
+    <div class="audience-row row7"><div class="cicadas"></div><div class="chairs"></div></div>
+    <div class="audience-row row6"><div class="cicadas"></div><div class="chairs"></div></div>
+    <div class="audience-row row5"><div class="cicadas"></div><div class="chairs"></div></div>
+    <div class="audience-row row4"><div class="cicadas"></div><div class="chairs"></div></div>
+    <div class="audience-row row3"><div class="cicadas"></div><div class="chairs"></div></div>
+    <div class="audience-row row2"><div class="cicadas"></div><div class="chairs"></div></div>
+    <div class="audience-row row1"><div class="cicadas"></div><div class="chairs"></div></div>
+  </div>
+
+  <div class="lyrics-container" id="lyricsContainer">
+    <div class="lyrics-line" id="line1">Just one week of cicada days, we're losing touch</div>
+    <div class="lyrics-line" id="line2">And I know it just feels inhumane to lose this much</div>
+    <div class="lyrics-line" id="line3">Our nerves were braided under ceiling stars</div>
+    <div class="lyrics-line" id="line4">That were all glow in the dark, hanging over queen-sized</div>
+    <div class="lyrics-line" id="line5">Purple waves of ancient chemicals just whisper</div>
+  </div>
+
+  <script>
+    let userInput = [];
+    let correctSequence = ['d', 'd', 'e', 'g'];
+    let gameState = 'playing';
+    let cheering = false;
+    let cheeringStart = 0;
+    let cicadaLayers = [];
+    let cheerOffsets = [];
+
+    let crowdSound, buzzSound, songSound;
+
+    document.querySelectorAll('.cicadas').forEach(c => {
+      cicadaLayers.push(c);
+      cheerOffsets.push(Math.random() * 1000);
+    });
+
+    function preload() {
+      soundFormats('mp3');
+      crowdSound = loadSound('crowd.mp3');
+      buzzSound = loadSound('buzzz.mp3');
+      songSound = loadSound('cicadadays.mp3');
+    }
+
+    let chords = {
+        'd': { name: 'D', frets: [2, 2, 2, 0], color: '#FF6B6B' },
+        'e': { name: 'Em', frets: [0, 4, 3, 2], color: '#4ECDC4' },
+        'g': { name: 'G', frets: [0, 2, 3, 2], color: '#95E1D3' }
+    };
     
-    <div class="back-link-container">
-        <a href="./cicada.html" class="back-link">← Back to Poem</a>
-    </div>
+    function setup() {
+        let cnv = createCanvas(windowWidth, windowHeight);
+        cnv.position(0, 0);
+        cnv.style('z-index', '100');
+        cnv.style('pointer-events', 'none');
+        textFont('Courier New');
+        preload();
+    }
+    
+    function draw() {
+        clear();
+        if (gameState === 'playing') {
+            drawChordDiagrams();
+            drawSheetMusic();
+            drawUserProgress();
+        } else if (gameState === 'correct') {
+            updateCheering();
+        }
+    }
+
+    function drawChordDiagrams() {
+        let chordKeys = ['d', 'e', 'g'];
+        let spacing = width / 4;
+        let startX = spacing;
+        let y = height * 0.12;
+        
+        for (let i = 0; i < chordKeys.length; i++) {
+            let chord = chords[chordKeys[i]];
+            let x = startX + i * spacing;
+            
+            push();
+            translate(x, y);
+            fill(255);
+            textSize(32);
+            textAlign(CENTER);
+            text(chord.name, 0, -70);
+            
+            let fretWidth = 80;
+            let fretHeight = 100;
+            let stringSpacing = fretWidth / 3;
+            let fretSpacing = fretHeight / 4;
+            
+            stroke(200);
+            strokeWeight(2);
+            for (let s = 0; s < 4; s++) {
+                line(-fretWidth/2 + s * stringSpacing, -fretHeight/2, 
+                     -fretWidth/2 + s * stringSpacing, fretHeight/2);
+            }
+            
+            strokeWeight(1);
+            for (let f = 0; f <= 4; f++) {
+                let lineWeight = f === 0 ? 4 : 1;
+                strokeWeight(lineWeight);
+                line(-fretWidth/2, -fretHeight/2 + f * fretSpacing,
+                     fretWidth/2, -fretHeight/2 + f * fretSpacing);
+            }
+            
+            fill(chord.color);
+            noStroke();
+            for (let s = 0; s < 4; s++) {
+                let fret = chord.frets[s];
+                if (fret > 0) {
+                    let xPos = -fretWidth/2 + s * stringSpacing;
+                    let yPos = -fretHeight/2 + (fret - 0.5) * fretSpacing;
+                    ellipse(xPos, yPos, 15);
+                } else if (fret === 0) {
+                    stroke(chord.color);
+                    strokeWeight(2);
+                    noFill();
+                    let xPos = -fretWidth/2 + s * stringSpacing;
+                    ellipse(xPos, -fretHeight/2 - 20, 12);
+                }
+            }
+            pop();
+        }
+    }
+    
+    function drawSheetMusic() {
+        let y = height * 0.25;
+        let staffX = width * 0.2;
+        let staffWidth = width * 0.6;
+        let lineSpacing = 15;
+        
+        push();
+        stroke(255);
+        strokeWeight(1);
+        for (let i = 0; i < 5; i++) {
+            line(staffX, y + i * lineSpacing, staffX + staffWidth, y + i * lineSpacing);
+        }
+        
+        fill(255);
+        noStroke();
+        textSize(40);
+        textAlign(CENTER, CENTER);
+        text('𝄞', staffX + 30, y + lineSpacing * 2);
+        
+        let notePositions = [
+            {x: staffX + 120, y: y + lineSpacing * 4},
+            {x: staffX + 220, y: y + lineSpacing * 4},
+            {x: staffX + 320, y: y + lineSpacing * 3},
+            {x: staffX + 420, y: y + lineSpacing * 2.5}
+        ];
+        
+        fill(255);
+        textSize(30);
+        for (let note of notePositions) {
+            ellipse(note.x, note.y, 20, 15);
+            strokeWeight(2);
+            stroke(255);
+            line(note.x + 10, note.y, note.x + 10, note.y - 40);
+        }
+        pop();
+    }
+    
+    function drawUserProgress() {
+        let y = height * 0.38;
+        push();
+        fill(255);
+        textSize(24);
+        textAlign(CENTER);
+        for (let i = 0; i < correctSequence.length; i++) {
+            if (i < userInput.length) {
+                let isCorrect = userInput[i] === correctSequence[i];
+                fill(isCorrect ? '#4ECDC4' : '#FF6B6B');
+                let inputDisplay = userInput[i].toUpperCase();
+                if (userInput[i] === 'e') inputDisplay = 'Em';
+                text(inputDisplay, width/2 - 100 + i * 70, y);
+            } else {
+                fill(100);
+                text('_', width/2 - 100 + i * 70, y);
+            }
+        }
+        pop();
+    }
+
+    function keyPressed() {
+      if (gameState !== 'playing') return;
+      let k = key.toLowerCase();
+      if (k === 'd' || k === 'e' || k === 'g') {
+        userInput.push(k);
+        if (userInput.length === correctSequence.length) {
+          let isCorrect = userInput.every((v, i) => v === correctSequence[i]);
+          if (isCorrect) {
+            gameState = 'correct';
+            startCheering();
+          } else {
+            userInput = [];
+          }
+        }
+      }
+      return false;
+    }
+
+    function startCheering() {
+      cheering = true;
+      cheeringStart = millis();
+      if (crowdSound && buzzSound) {
+        crowdSound.setVolume(0.5);
+        buzzSound.setVolume(0.4);
+        crowdSound.loop();
+        buzzSound.loop();
+      }
+    }
+
+    function updateCheering() {
+      if (!cheering) return;
+      let elapsed = millis() - cheeringStart;
+      if (elapsed > 4000) {
+        cheering = false;
+        cicadaLayers.forEach(c => c.style.transform = 'translateY(0)');
+        if (crowdSound && buzzSound) {
+          crowdSound.stop();
+          buzzSound.stop();
+        }
+        startSong();
+        return;
+      }
+
+      cicadaLayers.forEach((c, i) => {
+        let speed = 0.02 + Math.random() * 0.02;
+        let amplitude = 35 + Math.random() * 15;
+        let offset = cheerOffsets[i];
+        let y = Math.sin(elapsed * speed + offset) * amplitude;
+        c.style.transform = `translateY(${y}px)`;
+      });
+    }
+
+    function startSong() {
+      if (songSound) {
+        songSound.setVolume(0.7);
+        songSound.play();
+      }
+
+      const line1 = document.getElementById('line1');
+      const line2 = document.getElementById('line2');
+      const line3 = document.getElementById('line3');
+      const line4 = document.getElementById('line4');
+      const line5 = document.getElementById('line5');
+      const container = document.getElementById('lyricsContainer');
+      container.style.opacity = 1;
+
+      // First two lines appear after 1.5s and stay for 17s
+      setTimeout(() => {
+        line1.classList.add('visible');
+        line2.classList.add('visible');
+        setTimeout(() => {
+          line1.classList.remove('visible');
+          line2.classList.remove('visible');
+        }, 17000); // 17s
+      }, 1500);
+
+      // Second section appears 8s after first two disappear
+      setTimeout(() => {
+        line3.classList.add('visible');
+        line4.classList.add('visible');
+        line5.classList.add('visible');
+        setTimeout(() => {
+          line3.classList.remove('visible');
+          line4.classList.remove('visible');
+          line5.classList.remove('visible');
+        }, 6000);
+      }, 1500 + 17000 + 8000); // 1.5s + 17s + 8s delay
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+    }
+  </script>
 </body>
 </html>

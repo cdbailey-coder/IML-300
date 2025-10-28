@@ -1,81 +1,259 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            z-index: -1;
-        }
-        
-        .cocoon-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("cocoon.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            animation: pulse 8s infinite ease-in-out;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-        
-        .content {
-            flex-grow: 1;
-        }
-        
-        .back-link-container {
-            padding: 30px 20px;
-            text-align: center;
-        }
-        
-        .back-link {
-            display: inline-block;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border: 2px solid white;
-            transition: all 0.3s;
-        }
-        
-        .back-link:hover {
-            background-color: white;
-            color: black;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Page with Reveal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    cursor: none;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+  }
+
+  .hint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    pointer-events: none;
+  }
+
+  .cicada-container {
+    display: none;
+    text-align: left;
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #3a3a3a;
+  }
+
+  .hover-word {
+    cursor: pointer;
+    transition: color 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    color: #3a3a3a;
+  }
+
+  .hover-word:hover {
+    color: #f5f5dc;
+    animation: vibrate 0.15s infinite;
+  }
+
+  .poet-link {
+    color: #3a3a3a;
+    text-decoration: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    display: inline-block;
+  }
+
+  .poet-link.unlocked {
+    cursor: pointer;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .disabled-link {
+    cursor: default;
+    color: #3a3a3a;
+    text-decoration: none;
+    pointer-events: none;
+    animation: none;
+  }
+
+  @keyframes vibrate {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-3px, 3px) rotate(-1deg); }
+    50% { transform: translate(3px, -3px) rotate(1deg); }
+    75% { transform: translate(-3px, -2px) rotate(-1deg); }
+    100% { transform: translate(2px, 2px) rotate(1deg); }
+  }
+
+  #dcicada {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 80px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+</style>
 </head>
 <body>
-    <div class="background">
-        <div class="cocoon-layer"></div>
+<img id="dcicada" src="dcicada.png" alt="Cicada">
+
+<div class="hint">drag your mouse to reveal the poem</div>
+
+<div class="cicada-container" id="poemContainer">
+    <img src="main_cicada.png" alt="Cicada">
+    <div class="poem">
+        Sick of his own <a href="face.html" target="_self" class="hover-word" data-page="face">face</a>,<br>
+        sick of his <a href="skin.html" target="_self" class="hover-word" data-page="skin">skin</a>, of the 
+        <span class="disabled-link">dark</span>,<br>
+        he crawls outside himself<br>
+        to <a href="sing.html" target="_self" class="hover-word" data-page="sing">sing –</a>
+        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="poet-link" id="poetLink">a better poet than most.</span>
     </div>
+</div>
+
+<!-- Audio element for cicada buzz -->
+<audio id="buzzAudio" src="buzzz.mp3" preload="auto" loop></audio>
+
+<script>
+// Mark this page as visited immediately
+const currentPage = window.location.pathname.split('/').pop().replace('.html', '') || 'dark';
+let visitedPages = new Set(JSON.parse(localStorage.getItem('visitedPages') || '[]'));
+visitedPages.add(currentPage);
+localStorage.setItem('visitedPages', JSON.stringify([...visitedPages]));
+
+console.log('Current page:', currentPage);
+console.log('Visited pages:', [...visitedPages]);
+
+// Track visited pages for poet link
+const requiredPages = ['face', 'skin', 'dark', 'sing'];
+
+function checkAllVisited() {
+    const poetContainer = document.getElementById('poetLink');
+    if (!poetContainer) return;
     
-    <div class="content"></div>
+    // Reload visited pages from localStorage to get latest
+    visitedPages = new Set(JSON.parse(localStorage.getItem('visitedPages') || '[]'));
+    const allVisited = requiredPages.every(page => visitedPages.has(page));
     
-    <div class="back-link-container">
-        <a href="./cicada.html" class="back-link">← Back to Poem</a>
-    </div>
+    console.log('Checking if all visited:', allVisited);
+    console.log('Required:', requiredPages);
+    console.log('Visited:', [...visitedPages]);
+    
+    if (allVisited && !poetContainer.classList.contains('unlocked')) {
+        // Unlock: replace span with <a>
+        const a = document.createElement('a');
+        a.href = "poet.html";
+        a.target = "_self";
+        a.className = "poet-link unlocked";
+        a.textContent = poetContainer.textContent;
+        
+        // Add hover effect
+        a.addEventListener('mouseenter', function() {
+            this.style.color = '#f5f5dc';
+        });
+        a.addEventListener('mouseleave', function() {
+            this.style.color = '#3a3a3a';
+        });
+
+        poetContainer.replaceWith(a);
+        console.log('Poet link unlocked!');
+    }
+}
+
+// Handle hover-word links
+const buzzAudio = document.getElementById('buzzAudio');
+
+document.querySelectorAll('.hover-word').forEach(link => {
+    link.addEventListener('mouseenter', () => {
+        buzzAudio.currentTime = 0;
+        buzzAudio.play();
+    });
+    link.addEventListener('mouseleave', () => {
+        buzzAudio.pause();
+        buzzAudio.currentTime = 0;
+    });
+
+    link.addEventListener('click', function(e) {
+        const page = this.getAttribute('data-page');
+        if (page) {
+            visitedPages.add(page);
+            localStorage.setItem('visitedPages', JSON.stringify([...visitedPages]));
+            console.log('Added page:', page);
+            checkAllVisited();
+        }
+    });
+});
+
+// p5.js spotlight sketch
+let sketchRunning = true;
+let myp5 = new p5((p) => {
+  let spotlightSize = 0;
+  let startTime;
+  let poemLines = [
+    "We grow accustomed to the Dark—",
+    "When Light is put away—",
+    "…",
+    "Either the Darkness alters—",
+    "Or something in the sight",
+    "Adjusts itself to Midnight—",
+    "And Life steps almost straight.",
+    "-- Emily Dickinson"
+  ];
+
+  p.setup = function() {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.textFont('Courier New');
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(28);
+    startTime = p.millis();
+  };
+
+  p.draw = function() {
+    if (!sketchRunning) return;
+    p.background(0);
+
+    let elapsed = p.millis() - startTime;
+    let growthDuration = 5000;
+    let maxSize = 400;
+    spotlightSize = p.constrain(p.map(elapsed, 0, growthDuration, 50, maxSize), 50, maxSize);
+
+    let spotlightDrawSize = spotlightSize * 0.5;
+
+    p.noStroke();
+    for (let r = spotlightDrawSize; r > 0; r -= 2) {
+      let alpha = p.map(r, 0, spotlightDrawSize, 255, 0);
+      p.fill(255, 255, 255, alpha);
+      p.ellipse(p.mouseX, p.mouseY, r * 2);
+    }
+
+    p.fill(0);
+    p.noStroke();
+    let spacing = 40;
+    let totalHeight = spacing * poemLines.length;
+    let startY = p.height / 2 - totalHeight / 2 + spacing/2;
+    for (let i = 0; i < poemLines.length; i++) {
+      p.text(poemLines[i], p.width / 2, startY + i * spacing);
+    }
+  };
+
+  p.windowResized = function() {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
+  };
+}, document.body);
+
+// Handle dcicada click
+document.getElementById('dcicada').addEventListener('click', () => {
+  sketchRunning = false;
+  document.getElementById('poemContainer').style.display = 'block';
+  document.body.style.backgroundColor = '#fff';
+  document.body.style.cursor = 'auto';
+  
+  // Check if should be unlocked when poem is revealed
+  checkAllVisited();
+});
+
+// Initial check
+checkAllVisited();
+</script>
 </body>
 </html>

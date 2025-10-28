@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            font-family: serif;
+            font-family: 'Courier New', monospace;
             color: white;
             background-color: #000000;
             display: flex;
@@ -32,7 +32,7 @@
             position: absolute;
             color: white;
             font-size: 24px;
-            font-family: serif;
+            font-family: 'Courier New', monospace;
             opacity: 0;
             animation: fadeInOut 8s infinite;
             filter: blur(10px);
@@ -88,27 +88,72 @@
             height: 100%;
             z-index: 3;
             pointer-events: none;
+            transition: opacity 2s;
         }
         
-        .back-link-container {
-            padding: 30px 20px;
-            text-align: center;
-            position: relative;
-            z-index: 4;
-        }
-        
-        .back-link {
-            display: inline-block;
+        .poem {
+            text-align: left;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 0 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            line-height: 1.6;
             color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border: 2px solid white;
-            transition: all 0.3s;
+            opacity: 0;
+            transition: opacity 2s;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
         }
         
-        .back-link:hover {
-            background-color: white;
-            color: black;
+        .hover-word {
+            cursor: pointer;
+            transition: color 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .hover-word:hover {
+            color: #f5f5dc;
+            animation: vibrate 0.15s infinite;
+        }
+        
+        .face-word {
+            color: white;
+            display: inline-block;
+        }
+        
+        .poet-link {
+            cursor: not-allowed;
+            transition: color 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        
+        .poet-link.unlocked {
+            pointer-events: auto;
+            cursor: pointer;
+            opacity: 1;
+        }
+        
+        .poet-link.unlocked:hover {
+            color: #f5f5dc;
+            animation: vibrate 0.15s infinite;
+        }
+        
+        @keyframes vibrate {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-3px, 3px) rotate(-1deg); }
+            50% { transform: translate(3px, -3px) rotate(1deg); }
+            75% { transform: translate(-3px, -2px) rotate(-1deg); }
+            100% { transform: translate(2px, 2px) rotate(1deg); }
         }
     </style>
 </head>
@@ -120,8 +165,14 @@
             <img src="mirror.png" alt="Mirror" class="mirror-image">
         </div>
     </div>
-    <div class="back-link-container">
-        <a href="./cicada.html" class="back-link">← Back to Poem</a>
+    
+    <div class="poem" id="cicadaPoem">
+        Sick of his own <span class="face-word">face</span>,<br>
+        sick of his <a href="skin.html" target="_self" class="hover-word" data-page="skin">skin</a>, of the <a href="dark.html" target="_self" class="hover-word" data-page="dark">dark</a>,<br>
+        he crawls outside himself<br>
+        to <a href="sing.html" target="_self" class="hover-word" data-page="sing">sing –</a>
+        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="poet.html" target="_self" class="poet-link" id="poetLink">a better poet than most.</a>
     </div>
     
     <script>
@@ -146,30 +197,56 @@
         
         // p5.js sketch
         let capture;
-        let mirrorX = 35;
-        let mirrorY = 85;
-        let mirrorW = 335;
-        let mirrorH = 365;
-        let videoScale = 0.7;
+        let mirrorX = 55;
+        let mirrorY = 75;
+        let mirrorW = 295;
+        let mirrorH = 420;
+        let videoScale = 1.0;
         let startTime = 0;
         let wordsActivated = false;
         
-        let wordSets = [
-            ["sick", "of", "his", "own", "face"],
-            ["becoming", "growth", "emerging", "sing"]
+        let wordSequence = [
+            {words: ["sick", "of", "his", "own", "face"], duration: 144}, // 6 seconds at 24fps
+            {words: ["The", "mirror", "speaks", "as", "a", "truth-teller"], duration: 144} // 6 seconds
         ];
-        let currentSet = 0;
+        
+        // Plath poem words - replace word1, word2, etc. with actual poem words
+        let plathWords = [
+            "I", "am", "silver", "and", "exact.", "I", "have", "no", "preconceptions.", "whatever",
+            "I", "see", "I", "swallow", "immediatly", "Just", "as", "it", "is,", "unmisted",
+            "by", "love", "or", "dislike.", "I", "am", "not", "cruel,", "only", "truthful,",
+            "The", "eye", "of", "a", "little", "god,", "four-cornered.", "Most", "of", "the",
+            "time", "I", "mediate", "on", "the", "opposite", "wall.", "it", "is", "pink,",
+            "with", "speckles.", "I", "have", "looked", "at", "it", "so", "long", "I",
+            "think", "it", "is", "part", "of", "my", "heart.", "But", "it", "flickers.",
+            "Faces", "and", "darkness", "seperate", "us", "over", "and", "over."
+        ];
+        
+        let currentSequence = -1;
         let wordAlpha = 0;
+        let cameraAlpha = 255;
         let wordTimer = 0;
-        let fadeDuration = 180;
-        let holdDuration = 240;
+        let fadeDuration = 48;
+        let fastFadeDuration = 8;
         let transitionState = -1;
+        let backgroundAlpha = 255;
+        let frameAlpha = 255;
+        let plathWordIndex = 0;
+        let plathWordAlphas = [];
+        let plathFadeDuration = 12;
+        let plathWordDelay = 8;
+        let creditTimer = 0;
+        let creditShowing = false;
+        let plathFadeOutTimer = 0;
+        let plathFadeOutDuration = 24;
+        let plathMasterAlpha = 255;
         
         function setup() {
             let cnv = createCanvas(windowWidth, windowHeight);
             cnv.position(0, 0);
             cnv.style("z-index", "1");
             noStroke();
+            frameRate(24);
             capture = createCapture(VIDEO);
             capture.size(windowWidth, windowHeight);
             capture.hide();
@@ -195,6 +272,7 @@
             
             if (!wordsActivated && millis() - startTime > 10000) {
                 wordsActivated = true;
+                currentSequence = 0;
                 transitionState = 0;
             }
             
@@ -219,6 +297,7 @@
                         capture.pixels[i] = gray;
                         capture.pixels[i + 1] = gray;
                         capture.pixels[i + 2] = gray;
+                        capture.pixels[i + 3] = cameraAlpha;
                     }
                 }
                 capture.updatePixels();
@@ -242,7 +321,7 @@
             drawingContext.restore();
             pop();
             
-            if (wordsActivated) {
+            if (wordsActivated && currentSequence >= 0 && currentSequence < wordSequence.length) {
                 push();
                 drawingContext.save();
                 drawingContext.beginPath();
@@ -251,10 +330,11 @@
                 
                 textAlign(CENTER, CENTER);
                 textSize(20);
+                textFont('Courier New');
                 fill(255, wordAlpha);
                 noStroke();
                 
-                let currentWords = wordSets[currentSet];
+                let currentWords = wordSequence[currentSequence].words;
                 let spacing = 30;
                 let totalHeight = currentWords.length * spacing;
                 let startY = actualMirrorY + mirrorH / 2 - totalHeight / 2;
@@ -269,37 +349,184 @@
                 wordTimer++;
                 
                 if (transitionState === 0) {
-                    wordAlpha = map(wordTimer, 0, fadeDuration, 0, 80);
-                    if (wordTimer >= fadeDuration) {
+                    // Fade in words
+                    let currentFade = currentSequence === 0 ? fadeDuration : fadeDuration;
+                    wordAlpha = map(wordTimer, 0, currentFade, 0, 255);
+                    // Fade out camera when first sequence starts
+                    if (currentSequence === 0) {
+                        cameraAlpha = map(wordTimer, 0, fadeDuration, 255, 0);
+                    }
+                    if (wordTimer >= currentFade) {
                         transitionState = 1;
                         wordTimer = 0;
                     }
                 } else if (transitionState === 1) {
-                    wordAlpha = 80;
-                    if (wordTimer >= holdDuration) {
+                    // Hold words
+                    wordAlpha = 255;
+                    if (wordTimer >= wordSequence[currentSequence].duration) {
                         transitionState = 2;
                         wordTimer = 0;
                     }
                 } else if (transitionState === 2) {
-                    wordAlpha = map(wordTimer, 0, fadeDuration, 80, 0);
-                    if (wordTimer >= fadeDuration) {
-                        transitionState = 3;
-                        wordTimer = 0;
-                        currentSet = (currentSet + 1) % wordSets.length;
+                    // Fade out words
+                    let currentFade = currentSequence === 0 ? fastFadeDuration : fadeDuration;
+                    wordAlpha = map(wordTimer, 0, currentFade, 255, 0);
+                    
+                    // Fade background words, frame, and background to black simultaneously with second sequence
+                    if (currentSequence === 1) {
+                        frameAlpha = map(wordTimer, 0, currentFade, 255, 0);
+                        
+                        // Fade background words
+                        let bgWords = document.querySelectorAll('.floating-word');
+                        bgWords.forEach(word => {
+                            let currentOpacity = parseFloat(getComputedStyle(word).opacity) || 0;
+                            word.style.opacity = currentOpacity * (frameAlpha / 255);
+                        });
+                        
+                        // Fade mirror frame
+                        let mirrorImg = document.querySelector('.mirror-image');
+                        if (mirrorImg) {
+                            mirrorImg.style.opacity = frameAlpha / 255;
+                        }
+                        
+                        // Fade background to black
+                        document.body.style.backgroundColor = `rgb(0, 0, 0)`;
                     }
-                } else if (transitionState === 3) {
-                    wordAlpha = 0;
-                    if (wordTimer >= 120) {
-                        transitionState = 0;
-                        wordTimer = 0;
+                    
+                    if (wordTimer >= currentFade) {
+                        currentSequence++;
+                        if (currentSequence < wordSequence.length) {
+                            transitionState = 0;
+                            wordTimer = 0;
+                        } else {
+                            transitionState = 3;
+                            wordTimer = 0;
+                        }
                     }
                 }
+            }
+            
+            // Plath poem word-by-word sequence
+            if (transitionState === 3) {
+                push();
+                textAlign(LEFT, TOP);
+                textSize(18);
+                textFont('Courier New');
+                noStroke();
+                
+                // Initialize alphas array if needed
+                if (plathWordAlphas.length === 0) {
+                    for (let i = 0; i < plathWords.length; i++) {
+                        plathWordAlphas.push(0);
+                    }
+                }
+                
+                wordTimer++;
+                
+                // Add new word every plathWordDelay frames
+                if (wordTimer % plathWordDelay === 0 && plathWordIndex < plathWords.length) {
+                    plathWordIndex++;
+                }
+                
+                // Update alphas for all active words
+                for (let i = 0; i < plathWordIndex; i++) {
+                    if (plathWordAlphas[i] < 255) {
+                        plathWordAlphas[i] = min(plathWordAlphas[i] + (255 / plathFadeDuration), 255);
+                    }
+                }
+                
+                // Draw all words as a paragraph
+                let maxWidth = width * 0.7;
+                let x = width * 0.15;
+                let y = height * 0.3;
+                let lineHeight = 28;
+                let currentX = x;
+                let currentY = y;
+                let spaceWidth = textWidth(" ");
+                
+                for (let i = 0; i < plathWordIndex; i++) {
+                    fill(255, plathWordAlphas[i] * (plathMasterAlpha / 255));
+                    let wordWidth = textWidth(plathWords[i]);
+                    
+                    // Check if word fits on current line
+                    if (currentX + wordWidth > x + maxWidth && currentX > x) {
+                        currentX = x;
+                        currentY += lineHeight;
+                    }
+                    
+                    text(plathWords[i], currentX, currentY);
+                    currentX += wordWidth + spaceWidth;
+                }
+                
+                // Show credit after all words are fully visible
+                if (plathWordIndex >= plathWords.length && plathWordAlphas[plathWordAlphas.length - 1] >= 255) {
+                    if (!creditShowing) {
+                        creditShowing = true;
+                        creditTimer = 0;
+                    }
+                    
+                    creditTimer++;
+                    currentY += lineHeight * 2;
+                    
+                    let creditAlpha = min(creditTimer * (255 / plathFadeDuration), 255);
+                    
+                    // Start fading out after 3 seconds (72 frames at 24fps)
+                    if (creditTimer > 72) {
+                        plathFadeOutTimer++;
+                        plathMasterAlpha = map(plathFadeOutTimer, 0, plathFadeOutDuration, 255, 0);
+                        creditAlpha = plathMasterAlpha;
+                        
+                        // Show cicada poem after fade out complete
+                        if (plathFadeOutTimer >= plathFadeOutDuration) {
+                            let cicadaPoem = document.getElementById('cicadaPoem');
+                            if (cicadaPoem) {
+                                cicadaPoem.style.opacity = '1';
+                            }
+                            transitionState = 4; // End plath sequence
+                        }
+                    }
+                    
+                    fill(255, creditAlpha);
+                    textAlign(CENTER, TOP);
+                    text("— Sylvia Plath", width / 2, currentY);
+                }
+                
+                pop();
             }
         }
         
         function windowResized() {
             resizeCanvas(windowWidth, windowHeight);
         }
+        
+        // Cicada poem interaction
+        const visitedPages = new Set(JSON.parse(localStorage.getItem('visitedPages') || '[]'));
+        const requiredPages = ['face', 'skin', 'dark', 'sing'];
+        const poetLink = document.getElementById('poetLink');
+        
+        // Mark this page as visited
+        const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+        visitedPages.add(currentPage);
+        localStorage.setItem('visitedPages', JSON.stringify([...visitedPages]));
+        
+        function checkAllVisited() {
+            const allVisited = requiredPages.every(page => visitedPages.has(page));
+            if (allVisited) {
+                poetLink.classList.add('unlocked');
+            }
+        }
+        
+        document.querySelectorAll('.hover-word').forEach(link => {
+            link.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                if (page) {
+                    visitedPages.add(page);
+                    localStorage.setItem('visitedPages', JSON.stringify([...visitedPages]));
+                }
+            });
+        });
+        
+        checkAllVisited();
     </script>
 </body>
 </html>
