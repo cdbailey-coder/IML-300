@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — (Un)Heard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>(Un)Heard</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="data.html">Data & Research</a></li>
+                <li><a href="stories.html">Stories</a></li>
+                <li><a href="barriers.html">Barriers</a></li>
+                <li><a href="solutions.html">Solutions</a></li>
+                <li><a href="resour<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About This Project - (UN)HEARD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: white;
+            color: black;
+            line-height: 1.4;
+        }
+
+        .header {
+            border-bottom: 2px solid black;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .date {
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-right a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+
+        .subheader {
+            border-bottom: 1px solid black;
+            padding: 8px 20px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 0;
+            border-bottom: 2px solid black;
+        }
+
+        .sidebar-left {
+            border-right: 2px solid black;
+            padding: 20px;
+        }
+
+        .sidebar-right {
+            border-left: 2px solid black;
+            padding: 20px;
+            font-size: 10px;
+        }
+
+        .center-content {
+            padding: 40px;
+        }
+
+        .page-title {
+            font-size: 56px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .tag-box {
+            display: inline-block;
+            border: 1px solid black;
+            padding: 5px 12px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mission-section {
+            margin-bottom: 40px;
+            border: 2px solid black;
+            padding: 30px;
+        }
+
+        .mission-header {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .mission-text {
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: black;
+            color: white;
+            padding: 25px;
+            margin: 30px 0;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .contribute-section {
+            margin-top: 40px;
+            padding: 30px;
+            border: 2px solid black;
+        }
+
+        .contribute-title {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .contribute-text {
+            font-size: 11px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid black;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            background: white;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-button {
+            background: black;
+            color: white;
+            border: 2px solid black;
+            padding: 12px 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .form-button:hover {
+            background: white;
+            color: black;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid black;
+        }
+
+        .sidebar-title {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ccc;
+            font-size: 10px;
+        }
+
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-box {
+            background: black;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-left,
+            .sidebar-right {
+                border: none;
+                border-top: 2px solid black;
+            }
+
+            .page-title {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+<script>
+let clockCanvas;
+
+function setup() {
+  clockCanvas = createCanvas(210, 200);
+  clockCanvas.parent("clock-container");
+  angleMode(DEGREES);
+}
+
+function draw() {
+  clear();
+  background(255);
+
+  stroke(0);
+  strokeWeight(2);
+  noFill();
+  rect(0, 0, width, height);
+
+  translate(width / 2, height / 2);
+
+  strokeWeight(2);
+  ellipse(0, 0, 150, 150);
+
+  let hr = hour();
+  let mn = minute();
+  let sc = second();
+
+  stroke(0);
+
+  push();
+  strokeWeight(1);
+  rotate(sc * 6);
+  line(0, 0, 55, 0);
+  pop();
+
+  push();
+  strokeWeight(2);
+  rotate(mn * 6 + sc * 0.1);
+  line(0, 0, 45, 0);
+  pop();
+
+  push();
+  strokeWeight(3);
+  rotate((hr % 12) * 30 + mn * 0.5);
+  line(0, 0, 30, 0);
+  pop();
+
+  fill(0);
+  noStroke();
+  circle(0, 0, 8);
+}
+</script>
+
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">(UN)HEARD</div>
+            <div class="date">MONDAY DECEMBER 01 2025</div>
+        </div>
+        <div class="header-right">
+            <a href="index.html">HOME</a>
+            <a href="data.html">DATA</a>
+            <a href="stories.html">STORIES</a>
+            <a href="barriers.html">BARRIERS</a>
+            <a href="solutions.html">SOLUTIONS</a>
+        </div>
+    </div>
+
+    <div class="subheader">
+        ABOUT THIS PROJECT — UNDERSTANDING THE MISSION, PURPOSE, AND PEOPLE BEHIND (UN)HEARD
+    </div>
+
+    <div class="main-content">
+        <div class="sidebar-left">
+            <div id="clock-container" style="width: 100%; height: 200px; border: 2px solid black; margin-bottom: 30px;"></div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">Quick Links</div>
+                <div class="sidebar-item">
+                    <a href="#what" style="color: black; text-decoration: none;">→ WHAT WE DO</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="#why" style="color: black; text-decoration: none;">→ WHY IT MATTERS</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="#who" style="color: black; text-decoration: none;">→ WHO WE SERVE</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="#contribute" style="color: black; text-decoration: none;">→ CONTRIBUTE</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="center-content">
+            <h1 class="page-title">ABOUT<br>(UN)HEARD</h1>
+            <p class="page-subtitle">Amplifying voices, breaking silence</p>
+
+            <div>
+                <span class="tag-box">MISSION</span>
+                <span class="tag-box">AWARENESS</span>
+                <span class="tag-box">COMMUNITY</span>
+            </div>
+
+            <div class="mission-section" id="what">
+                <div class="mission-header">What We Do</div>
+                <p class="mission-text">
+                    (UN)HEARD is a resource and awareness platform dedicated to documenting and addressing the social isolation experienced by Deaf and Hard-of-Hearing (D/HH) individuals. We compile research, amplify lived experiences, identify systemic barriers, and provide actionable solutions to foster genuine inclusion.
+                </p>
+                <p class="mission-text">
+                    Through data-driven insights and personal narratives, we create a comprehensive picture of how communication barriers, social stigma, and systemic gaps contribute to isolation—and more importantly, how we can dismantle these obstacles together.
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                "Social isolation isn't just about being alone—it's about being present but unheard, surrounded but disconnected, speaking but not understood."
+            </div>
+
+            <div class="mission-section" id="why">
+                <div class="mission-header">Why It Matters</div>
+                <p class="mission-text">
+                    466 million people worldwide live with disabling hearing loss, yet their experiences of social isolation remain largely invisible to the hearing majority. D/HH individuals face 28% greater odds of social isolation compared to their hearing peers, with 60-65% of D/HH youth reporting increased loneliness.
+                </p>
+                <p class="mission-text">
+                    This isn't just statistics—it's daily reality. It's the teenager who stops attending social events because group conversations move too fast. It's the professional passed over for promotions despite their qualifications. It's the older adult who withdraws from community life after developing hearing loss.
+                </p>
+                <p class="mission-text">
+                    Social isolation leads to increased depression, anxiety, and cognitive decline. But it doesn't have to be this way. By raising awareness, challenging misconceptions, and advocating for systemic change, we can create a world where D/HH individuals are truly heard—not just accommodated.
+                </p>
+            </div>
+
+            <div class="mission-section" id="who">
+                <div class="mission-header">Who We Serve</div>
+                <p class="mission-text">
+                    <strong>D/HH INDIVIDUALS:</strong> This platform is for you—to see your experiences validated, find community resources, and access tools to combat isolation. Your voice matters here.
+                </p>
+                <p class="mission-text">
+                    <strong>HEARING ALLIES:</strong> We provide education to help you understand D/HH experiences, recognize barriers you may not see, and learn how to create more inclusive spaces in your communities and workplaces.
+                </p>
+                <p class="mission-text">
+                    <strong>EDUCATORS & PROFESSIONALS:</strong> Access research, best practices, and resources to support D/HH students, clients, and colleagues more effectively.
+                </p>
+                <p class="mission-text">
+                    <strong>POLICYMAKERS & ADVOCATES:</strong> Use our data and insights to inform accessibility policies, workplace accommodations, and systemic reforms that reduce isolation.
+                </p>
+            </div>
+
+            <div class="contribute-section" id="contribute">
+                <div class="contribute-title">Contribute Your Voice</div>
+                <p class="contribute-text">
+                    This project grows stronger with community input. Share your story, provide feedback, or connect with us about collaboration opportunities. Whether you're D/HH yourself, a family member, educator, or ally—your perspective helps build a more complete picture.
+                </p>
+                
+                <form id="contributeForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Name (Optional)</label>
+                        <input type="text" id="name" name="name" class="form-input" placeholder="Your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email (Optional)</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="message">Your Message / Story *</label>
+                        <textarea id="message" name="message" class="form-textarea" required placeholder="Share your experience, feedback, or story..."></textarea>
+                    </div>
+
+                    <button type="submit" class="form-button">Submit Contribution</button>
+                </form>
+
+                <div id="formResponse" style="margin-top: 15px; padding: 15px; border: 2px solid black; display: none; font-size: 11px;"></div>
+            </div>
+        </div>
+
+        <div class="sidebar-right">
+            <div class="stat-box">
+                Every story shared, every barrier identified, and every solution implemented brings us closer to a world where no one is (un)heard.
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Project Principles</div>
+                <div class="sidebar-item">
+                    <strong>AUTHENTICITY</strong><br>
+                    Center lived experiences of D/HH individuals
+                </div>
+                <div class="sidebar-item">
+                    <strong>EVIDENCE-BASED</strong><br>
+                    Ground advocacy in research and data
+                </div>
+                <div class="sidebar-item">
+                    <strong>ACTIONABLE</strong><br>
+                    Provide concrete solutions, not just problems
+                </div>
+                <div class="sidebar-item">
+                    <strong>INCLUSIVE</strong><br>
+                    Welcome diverse perspectives and experiences
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Get Involved</div>
+                <div style="font-size: 10px; line-height: 1.8;">
+                    <div>→ Share your story</div>
+                    <div>→ Spread awareness</div>
+                    <div>→ Advocate for accessibility</div>
+                    <div>→ Support D/HH organizations</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigation</div>
+                <div style="font-size: 10px; line-height: 1.8;">
+                    <div><a href="index.html" style="color: black; text-decoration: none;">← BACK TO HOME</a></div>
+                    <div><a href="data.html" style="color: black; text-decoration: none;">→ DATA & RESEARCH</a></div>
+                    <div><a href="stories.html" style="color: black; text-decoration: none;">→ REAL VOICES</a></div>
+                    <div><a href="barriers.html" style="color: black; text-decoration: none;">→ BARRIERS</a></div>
+                    <div><a href="solutions.html" style="color: black; text-decoration: none;">→ SOLUTIONS</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const formResponse = document.getElementById('formResponse');
+            const form = document.getElementById('contributeForm');
+            
+            // Simulate form submission
+            formResponse.style.display = 'block';
+            formResponse.style.background = 'black';
+            formResponse.style.color = 'white';
+            formResponse.textContent = 'Thank you for your contribution. Your voice has been received and matters to this community.';
+            
+            // Reset form
+            form.reset();
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                formResponse.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>ces.html">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>About (Un)Heard</h2>
+            <p>This website aims to shed light on the social isolation that Deaf and Hard-of-Hearing individuals face, providing data, stories, and resources for awareness and support.</p>
+        </section>
+
+        <section>
+            <h2>Contribute</h2>
+            <p>Share your story or feedback to help build a stronger, more inclusive community.</p>
+            <form id="contributeForm">
+                <label for="name">Name (optional):</label>
+                <input type="text" id="name" name="name">
+
+                <label for="email">Email (optional):</label>
+                <input type="email" id="email" name="email">
+
+                <label for="message">Message / Story:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barriers & Challenges - (UN)HEARD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: white;
+            color: black;
+            line-height: 1.4;
+        }
+
+        .header {
+            border-bottom: 2px solid black;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .date {
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-right a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+
+        .subheader {
+            border-bottom: 1px solid black;
+            padding: 8px 20px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 0;
+            border-bottom: 2px solid black;
+        }
+
+        .sidebar-left {
+            border-right: 2px solid black;
+            padding: 20px;
+        }
+
+        .sidebar-right {
+            border-left: 2px solid black;
+            padding: 20px;
+            font-size: 10px;
+        }
+
+        .center-content {
+            padding: 40px;
+        }
+
+        .page-title {
+            font-size: 56px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .tag-box {
+            display: inline-block;
+            border: 1px solid black;
+            padding: 5px 12px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .barrier-category {
+            margin-bottom: 40px;
+            border: 2px solid black;
+            padding: 25px;
+        }
+
+        .category-header {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .category-description {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .barrier-list {
+            list-style: none;
+        }
+
+        .barrier-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #ccc;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .barrier-item:last-child {
+            border-bottom: none;
+        }
+
+        .barrier-item strong {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 10px;
+        }
+
+        .interactive-section {
+            background: black;
+            color: white;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .interactive-title {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .profile-selector {
+            margin-top: 20px;
+        }
+
+        .profile-button {
+            border: 1px solid white;
+            background: transparent;
+            color: white;
+            padding: 10px 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .profile-button:hover,
+        .profile-button.active {
+            background: white;
+            color: black;
+        }
+
+        .scenario-output {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid white;
+            font-size: 11px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .scenario-output.visible {
+            display: block;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid black;
+        }
+
+        .sidebar-title {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ccc;
+            font-size: 10px;
+        }
+
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-box {
+            background: black;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-nav-item {
+            border: 1px solid black;
+            padding: 8px 15px;
+            font-size: 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .footer-nav-item:hover {
+            background: black;
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-left,
+            .sidebar-right {
+                border: none;
+                border-top: 2px solid black;
+            }
+
+            .page-title {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<script>
+let clockCanvas;
+
+function setup() {
+  clockCanvas = createCanvas(210, 200);
+  clockCanvas.parent("clock-container");
+  angleMode(DEGREES);
+}
+
+function draw() {
+  clear();
+  background(255);
+
+  stroke(0);
+  strokeWeight(2);
+  noFill();
+  rect(0, 0, width, height);
+
+  translate(width / 2, height / 2);
+
+  strokeWeight(2);
+  ellipse(0, 0, 150, 150);
+
+  let hr = hour();
+  let mn = minute();
+  let sc = second();
+
+  stroke(0);
+
+  push();
+  strokeWeight(1);
+  rotate(sc * 6);
+  line(0, 0, 55, 0);
+  pop();
+
+  push();
+  strokeWeight(2);
+  rotate(mn * 6 + sc * 0.1);
+  line(0, 0, 45, 0);
+  pop();
+
+  push();
+  strokeWeight(3);
+  rotate((hr % 12) * 30 + mn * 0.5);
+  line(0, 0, 30, 0);
+  pop();
+
+  fill(0);
+  noStroke();
+  circle(0, 0, 8);
+}
+</script>
+
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">(UN)HEARD</div>
+            <div class="date">MONDAY DECEMBER 01 2025</div>
+        </div>
+        <div class="header-right">
+            <a href="index.html">HOME</a>
+            <a href="data.html">DATA</a>
+            <a href="stories.html">STORIES</a>
+            <a href="solutions.html">SOLUTIONS</a>
+        </div>
+    </div>
+
+    <div class="subheader">
+        BARRIERS & CHALLENGES — UNDERSTANDING THE SYSTEMIC, SOCIAL, AND ENVIRONMENTAL FACTORS THAT CREATE ISOLATION
+    </div>
+
+    <div class="main-content">
+        <div class="sidebar-left">
+            <div id="clock-container" style="width: 100%; height: 200px; border: 2px solid black; margin-bottom: 30px;"></div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">Categories</div>
+                <div class="sidebar-item">
+                    <strong>COMMUNICATION</strong><br>
+                    Difficulties in social interaction
+                </div>
+                <div class="sidebar-item">
+                    <strong>SYSTEMIC</strong><br>
+                    Institutional and policy gaps
+                </div>
+                <div class="sidebar-item">
+                    <strong>SOCIAL</strong><br>
+                    Stigma and misconceptions
+                </div>
+                <div class="sidebar-item">
+                    <strong>ENVIRONMENTAL</strong><br>
+                    Physical and accessibility barriers
+                </div>
+            </div>
+        </div>
+
+        <div class="center-content">
+            <h1 class="page-title">BARRIERS &<br>CHALLENGES</h1>
+            <p class="page-subtitle">Why isolation happens</p>
+
+            <div>
+                <span class="tag-box">SYSTEMIC</span>
+                <span class="tag-box">SOCIAL</span>
+                <span class="tag-box">ENVIRONMENTAL</span>
+            </div>
+
+            <div class="barrier-category">
+                <div class="category-header">Communication Barriers</div>
+                <div class="category-description">
+                    The most immediate obstacles D/HH individuals face in everyday social situations
+                </div>
+                <ul class="barrier-list">
+                    <li class="barrier-item">
+                        <strong>Group Conversations:</strong> Difficulty following multiple speakers, rapid exchanges, and overlapping dialogue
+                        <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
+                            <button onclick="toggleAudio('group')" style="width: 30px; height: 30px; border: 2px solid black; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px;">▶</button>
+                            <div style="flex: 1; height: 4px; background: #ccc; position: relative;">
+                                <div id="group-progress" style="height: 100%; width: 0%; background: black;"></div>
+                            </div>
+                        </div>
+                        <audio id="audio-group" src="group.mp3"></audio>
+                    </li>
+                    <li class="barrier-item">
+                        <strong>Background Noise:</strong> Restaurants, parties, and public spaces create challenging listening environments
+                        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="width: 80px; font-size: 9px;">RESTAURANTS</span>
+                                <button onclick="toggleAudio('restaurant')" style="width: 25px; height: 25px; border: 2px solid black; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;">▶</button>
+                                <div style="flex: 1; height: 4px; background: #ccc; position: relative;">
+                                    <div id="restaurant-progress" style="height: 100%; width: 0%; background: black;"></div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="width: 80px; font-size: 9px;">OFFICE</span>
+                                <button onclick="toggleAudio('office')" style="width: 25px; height: 25px; border: 2px solid black; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;">▶</button>
+                                <div style="flex: 1; height: 4px; background: #ccc; position: relative;">
+                                    <div id="office-progress" style="height: 100%; width: 0%; background: black;"></div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="width: 80px; font-size: 9px;">PARTY</span>
+                                <button onclick="toggleAudio('party')" style="width: 25px; height: 25px; border: 2px solid black; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;">▶</button>
+                                <div style="flex: 1; height: 4px; background: #ccc; position: relative;">
+                                    <div id="party-progress" style="height: 100%; width: 0%; background: black;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <audio id="audio-restaurant" src="restaurant.mp3"></audio>
+                        <audio id="audio-office" src="office.mp3"></audio>
+                        <audio id="audio-party" src="party.mp3"></audio>
+                    </li>
+                    <li class="barrier-item"><strong>Lack of Captioning:</strong> Movies, events, and presentations without text support</li>
+                    <li class="barrier-item">
+                        <strong>Sign Language Gaps:</strong> Limited availability of ASL interpreters and signing support
+                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                            <div style="flex: 1; aspect-ratio: 1; border: 2px solid black; background: #f0f0f0;"></div>
+                            <div style="flex: 1; aspect-ratio: 1; border: 2px solid black; background: #f0f0f0;"></div>
+                            <div style="flex: 1; aspect-ratio: 1; border: 2px solid black; background: #f0f0f0;"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="barrier-category">
+                <div class="category-header">Systemic Barriers</div>
+                <div class="category-description">
+                    Institutional and policy-level obstacles that perpetuate exclusion
+                </div>
+                <ul class="barrier-list">
+                    <li class="barrier-item"><strong>Healthcare Access:</strong> Limited D/HH-competent mental health professionals and lack of accessible services</li>
+                    <li class="barrier-item"><strong>Educational Gaps:</strong> Insufficient support in mainstream education and limited Deaf education resources</li>
+                    <li class="barrier-item"><strong>Employment Discrimination:</strong> Workplace barriers and bias in hiring and advancement</li>
+                    <li class="barrier-item"><strong>Policy Inadequacies:</strong> Insufficient legal protections and enforcement of accessibility standards</li>
+                </ul>
+            </div>
+
+            <div class="barrier-category">
+                <div class="category-header">Social Barriers</div>
+                <div class="category-description">
+                    Attitudes, misconceptions, and stigma that create social distance
+                </div>
+                <ul class="barrier-list">
+                    <li class="barrier-item"><strong>Misconceptions:</strong> Assumptions about capability, intelligence, or need for special treatment</li>
+                    <li class="barrier-item"><strong>Stigma:</strong> Social discomfort and avoidance from hearing peers</li>
+                    <li class="barrier-item"><strong>Identity Conflicts:</strong> Pressure to assimilate vs. embrace Deaf culture</li>
+                    <li class="barrier-item"><strong>Lack of Awareness:</strong> General public's limited understanding of D/HH experiences</li>
+                </ul>
+            </div>
+
+            <div class="barrier-category">
+                <div class="category-header">Environmental Barriers</div>
+                <div class="category-description">
+                    Physical spaces and technologies that exclude D/HH participation
+                </div>
+                <ul class="barrier-list">
+                    <li class="barrier-item"><strong>Poor Acoustics:</strong> Spaces not designed for sound clarity or assistive listening systems</li>
+                    <li class="barrier-item"><strong>Visual Barriers:</strong> Poor lighting for lip-reading and sign language visibility</li>
+                    <li class="barrier-item"><strong>Technology Gaps:</strong> Incompatible or missing assistive technologies</li>
+                    <li class="barrier-item"><strong>Alert Systems:</strong> Alarms and notifications that rely solely on sound</li>
+                </ul>
+            </div>
+
+            <div class="interactive-section">
+                <div class="interactive-title">Experience Barriers by Life Stage</div>
+                <p style="font-size: 11px; margin-bottom: 15px;">Select a profile to explore the specific challenges faced at different life stages</p>
+                
+                <div class="profile-selector">
+                    <button class="profile-button" onclick="showScenario('teen')">Teenager</button>
+                    <button class="profile-button" onclick="showScenario('adult')">Working Adult</button>
+                    <button class="profile-button" onclick="showScenario('older')">Older Adult</button>
+                </div>
+
+                <div id="scenario-teen" class="scenario-output">
+                    <strong>TEENAGER (14-18)</strong><br><br>
+                    <strong>PRIMARY BARRIERS:</strong> School integration, peer acceptance, identity formation<br><br>
+                    <strong>SCENARIO:</strong> Maya, 16, sits at lunch watching her classmates laugh at jokes she can't follow. Group conversations move too fast for lip-reading. Social events like dances and sports games are overwhelming with noise and crowds. She feels caught between Deaf and hearing worlds, unsure where she belongs.<br><br>
+                    <strong>IMPACT:</strong> Increased risk of depression, anxiety, and social withdrawal during critical developmental years
+                </div>
+
+                <div id="scenario-adult" class="scenario-output">
+                    <strong>WORKING ADULT (25-50)</strong><br><br>
+                    <strong>PRIMARY BARRIERS:</strong> Workplace accommodation, professional networking, relationship building<br><br>
+                    <strong>SCENARIO:</strong> James, 34, struggles in video meetings without real-time captions. Networking events are exhausting as he constantly asks people to repeat themselves. Colleagues forget to face him when speaking. He's passed over for leadership roles despite his qualifications.<br><br>
+                    <strong>IMPACT:</strong> Career stagnation, professional isolation, and reduced economic opportunities
+                </div>
+
+                <div id="scenario-older" class="scenario-output">
+                    <strong>OLDER ADULT (65+)</strong><br><br>
+                    <strong>PRIMARY BARRIERS:</strong> Late-onset hearing loss, technology adaptation, healthcare access<br><br>
+                    <strong>SCENARIO:</strong> Eleanor, 72, stopped going to her book club after developing hearing loss. Her friends don't understand why she can't "just get a hearing aid." Medical appointments are confusing when doctors don't speak clearly. She feels increasingly isolated and depressed.<br><br>
+                    <strong>IMPACT:</strong> Rapid social withdrawal, cognitive decline, and increased depression rates
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-right">
+            <div class="stat-box">
+                "The biggest barrier isn't my hearing—it's other people's assumptions about what I can and can't do."
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Key Insights</div>
+                <div class="sidebar-item">
+                    <strong>COMPOUNDING EFFECTS</strong><br>
+                    Barriers don't exist in isolation—they interact and amplify each other
+                </div>
+                <div class="sidebar-item">
+                    <strong>INVISIBILITY</strong><br>
+                    Hearing loss is often invisible, leading to misunderstanding
+                </div>
+                <div class="sidebar-item">
+                    <strong>FATIGUE</strong><br>
+                    Constant accommodation efforts lead to mental and social exhaustion
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Related Pages</div>
+                <div style="font-size: 10px; line-height: 1.8;">
+                    <div><a href="data.html" style="color: black; text-decoration: none;">→ DATA & RESEARCH</a></div>
+                    <div><a href="stories.html" style="color: black; text-decoration: none;">→ REAL VOICES</a></div>
+                    <div><a href="solutions.html" style="color: black; text-decoration: none;">→ SOLUTIONS</a></div>
+                    <div><a href="index.html" style="color: black; text-decoration: none;">← BACK TO HOME</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAudio = null;
+
+        function toggleAudio(audioId) {
+            const audio = document.getElementById('audio-' + audioId);
+            const allAudios = document.querySelectorAll('audio');
+            
+            // Pause all other audios
+            allAudios.forEach(a => {
+                if (a !== audio) {
+                    a.pause();
+                    a.currentTime = 0;
+                }
+            });
+            
+            if (audio.paused) {
+                audio.play();
+                updateProgress(audioId, audio);
+            } else {
+                audio.pause();
+            }
+        }
+
+        function updateProgress(audioId, audio) {
+            const progressBar = document.getElementById(audioId + '-progress');
+            
+            function update() {
+                if (!audio.paused && !audio.ended) {
+                    const percent = (audio.currentTime / audio.duration) * 100;
+                    progressBar.style.width = percent + '%';
+                    requestAnimationFrame(update);
+                } else if (audio.ended) {
+                    progressBar.style.width = '0%';
+                }
+            }
+            
+            update();
+        }
+
+        function navigateTo(page) {
+            window.location.href = `${page}.html`;
+        }
+
+        function showScenario(profile) {
+            // Hide all scenarios
+            document.querySelectorAll('.scenario-output').forEach(el => {
+                el.classList.remove('visible');
+            });
+            
+            // Remove active state from all buttons
+            document.querySelectorAll('.profile-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected scenario
+            const scenario = document.getElementById(`scenario-${profile}`);
+            if (scenario) {
+                scenario.classList.add('visible');
+            }
+            
+            // Add active state to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

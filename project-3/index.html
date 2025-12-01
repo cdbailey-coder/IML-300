@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game</title>
+    <title>(UN)HEARD - When Silence Isn't Golden</title>
     <style>
         * {
             margin: 0;
@@ -12,159 +14,388 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: white;
+            font-family: 'Courier New', monospace;
+            background: white;
+            color: black;
+            line-height: 1.4;
+        }
+
+        .header {
+            border-bottom: 2px solid black;
+            padding: 15px 20px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .container {
-            text-align: center;
-            position: relative;
+        .header-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
 
-        h1 {
+        .logo {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .date {
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-right a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+
+        .subheader {
+            border-bottom: 1px solid black;
+            padding: 8px 20px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 0;
+            border-bottom: 2px solid black;
+        }
+
+        .sidebar-left {
+            border-right: 2px solid black;
+            padding: 20px;
+        }
+
+        .sidebar-right {
+            border-left: 2px solid black;
+            padding: 20px;
+            font-size: 10px;
+        }
+
+        .center-content {
+            padding: 40px;
+        }
+
+        .hero-title {
             font-size: 72px;
             font-weight: bold;
-            margin-bottom: 60px;
-            color: #000;
-            text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            line-height: 1.1;
         }
 
-        .start-button {
-            background: white;
-            border: 4px solid black;
-            border-radius: 12px;
-            padding: 18px 50px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 4px 0 black;
-        }
-
-        .start-button:hover {
-            transform: scale(1.1) translateY(-2px);
-            box-shadow: 0 6px 0 black;
-        }
-
-        .start-button:active {
-            transform: scale(1.05) translateY(2px);
-            box-shadow: 0 2px 0 black;
-        }
-
-        /* Hand-drawn border effect using SVG filter */
-        .start-button {
-            filter: url(#squiggle);
-        }
-
-
-
-        .footer {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+        .hero-subtitle {
             font-size: 14px;
-            color: #666;
+            font-style: italic;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
         }
 
-        .footer-link {
-            color: #666;
-            text-decoration: none;
-            transition: color 0.2s ease;
+        .tag-box {
+            display: inline-block;
+            border: 1px solid black;
+            padding: 5px 12px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .footer-link:hover {
-            color: #000;
+        .section-list {
+            margin-top: 30px;
         }
 
-        /* Decorative elements */
-        .decoration {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            opacity: 0.1;
+        .section-item {
+            padding: 15px;
+            border: 1px solid black;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .decoration:nth-child(1) {
-            top: 10%;
-            left: 15%;
-            animation: float 6s ease-in-out infinite;
+        .section-item:hover {
+            background: black;
+            color: white;
         }
 
-        .decoration:nth-child(2) {
-            top: 20%;
-            right: 15%;
-            animation: float 7s ease-in-out infinite 1s;
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
         }
 
-        .decoration:nth-child(3) {
-            bottom: 20%;
-            left: 20%;
-            animation: float 8s ease-in-out infinite 2s;
+        .section-description {
+            font-size: 11px;
+            line-height: 1.5;
         }
 
-        .decoration:nth-child(4) {
-            bottom: 15%;
-            right: 20%;
-            animation: float 9s ease-in-out infinite 3s;
+        .sidebar-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid black;
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
+        .sidebar-title {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ccc;
+            font-size: 10px;
+        }
+
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-box {
+            background: black;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-nav-item {
+            border: 1px solid black;
+            padding: 8px 15px;
+            font-size: 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .footer-nav-item:hover {
+            background: black;
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
             }
-            50% {
-                transform: translateY(-20px) rotate(10deg);
+
+            .sidebar-left,
+            .sidebar-right {
+                border: none;
+                border-top: 2px solid black;
+            }
+
+            .hero-title {
+                font-size: 48px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- SVG filter for hand-drawn effect -->
-    <svg style="position: absolute; width: 0; height: 0;">
-        <defs>
-            <filter id="squiggle">
-                <feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="0"/>
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" />
-            </filter>
-        </defs>
-    </svg>
+<script>
+let clockCanvas;
 
-    <!-- Decorative floating elements -->
-    <div class="decoration">◆</div>
-    <div class="decoration">◇</div>
-    <div class="decoration">◆</div>
-    <div class="decoration">◇</div>
+function setup() {
+  clockCanvas = createCanvas(210, 200);
+  clockCanvas.parent("clock-container");
+  angleMode(DEGREES);
+}
 
-    <div class="container">
-        <h1>Title</h1>
-        <button class="start-button" onclick="startGame()">Start</button>
+function draw() {
+  clear();
+  background(255);
+
+  stroke(0);
+  strokeWeight(2);
+  noFill();
+  rect(0, 0, width, height);
+
+  translate(width / 2, height / 2);
+
+  strokeWeight(2);
+  ellipse(0, 0, 150, 150);
+
+  let hr = hour();
+  let mn = minute();
+  let sc = second();
+
+  stroke(0);
+
+  push();
+  strokeWeight(1);
+  rotate(sc * 6);
+  line(0, 0, 55, 0);
+  pop();
+
+  push();
+  strokeWeight(2);
+  rotate(mn * 6 + sc * 0.1);
+  line(0, 0, 45, 0);
+  pop();
+
+  push();
+  strokeWeight(3);
+  rotate((hr % 12) * 30 + mn * 0.5);
+  line(0, 0, 30, 0);
+  pop();
+
+  fill(0);
+  noStroke();
+  circle(0, 0, 8);
+}
+</script>
+
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">(UN)HEARD</div>
+            <div class="date">MONDAY DECEMBER 01 2025</div>
+        </div>
+        <div class="header-right">
+            <a href="data.html">DATA</a>
+            <a href="stories.html">STORIES</a>
+            <a href="barriers.html">BARRIERS</a>
+            <a href="solutions.html">SOLUTIONS</a>
+            <a href="about.html">ABOUT</a>
+        </div>
     </div>
 
+    <div class="subheader">
+        EXPLORING SOCIAL ISOLATION IN THE DEAF AND HARD-OF-HEARING COMMUNITY — A CALL TO AWARENESS AND ACTION
+    </div>
 
+    <div class="main-content">
+        <div class="sidebar-left">
+            <div id="clock-container" style="width: 100%; height: 200px; border: 2px solid black; margin-bottom: 30px;"></div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">Quick Facts</div>
+                <div class="sidebar-item">
+                    <strong>466M</strong><br>
+                    People worldwide with disabling hearing loss
+                </div>
+                <div class="sidebar-item">
+                    <strong>28%</strong><br>
+                    Greater odds of social isolation for those with hearing impairment
+                </div>
+                <div class="sidebar-item">
+                    <strong>60-65%</strong><br>
+                    Of D/HH youth report increased loneliness
+                </div>
+            </div>
+        </div>
 
-    <div class="footer">
-        <a href="#" class="footer-link">Settings</a>
+        <div class="center-content">
+            <h1 class="hero-title">(UN)HEARD<br>A CALL TO<br>CONTRIBUTION</h1>
+            <p class="hero-subtitle">When silence isn't golden</p>
+
+            <div>
+                <span class="tag-box">(UN)HEARD</span>
+                <span class="tag-box">ISOLATION</span>
+                <span class="tag-box">HEARING LOSS</span>
+                <span class="tag-box">2025</span>
+            </div>
+
+            <div class="section-list">
+                <div class="section-item" onclick="navigateTo('data')">
+                    <div class="section-title">Data & Research</div>
+                    <div class="section-description">What the studies say about hearing loss and social isolation. Evidence-based research on how D/HH individuals face higher risks of loneliness and reduced social participation.</div>
+                </div>
+
+                <div class="section-item" onclick="navigateTo('stories')">
+                    <div class="section-title">Real Voices</div>
+                    <div class="section-description">Stories and lived experiences from the D/HH community. Personal narratives about isolation, identity, resilience, and finding connection.</div>
+                </div>
+
+                <div class="section-item" onclick="navigateTo('barriers')">
+                    <div class="section-title">Barriers & Challenges</div>
+                    <div class="section-description">Why isolation happens. Explore the systemic, social, and environmental factors that contribute to social isolation for D/HH people.</div>
+                </div>
+
+                <div class="section-item" onclick="navigateTo('solutions')">
+                    <div class="section-title">Solutions & Support</div>
+                    <div class="section-description">What helps and what we can do. Actionable resources, assistive technologies, community support, and tools to mitigate isolation.</div>
+                </div>
+
+                <div class="section-item" onclick="navigateTo('education')">
+                    <div class="section-title">Learn & Share</div>
+                    <div class="section-description">Educational tools and awareness resources. Help hearing individuals understand D/HH experiences, reduce stigma, and foster inclusion.</div>
+                </div>
+
+                <div class="section-item" onclick="navigateTo('about')">
+                    <div class="section-title">About This Project</div>
+                    <div class="section-description">Learn more about this project and how you can contribute. Resources, contact information, and ways to get involved.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-right">
+            <div class="stat-box">
+                A 2021 systematic review found that hearing loss is associated with higher risk of loneliness and social isolation in older adults.
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Key Statistics</div>
+                <div class="sidebar-item">
+                    <strong>HEARING LOSS PREVALENCE</strong><br>
+                    15% of American adults report trouble hearing
+                </div>
+                <div class="sidebar-item">
+                    <strong>SOCIAL PARTICIPATION</strong><br>
+                    D/HH older adults are significantly less likely to attend clubs or organized activities
+                </div>
+                <div class="sidebar-item">
+                    <strong>MENTAL HEALTH</strong><br>
+                    Increased depression and anxiety linked to hearing loss and isolation
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigation</div>
+                <div style="font-size: 10px; line-height: 1.8;">
+                    <div><a href="#" style="color: black; text-decoration: none;">↑ TOP</a></div>
+                    <div><a href="data.html" style="color: black; text-decoration: none;">→ DATA</a></div>
+                    <div><a href="stories.html" style="color: black; text-decoration: none;">→ STORIES</a></div>
+                    <div><a href="barriers.html" style="color: black; text-decoration: none;">→ BARRIERS</a></div>
+                    <div><a href="solutions.html" style="color: black; text-decoration: none;">→ SOLUTIONS</a></div>
+                    <div><a href="about.html" style="color: black; text-decoration: none;">→ ABOUT</a></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        function startGame() {
-            window.location.href = 'hearingaids.html';
+        function navigateTo(page) {
+            window.location.href = `${page}.html`;
         }
-
-        // Add click sound effect on button (optional enhancement)
-        document.querySelector('.start-button').addEventListener('mouseenter', () => {
-            // Could add sound here if desired
-        });
     </script>
 </body>
 </html>

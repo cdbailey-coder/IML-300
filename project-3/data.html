@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data & Research — (Un)Heard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>(Un)Heard</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="data.html">Data & Research</a></li>
+                <li><a href="stories.html">Stories</a></li>
+                <li><a href="barriers.html">Barriers</a></li>
+                <li><a href="solutions.html">Solutions</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Research on Social Isolation</h2>
+            <p>Studies show that Deaf and Hard-of-Hearing individuals are at higher risk of social isolation, loneliness, and mental health challenges.</p>
+        </section>
+
+        <section>
+            <h2>Statistics</h2>
+            <canvas id="hearingLossChart" width="400" height="200"></canvas>
+            <script>
+                const ctx = document.getElementById('hearingLossChart').getContext('2d');
+                const hearingLossChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Teenagers', 'Adults', 'Older Adults'],
+                        datasets: [{
+                            label: 'Percentage at Risk of Social Isolation (%)',
+                            data: [12, 20, 35],
+                            backgroundColor: ['#4caf50', '#2196f3', '#ff9800']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, max: 50 } }
+                    }
+                });
+            </script>
+        </section>
+
+        <section>
+            <h2>References</h2>
+            <ul>
+                <li>Shukla et al., 2020. Hearing Loss, Loneliness, and Social Isolation.</li>
+                <li>Meta-analysis, 2023. Association Between Hearing Loss and Social Integration.</li>
+                <li>Loneliness in Older Deaf Adults, 2024.</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

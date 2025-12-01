@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions & Support - (UN)HEARD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: white;
+            color: black;
+            line-height: 1.4;
+        }
+
+        .header {
+            border-bottom: 2px solid black;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .logo a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-right a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid black;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 30px;
+            border: 2px solid black;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            background: white;
+            border-right: 2px solid black;
+            transition: all 0.2s;
+        }
+
+        .tab:last-child {
+            border-right: none;
+        }
+
+        .tab:hover {
+            background: #f0f0f0;
+        }
+
+        .tab.active {
+            background: black;
+            color: white;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .solution-card {
+            border: 2px solid black;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .solution-card:hover {
+            background: black;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .solution-card h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .solution-card p {
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .solution-card .expand-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+        }
+
+        .interactive-scenario {
+            border: 2px solid black;
+            padding: 30px;
+            margin: 30px 0;
+            background: #f9f9f9;
+        }
+
+        .scenario-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .scenario-options {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .scenario-button {
+            padding: 12px 20px;
+            border: 2px solid black;
+            background: white;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .scenario-button:hover {
+            background: black;
+            color: white;
+        }
+
+        .scenario-button.selected {
+            background: black;
+            color: white;
+        }
+
+        .scenario-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: black;
+            color: white;
+            font-size: 11px;
+            line-height: 1.7;
+            display: none;
+        }
+
+        .scenario-result.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        .resource-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .resource-list li {
+            padding: 15px;
+            border-bottom: 1px solid black;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .resource-list li:hover {
+            background: #f0f0f0;
+        }
+
+        .resource-link {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        .back-nav {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid black;
+            display: flex;
+            gap: 15px;
+        }
+
+        .back-button {
+            padding: 12px 25px;
+            border: 2px solid black;
+            background: white;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            background: black;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 32px;
+            }
+
+            .category-tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                border-right: none;
+                border-bottom: 2px solid black;
+            }
+
+            .tab:last-child {
+                border-bottom: none;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo"><a href="index.html">(UN)HEARD</a></div>
+        </div>
+        <div class="header-right">
+            <a href="data.html">DATA</a>
+            <a href="stories.html">STORIES</a>
+            <a href="barriers.html">BARRIERS</a>
+            <a href="solutions.html">SOLUTIONS</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 class="page-title">Solutions & Support</h1>
+        <p class="page-subtitle">What helps, and what we can do</p>
+
+        <div class="category-tabs">
+            <div class="tab active" onclick="showSection('technology')">TECHNOLOGY</div>
+            <div class="tab" onclick="showSection('community')">COMMUNITY</div>
+            <div class="tab" onclick="showSection('advocacy')">ADVOCACY</div>
+        </div>
+
+        <div id="technology" class="content-section active">
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Live Captioning</h3>
+                    <p>Real-time speech-to-text apps like Otter.ai and Google Live Transcribe enable D/HH individuals to follow conversations in meetings, classes, and social settings.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Video Relay Services</h3>
+                    <p>VRS allows sign language users to communicate with hearing people via video interpreters, bridging communication gaps in real-time.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Assistive Devices</h3>
+                    <p>Hearing aids, cochlear implants, and FM systems amplify sound and improve communication in various environments.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Alert Systems</h3>
+                    <p>Visual and vibration alerts for doorbells, phones, and emergencies ensure D/HH individuals stay connected and safe.</p>
+                </div>
+            </div>
+
+            <div class="interactive-scenario">
+                <div class="scenario-title">Try It: Choose Your Communication Tool</div>
+                <p style="font-size: 11px; margin-bottom: 15px;">You're attending a work meeting. Which accessibility tool would help you participate fully?</p>
+                <div class="scenario-options">
+                    <button class="scenario-button" onclick="showResult('tech', 'captions')">Live Captions</button>
+                    <button class="scenario-button" onclick="showResult('tech', 'interpreter')">Sign Interpreter</button>
+                    <button class="scenario-button" onclick="showResult('tech', 'fm')">FM System</button>
+                </div>
+                <div id="tech-result" class="scenario-result"></div>
+            </div>
+        </div>
+
+        <div id="community" class="content-section">
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Peer Support Groups</h3>
+                    <p>Regular meetups where D/HH individuals share experiences, build friendships, and support each other.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Deaf Community Centers</h3>
+                    <p>Physical and virtual spaces for D/HH culture, events, and social gatherings that foster belonging.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Mentorship Programs</h3>
+                    <p>Connecting D/HH youth with adult mentors who understand their experiences and can provide guidance.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Online Communities</h3>
+                    <p>Digital forums and social media groups connecting D/HH individuals globally, reducing geographic isolation.</p>
+                </div>
+            </div>
+
+            <div class="interactive-scenario">
+                <div class="scenario-title">Build Your Support Network</div>
+                <p style="font-size: 11px; margin-bottom: 15px;">Which type of community connection appeals to you most?</p>
+                <div class="scenario-options">
+                    <button class="scenario-button" onclick="showResult('community', 'local')">Local Meetups</button>
+                    <button class="scenario-button" onclick="showResult('community', 'online')">Online Forums</button>
+                    <button class="scenario-button" onclick="showResult('community', 'mentor')">Mentorship</button>
+                </div>
+                <div id="community-result" class="scenario-result"></div>
+            </div>
+        </div>
+
+        <div id="advocacy" class="content-section">
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Workplace Access</h3>
+                    <p>Ensure employers provide captioning for meetings, interpreters, and accessible tools.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Educational Inclusion</h3>
+                    <p>Advocate for FM systems, note-takers, and interpreters in classrooms.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>How to Be an Ally</h3>
+                    <p>Learn basic sign, face people when speaking, use captions, and ask about preferences.</p>
+                </div>
+                <div class="solution-card">
+                    <span class="expand-icon">+</span>
+                    <h3>Digital Accessibility</h3>
+                    <p>Require captions on video content and accessible web design standards.</p>
+                </div>
+            </div>
+
+            <div class="interactive-scenario">
+                <div class="scenario-title">Take Action: What Can You Do Today?</div>
+                <p style="font-size: 11px; margin-bottom: 15px;">Choose one action to make spaces more inclusive:</p>
+                <div class="scenario-options">
+                    <button class="scenario-button" onclick="showResult('advocacy', 'captions')">Add Captions to Videos</button>
+                    <button class="scenario-button" onclick="showResult('advocacy', 'asl')">Learn Basic ASL</button>
+                    <button class="scenario-button" onclick="showResult('advocacy', 'awareness')">Share Awareness</button>
+                </div>
+                <div id="advocacy-result" class="scenario-result"></div>
+            </div>
+        </div>
+
+        <div class="back-nav">
+            <a href="index.html" class="back-button">← HOME</a>
+            <a href="barriers.html" class="back-button">← BARRIERS</a>
+            <a href="education.html" class="back-button">LEARN →</a>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activate clicked tab
+            event.target.classList.add('active');
+        }
+
+        function showResult(category, choice) {
+            const resultDiv = document.getElementById(category + '-result');
+            const buttons = event.target.parentElement.querySelectorAll('.scenario-button');
+            
+            // Update button states
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+            
+            const responses = {
+                tech: {
+                    captions: "Excellent choice! Live captions enable real-time participation in meetings and conversations. Apps like Otter.ai can transcribe speech instantly, making discussions accessible. Many video platforms now offer automatic captioning features.",
+                    interpreter: "Great option! Sign language interpreters bridge communication between sign language users and hearing individuals. Video relay services (VRS) make this accessible for phone calls and virtual meetings.",
+                    fm: "Smart selection! FM systems reduce background noise and amplify the speaker's voice directly to hearing aids or headphones. These are especially useful in classrooms and large meeting rooms."
+                },
+                community: {
+                    local: "Local meetups provide face-to-face connection and immediate community. Organizations like the National Association of the Deaf (NAD) and local Deaf centers often host regular social events, workshops, and activities.",
+                    online: "Online communities break down geographic barriers and provide 24/7 connection. Facebook groups, Reddit communities, and specialized forums for D/HH individuals offer support, advice, and friendship.",
+                    mentor: "Mentorship creates meaningful one-on-one relationships. Programs like Big Brothers Big Sisters and Deaf-specific mentorship organizations connect D/HH youth with experienced adults who understand their journey."
+                },
+                advocacy: {
+                    captions: "Adding captions to your videos makes content accessible to millions! YouTube and most social platforms have built-in captioning tools. Making this standard practice shows commitment to inclusion.",
+                    asl: "Learning ASL opens doors to communication and shows respect for Deaf culture. Free resources like ASL University, YouTube tutorials, and Lifeprint.com can get you started today.",
+                    awareness: "Sharing awareness reduces stigma and educates others. Post about accessibility, share D/HH experiences (with permission), and advocate for inclusive practices in your communities."
+                }
+            };
+            
+            resultDiv.textContent = responses[category][choice];
+            resultDiv.classList.add('show');
+        }
+    </script>
+</body>
+</html>
