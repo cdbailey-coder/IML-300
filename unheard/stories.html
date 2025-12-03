@@ -3,54 +3,663 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stories — (Un)Heard</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Real Voices — (UN)HEARD</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>(Un)Heard</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="data.html">Data & Research</a></li>
-                <li><a href="stories.html">Stories</a></li>
-                <li><a href="barriers.html">Barriers</a></li>
-                <li><a href="solutions.html">Solutions</a></li>
-                <li><a href="resources.html">Resources</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">(UN)HEARD</div>
+            <div class="date">MONDAY DECEMBER 02 2025</div>
+        </div>
+        <div class="header-right">
+            <a href="index.html">HOME</a>
+            <a href="data.html">DATA</a>
+            <a href="stories.html">STORIES</a>
+            <a href="barriers.html">BARRIERS</a>
+            <a href="solutions.html">SOLUTIONS</a>
+            <a href="resources.html">RESOURCES</a>
+            <a href="about.html">ABOUT</a>
+        </div>
+    </div>
 
-    <main>
-        <section>
-            <h2>Personal Stories</h2>
-            <article>
-                <h3>Emma, 24</h3>
-                <p>“I often feel left out in group conversations. Texting helps, but face-to-face interactions are still challenging.”</p>
-            </article>
-            <article>
-                <h3>James, 67</h3>
-                <p>“Losing my hearing gradually made it hard to attend social events. I found support through local Deaf community meetings.”</p>
-            </article>
-            <article>
-                <h3>Lina, 15</h3>
-                <p>“In school, not everyone understands my hearing aids. Peer support groups make a huge difference.”</p>
-            </article>
-        </section>
+    <div class="subheader">
+        REAL VOICES FROM THE DEAF AND HARD-OF-HEARING COMMUNITY — STORIES OF RESILIENCE, ISOLATION, AND CONNECTION
+    </div>
 
-        <section>
-            <h2>Share Your Story</h2>
-            <form id="storyForm">
-                <label for="name">Name (optional):</label>
-                <input type="text" id="name" name="name">
+    <div class="page-title">
+        <h1>REAL VOICES</h1>
+        <p class="subtitle">Personal stories from the D/HH community</p>
+    </div>
 
-                <label for="story">Your Story:</label>
-                <textarea id="story" name="story" rows="5" required></textarea>
+    <!-- Story 1: Jenn Stringer - RIGHT IMAGE -->
+    <div class="story-container story-right">
+        <div class="story-text">
+            <div class="story-header">
+                <h2 class="story-name">Jenn Stringer, 40s</h2>
+                <div class="story-tag">Berkeley, California</div>
+            </div>
+            <div class="story-body">
+                <p class="story-lead">When Jenn Stringer was diagnosed with breast cancer in 2020, she faced her treatment alone — not by choice, but because pandemic restrictions prevented her husband from accompanying her to medical appointments.</p>
+                
+                <p>As the chief information officer at the University of California, Berkeley, Stringer is hard of hearing and has always relied on having someone with her during important medical consultations. Medical professionals routinely advise patients to bring a companion when receiving serious health news — you need another set of ears to process difficult information.</p>
+                
+                <p>But COVID-19 eliminated that safety net. Hospital visitor restrictions meant she navigated cancer treatment without her primary communication support. The irony wasn't lost on her: at the moment when clear communication mattered most, when she needed to understand complex treatment options and make life-altering decisions, she was entirely on her own.</p>
+                
+                <p class="story-quote">"They always tell you to bring somebody in with a doctor when you're getting bad health news, right? Because you need somebody else to hear. And that was completely unavailable because of COVID."</p>
+                
+                <p>Her experience highlights a broader crisis that emerged during the pandemic: policies designed to protect public health often failed to account for people who communicate differently, creating new barriers precisely when access to accurate medical information was most critical.</p>
+            </div>
+        </div>
+        <div class="story-visual">
+            <div class="graphic-container" id="graphic1">
+                <div class="timeline-title">MEDICAL ACCESS TIMELINE</div>
+                <div class="timeline-line"></div>
+                <div class="timeline-point left" style="top: 20%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">PRE-COVID</div>
+                        <div class="point-desc">Support system available<br>Partner at appointments</div>
+                    </div>
+                </div>
+                <div class="timeline-point right" style="top: 40%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">MARCH 2020</div>
+                        <div class="point-desc">Hospital visitor bans<br>No exceptions made</div>
+                    </div>
+                </div>
+                <div class="timeline-point left" style="top: 60%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">DIAGNOSIS</div>
+                        <div class="point-desc">Cancer news received alone<br>Critical info hard to process</div>
+                    </div>
+                </div>
+                <div class="timeline-point right" style="top: 80%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">TREATMENT</div>
+                        <div class="point-desc">Navigating barriers persist<br>Isolation continues</div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-caption">Visual representation: Communication barriers in medical settings during COVID-19</div>
+        </div>
+    </div>
 
-                <button type="submit">Submit</button>
+    <!-- Story 2: Shaylee Mansfield - LEFT IMAGE -->
+    <div class="story-container story-left">
+        <div class="story-visual">
+            <div class="graphic-container" id="graphic2">
+                <div class="timeline-title">DIGITAL EXCLUSION TIMELINE</div>
+                <div class="timeline-line"></div>
+                <div class="timeline-point left" style="top: 20%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">BEFORE</div>
+                        <div class="point-desc">In-person gatherings<br>Face-to-face connection</div>
+                    </div>
+                </div>
+                <div class="timeline-point right" style="top: 40%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">LOCKDOWN</div>
+                        <div class="point-desc">Everything moves online<br>No choice but digital</div>
+                    </div>
+                </div>
+                <div class="timeline-point left" style="top: 60%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">APRIL 2020</div>
+                        <div class="point-desc">Shaylee's viral video<br>Calling out barriers</div>
+                    </div>
+                </div>
+                <div class="timeline-point right" style="top: 80%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">ONGOING</div>
+                        <div class="point-desc">Still fighting for captions<br>Accessibility continues</div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-caption">Visual representation: Digital accessibility barriers on social media platforms</div>
+        </div>
+        <div class="story-text">
+            <div class="story-header">
+                <h2 class="story-name">Shaylee Mansfield, 11</h2>
+                <div class="story-tag">Austin, Texas</div>
+            </div>
+            <div class="story-body">
+                <p class="story-lead">About a month into shelter-in-place orders, Shaylee Mansfield — an 11-year-old deaf actress in Austin — posted a video that resonated across social media, earning thousands of likes and retweets.</p>
+                
+                <p>In the video, she signed her frustration while watching Instagram videos from her favorite creators.</p>
+                
+                <p class="story-quote">"I don't understand my favorite people on Instagram. Why? No captioning!"</p>
+                
+                <p>Her simple, direct message captured a fundamental injustice: while the pandemic pushed everyone online, social media platforms hadn't prioritized accessibility. Content that hearing people consumed effortlessly remained inaccessible to deaf users.</p>
+                
+                <p>Shaylee's mother, Sheena McFeely — who is also deaf — explained that the pandemic's reliance on video chatting made navigating social and work life far more difficult for D/HH individuals. The shift to digital communication should have leveled the playing field, but instead it highlighted existing accessibility gaps.</p>
+                
+                <p>McFeely emphasized that information is a powerful tool — it feeds knowledge, starts conversations, and connects people. Without access to that information, how can anyone learn and thrive?</p>
+                
+                <p>For Shaylee, the lack of captions means she can't equally enjoy content with her hearing sister, Ivy. Birthday parties require interpreters. The "normal" life that hearing children experience — from casual social media browsing to mundane gatherings — remains frustratingly out of reach.</p>
+                
+                <p>Shaylee's viral video was more than a complaint; it was a call to action from a generation that refuses to accept exclusion as inevitable.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story 3: Ashley Benton & Jorge Aristizabal - RIGHT IMAGE -->
+    <div class="story-container story-right">
+        <div class="story-text">
+            <div class="story-header">
+                <h2 class="story-name">Ashley Benton & Jorge Aristizabal</h2>
+                <div class="story-tag">North Carolina & Seattle</div>
+            </div>
+            <div class="story-body">
+                <p class="story-lead">For tens of thousands of deaf-blind Americans, the pandemic's emphasis on social distancing created an impossible paradox: the very measures designed to keep people safe threatened their primary means of connection and survival.</p>
+                
+                <p>Ashley Benton, the deaf-blind services coordinator for North Carolina, explained the crisis succinctly: their entire culture and communication system relies on touch.</p>
+                
+                <p class="story-quote">"Our way of communicating and our culture, everything relies on touch. Now we're not allowed to touch, and we have to practice social distancing."</p>
+                
+                <p>Deaf-blind Americans navigate the world through touch — hand-over-hand signing for communication, fingers scanning braille signs for mobility, hugs and handshakes to feel connected. While not everyone in the community experiences complete darkness and total silence, advocates stress that touch is critical. During COVID-19, it also became a significant risk for contagion.</p>
+                
+                <p>Jorge Aristizabal, a deaf-blind man living in Seattle, highlighted another danger: the six-foot distancing requirement wasn't just inconvenient — it was unsafe.</p>
+                
+                <p class="story-quote">"The requirement to stay 6 feet away from other people is actually not safe for me. As a blind person, I need to touch my guide."</p>
+                
+                <p>The pandemic exposed how public health guidance, while well-intentioned, failed to account for people who experience the world differently. For the deaf-blind community, following safety protocols meant sacrificing the very tools they need to navigate daily life safely.</p>
+                
+                <p>Their experience demands a fundamental question: whose safety are we prioritizing when we design public health responses?</p>
+            </div>
+        </div>
+        <div class="story-visual">
+            <div class="graphic-container" id="graphic3">
+                <div class="timeline-title">TOUCH COMMUNICATION CRISIS</div>
+                <div class="timeline-line"></div>
+                <div class="timeline-point left" style="top: 20%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">NORMAL</div>
+                        <div class="point-desc">Touch-based communication<br>Hand-over-hand signing</div>
+                    </div>
+                </div>
+                <div class="timeline-point right" style="top: 40%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">MARCH 2020</div>
+                        <div class="point-desc">Social distancing mandates<br>6-foot rule implemented</div>
+                    </div>
+                </div>
+                <div class="timeline-point left" style="top: 60%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">ISOLATION</div>
+                        <div class="point-desc">No touch allowed<br>Communication severed</div>
+                    </div>
+                </div>
+                <div class="timeline-point right" style="top: 80%;">
+                    <div class="point-marker"></div>
+                    <div class="point-content">
+                        <div class="point-label">ADAPTING</div>
+                        <div class="point-desc">Finding new methods<br>Rebuilding connections</div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-caption">Visual representation: Touch-based communication and the challenge of social distancing</div>
+        </div>
+    </div>
+
+    <!-- Share Your Story Section -->
+    <div class="share-section">
+        <div class="share-container">
+            <h2 class="share-title">SHARE YOUR STORY</h2>
+            <p class="share-intro">Your voice matters. Share your experience with social isolation, hearing loss, or navigating a hearing-centric world. Your story can help others feel less alone and educate the broader community.</p>
+            
+            <form id="storyForm" class="story-form">
+                <div class="form-group">
+                    <label for="name">NAME (OPTIONAL):</label>
+                    <input type="text" id="name" name="name" placeholder="Your name or 'Anonymous'">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">LOCATION (OPTIONAL):</label>
+                    <input type="text" id="location" name="location" placeholder="City, State">
+                </div>
+
+                <div class="form-group">
+                    <label for="story">YOUR STORY:</label>
+                    <textarea id="story" name="story" rows="8" required placeholder="Tell us about your experience..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">SUBMIT STORY</button>
             </form>
-        </section>
-    </main>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <div class="footer-links">
+            <a href="index.html">← BACK TO HOME</a>
+            <a href="barriers.html">NEXT: BARRIERS & CHALLENGES →</a>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Global styles
+            $('*').css({
+                'margin': '0',
+                'padding': '0',
+                'box-sizing': 'border-box'
+            });
+
+            $('body').css({
+                'font-family': "'Courier New', monospace",
+                'background': 'white',
+                'color': 'black',
+                'line-height': '1.6'
+            });
+
+            // Header styles
+            $('.header').css({
+                'border-bottom': '2px solid black',
+                'padding': '15px 20px',
+                'display': 'flex',
+                'justify-content': 'space-between',
+                'align-items': 'center',
+                'font-size': '11px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px'
+            });
+
+            $('.header-left').css({
+                'display': 'flex',
+                'gap': '15px',
+                'align-items': 'center'
+            });
+
+            $('.logo').css({
+                'font-size': '16px',
+                'font-weight': 'bold',
+                'letter-spacing': '2px'
+            });
+
+            $('.date').css({
+                'font-weight': 'bold'
+            });
+
+            $('.header-right').css({
+                'display': 'flex',
+                'gap': '20px'
+            });
+
+            $('.header-right a').css({
+                'color': 'black',
+                'text-decoration': 'none'
+            });
+
+            $('.subheader').css({
+                'border-bottom': '1px solid black',
+                'padding': '8px 20px',
+                'font-size': '9px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '0.5px'
+            });
+
+            // Page title
+            $('.page-title').css({
+                'padding': '40px 20px 20px',
+                'border-bottom': '2px solid black'
+            });
+
+            $('.page-title h1').css({
+                'font-size': '48px',
+                'font-weight': 'bold',
+                'letter-spacing': '3px',
+                'margin-bottom': '10px'
+            });
+
+            $('.subtitle').css({
+                'font-size': '12px',
+                'font-style': 'italic',
+                'letter-spacing': '1px'
+            });
+
+            // Story containers
+            $('.story-container').css({
+                'border-bottom': '2px solid black',
+                'padding': '40px 20px',
+                'display': 'grid',
+                'grid-template-columns': '1fr 1fr',
+                'gap': '40px',
+                'align-items': 'start'
+            });
+
+            $('.story-right').css({
+                'grid-template-columns': '1.2fr 0.8fr'
+            });
+
+            $('.story-left').css({
+                'grid-template-columns': '0.8fr 1.2fr'
+            });
+
+            // Story text
+            $('.story-header').css({
+                'margin-bottom': '20px',
+                'padding-bottom': '15px',
+                'border-bottom': '1px solid black'
+            });
+
+            $('.story-name').css({
+                'font-size': '24px',
+                'font-weight': 'bold',
+                'letter-spacing': '2px',
+                'text-transform': 'uppercase',
+                'margin-bottom': '8px'
+            });
+
+            $('.story-tag').css({
+                'font-size': '10px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px',
+                'color': '#666'
+            });
+
+            $('.story-body p').css({
+                'margin-bottom': '15px',
+                'font-size': '12px',
+                'line-height': '1.7'
+            });
+
+            $('.story-lead').css({
+                'font-weight': 'bold',
+                'font-size': '13px'
+            });
+
+            $('.story-quote').css({
+                'padding': '15px 20px',
+                'border-left': '3px solid black',
+                'font-style': 'italic',
+                'margin': '20px 0',
+                'background': '#f5f5f5'
+            });
+
+            // Image placeholder
+            $('.story-visual').css({
+                'position': 'relative'
+            });
+
+            $('.graphic-container').css({
+                'border': '2px solid black',
+                'aspect-ratio': '4/5',
+                'background': 'white',
+                'margin-bottom': '10px',
+                'position': 'relative',
+                'padding': '20px'
+            });
+
+            // Timeline styles
+            $('.timeline-title').css({
+                'background': 'black',
+                'color': 'white',
+                'padding': '12px',
+                'text-align': 'center',
+                'font-size': '13px',
+                'font-weight': 'bold',
+                'letter-spacing': '1px',
+                'margin-bottom': '30px'
+            });
+
+            $('.timeline-line').css({
+                'position': 'absolute',
+                'left': '50%',
+                'top': '80px',
+                'bottom': '20px',
+                'width': '3px',
+                'background': 'black',
+                'transform': 'translateX(-50%)'
+            });
+
+            $('.timeline-point').css({
+                'position': 'absolute',
+                'width': '100%'
+            });
+
+            $('.timeline-point.left .point-marker').css({
+                'position': 'absolute',
+                'left': '50%',
+                'transform': 'translateX(-50%)',
+                'width': '14px',
+                'height': '14px',
+                'background': 'black',
+                'border': '3px solid white',
+                'border-radius': '50%',
+                'box-shadow': '0 0 0 2px black',
+                'z-index': '2'
+            });
+
+            $('.timeline-point.right .point-marker').css({
+                'position': 'absolute',
+                'left': '50%',
+                'transform': 'translateX(-50%)',
+                'width': '14px',
+                'height': '14px',
+                'background': 'black',
+                'border': '3px solid white',
+                'border-radius': '50%',
+                'box-shadow': '0 0 0 2px black',
+                'z-index': '2'
+            });
+
+            $('.timeline-point.left .point-content').css({
+                'position': 'absolute',
+                'right': '52%',
+                'top': '-25px',
+                'width': '40%',
+                'padding': '10px',
+                'background': '#f5f5f5',
+                'border': '2px solid black',
+                'text-align': 'right'
+            });
+
+            $('.timeline-point.right .point-content').css({
+                'position': 'absolute',
+                'left': '52%',
+                'top': '-25px',
+                'width': '40%',
+                'padding': '10px',
+                'background': '#f5f5f5',
+                'border': '2px solid black',
+                'text-align': 'left'
+            });
+
+            $('.point-label').css({
+                'font-size': '11px',
+                'font-weight': 'bold',
+                'margin-bottom': '5px',
+                'letter-spacing': '0.5px'
+            });
+
+            $('.point-desc').css({
+                'font-size': '10px',
+                'line-height': '1.4'
+            });
+
+            $('.image-caption').css({
+                'font-size': '9px',
+                'line-height': '1.5',
+                'letter-spacing': '0.5px',
+                'padding': '5px 0'
+            });
+
+            // Share section
+            $('.share-section').css({
+                'padding': '60px 20px',
+                'background': '#f5f5f5',
+                'border-bottom': '2px solid black'
+            });
+
+            $('.share-container').css({
+                'max-width': '800px',
+                'margin': '0 auto'
+            });
+
+            $('.share-title').css({
+                'font-size': '36px',
+                'font-weight': 'bold',
+                'letter-spacing': '3px',
+                'margin-bottom': '20px',
+                'text-transform': 'uppercase'
+            });
+
+            $('.share-intro').css({
+                'font-size': '12px',
+                'line-height': '1.7',
+                'margin-bottom': '30px'
+            });
+
+            // Form styles
+            $('.story-form').css({
+                'border': '2px solid black',
+                'padding': '30px',
+                'background': 'white'
+            });
+
+            $('.form-group').css({
+                'margin-bottom': '25px'
+            });
+
+            $('.form-group label').css({
+                'display': 'block',
+                'font-size': '11px',
+                'font-weight': 'bold',
+                'letter-spacing': '1px',
+                'margin-bottom': '8px',
+                'text-transform': 'uppercase'
+            });
+
+            $('.form-group input, .form-group textarea').css({
+                'width': '100%',
+                'padding': '10px',
+                'border': '1px solid black',
+                'font-family': "'Courier New', monospace",
+                'font-size': '12px',
+                'background': 'white'
+            });
+
+            $('.form-group textarea').css({
+                'resize': 'vertical',
+                'min-height': '150px'
+            });
+
+            $('.submit-btn').css({
+                'background': 'black',
+                'color': 'white',
+                'border': 'none',
+                'padding': '12px 30px',
+                'font-family': "'Courier New', monospace",
+                'font-size': '11px',
+                'font-weight': 'bold',
+                'letter-spacing': '2px',
+                'text-transform': 'uppercase',
+                'cursor': 'pointer',
+                'transition': 'all 0.3s'
+            });
+
+            // Footer navigation
+            $('.footer-nav').css({
+                'padding': '30px 20px',
+                'background': 'white'
+            });
+
+            $('.footer-links').css({
+                'display': 'flex',
+                'justify-content': 'space-between',
+                'max-width': '1200px',
+                'margin': '0 auto',
+                'font-size': '11px',
+                'letter-spacing': '1px',
+                'text-transform': 'uppercase'
+            });
+
+            $('.footer-links a').css({
+                'color': 'black',
+                'text-decoration': 'none',
+                'font-weight': 'bold'
+            });
+
+            // Hover effects
+            $('.header-right a').hover(
+                function() {
+                    $(this).css('text-decoration', 'underline');
+                },
+                function() {
+                    $(this).css('text-decoration', 'none');
+                }
+            );
+
+            $('.submit-btn').hover(
+                function() {
+                    $(this).css({
+                        'background': '#333',
+                        'transform': 'translateY(-2px)'
+                    });
+                },
+                function() {
+                    $(this).css({
+                        'background': 'black',
+                        'transform': 'translateY(0)'
+                    });
+                }
+            );
+
+            $('.footer-links a').hover(
+                function() {
+                    $(this).css('text-decoration', 'underline');
+                },
+                function() {
+                    $(this).css('text-decoration', 'none');
+                }
+            );
+
+            // Form submission
+            $('#storyForm').on('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for sharing your story. Your submission has been received and will be reviewed by our team.');
+                $(this)[0].reset();
+            });
+
+            // Responsive design
+            if ($(window).width() <= 768) {
+                $('.story-container, .story-right, .story-left').css({
+                    'grid-template-columns': '1fr',
+                    'gap': '20px'
+                });
+
+                $('.page-title h1').css({
+                    'font-size': '32px'
+                });
+
+                $('.story-name').css({
+                    'font-size': '20px'
+                });
+
+                $('.share-title').css({
+                    'font-size': '24px'
+                });
+
+                $('.footer-links').css({
+                    'flex-direction': 'column',
+                    'gap': '15px'
+                });
+
+                $('.timeline-point.left .point-content, .timeline-point.right .point-content').css({
+                    'width': '35%'
+                });
+            }
+        });
+    </script>
 </body>
 </html>

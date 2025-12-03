@@ -3,60 +3,487 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources — (Un)Heard</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Resources - (UN)HEARD</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>(Un)Heard</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="data.html">Data & Research</a></li>
-                <li><a href="stories.html">Stories</a></li>
-                <li><a href="barriers.html">Barriers</a></li>
-                <li><a href="solutions.html">Solutions</a></li>
-                <li><a href="resources.html">Resources</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">(UN)HEARD</div>
+            <div class="date">MONDAY DECEMBER 02 2025</div>
+        </div>
+        <div class="header-right">
+            <a href="index.html">HOME</a>
+            <a href="data.html">DATA</a>
+            <a href="stories.html">STORIES</a>
+            <a href="barriers.html">BARRIERS</a>
+            <a href="solutions.html">SOLUTIONS</a>
+            <a href="resources.html">RESOURCES</a>
+            <a href="about.html">ABOUT</a>
+        </div>
+    </div>
 
-    <main>
-        <section>
-            <h2>Deaf & Hard-of-Hearing Organizations</h2>
-            <ul>
-                <li><a href="https://www.nad.org/">National Association of the Deaf (NAD)</a></li>
-                <li><a href="https://www.hearingloss.org/">Hearing Loss Association of America</a></li>
-                <li><a href="https://www.wfdeaf.org/">World Federation of the Deaf</a></li>
-            </ul>
-        </section>
+    <div class="subheader">
+        RESOURCES & ORGANIZATIONS — SUPPORT NETWORKS, ADVOCACY GROUPS, AND HELPFUL MATERIALS
+    </div>
 
-        <section>
-            <h2>Assistive Technology</h2>
-            <ul>
-                <li>Hearing aids and cochlear implants</li>
-                <li>Speech-to-text apps</li>
-                <li>Captioning software and video relay services</li>
-            </ul>
-        </section>
+    <div class="main-content">
+        <div class="sidebar-left">
+            <div id="clock-container"></div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">Categories</div>
+                <div class="sidebar-item">
+                    <strong>ORGANIZATIONS</strong><br>
+                    National and global advocacy groups
+                </div>
+                <div class="sidebar-item">
+                    <strong>TECHNOLOGY</strong><br>
+                    Assistive tools and devices
+                </div>
+                <div class="sidebar-item">
+                    <strong>SUPPORT</strong><br>
+                    Mental health and counseling
+                </div>
+                <div class="sidebar-item">
+                    <strong>RESEARCH</strong><br>
+                    Academic references and studies
+                </div>
+            </div>
+        </div>
 
-        <section>
-            <h2>Mental Health Resources</h2>
-            <ul>
-                <li>Accessible therapy and counseling services</li>
-                <li>Text/video hotlines for support</li>
-                <li>Online platforms with captioning and ASL support</li>
-            </ul>
-        </section>
+        <div class="center-content">
+            <h1 class="page-title">RESOURCES &<br>ORGANIZATIONS</h1>
+            <p class="page-subtitle">Finding support and connection</p>
 
-        <section>
-            <h2>Academic References</h2>
-            <ul>
-                <li>Shukla et al., 2020. Hearing Loss, Loneliness, and Social Isolation.</li>
-                <li>Meta-analysis, 2023. Association Between Hearing Loss and Social Integration.</li>
-            </ul>
-        </section>
-    </main>
+            <div>
+                <span class="tag-box">ORGANIZATIONS</span>
+                <span class="tag-box">TECHNOLOGY</span>
+                <span class="tag-box">SUPPORT</span>
+            </div>
+
+            <div class="resource-category">
+                <div class="category-header">Deaf & Hard-of-Hearing Organizations</div>
+                <div class="category-description">
+                    National and international advocacy groups working to support the D/HH community
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <strong>NATIONAL ASSOCIATION OF THE DEAF (NAD)</strong><br>
+                        <a href="https://www.nad.org/" target="_blank">www.nad.org</a><br>
+                        <span class="resource-desc">Leading civil rights organization for deaf and hard-of-hearing individuals in the United States</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>HEARING LOSS ASSOCIATION OF AMERICA</strong><br>
+                        <a href="https://www.hearingloss.org/" target="_blank">www.hearingloss.org</a><br>
+                        <span class="resource-desc">Provides support, information, and resources for people with hearing loss</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>WORLD FEDERATION OF THE DEAF</strong><br>
+                        <a href="https://www.wfdeaf.org/" target="_blank">www.wfdeaf.org</a><br>
+                        <span class="resource-desc">International organization representing deaf people worldwide</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <div class="category-header">Assistive Technology</div>
+                <div class="category-description">
+                    Tools and devices to improve communication and accessibility
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <strong>HEARING AIDS & COCHLEAR IMPLANTS</strong><br>
+                        <span class="resource-desc">Amplification devices and surgical implants to improve hearing capability</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>SPEECH-TO-TEXT APPS</strong><br>
+                        <span class="resource-desc">Real-time transcription tools like Otter.ai, Google Live Transcribe, and Ava</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>CAPTIONING SOFTWARE</strong><br>
+                        <span class="resource-desc">Closed captioning services for videos, meetings, and live events</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>VIDEO RELAY SERVICES (VRS)</strong><br>
+                        <span class="resource-desc">Communication services allowing deaf users to make phone calls via sign language interpreters</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <div class="category-header">Mental Health Resources</div>
+                <div class="category-description">
+                    Accessible mental health support for the D/HH community
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <strong>ACCESSIBLE THERAPY SERVICES</strong><br>
+                        <span class="resource-desc">Therapists and counselors trained in working with D/HH clients, offering ASL fluency or captioning</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>TEXT/VIDEO CRISIS HOTLINES</strong><br>
+                        <span class="resource-desc">24/7 support lines accessible via text, video relay, or online chat</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>ONLINE PLATFORMS WITH ASL SUPPORT</strong><br>
+                        <span class="resource-desc">Digital mental health platforms offering captioning and sign language interpretation</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <div class="category-header">Academic References</div>
+                <div class="category-description">
+                    Key research and studies on hearing loss and social isolation
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <strong>SHUKLA ET AL., 2020</strong><br>
+                        <span class="resource-desc">"Hearing Loss, Loneliness, and Social Isolation: A Systematic Review"</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>META-ANALYSIS, 2023</strong><br>
+                        <span class="resource-desc">"Association Between Hearing Loss and Social Integration in Older Adults"</span>
+                    </li>
+                    <li class="resource-item">
+                        <strong>WHO REPORT, 2021</strong><br>
+                        <span class="resource-desc">"World Report on Hearing: Global estimates and health impacts"</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar-right">
+            <div class="stat-box">
+                "Access to resources and community support can significantly reduce feelings of isolation and improve quality of life."
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Quick Links</div>
+                <div class="sidebar-item">
+                    <strong>EMERGENCY SUPPORT</strong><br>
+                    Crisis text lines and video relay services available 24/7
+                </div>
+                <div class="sidebar-item">
+                    <strong>FIND LOCAL SERVICES</strong><br>
+                    Search for D/HH resources in your area
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Related Pages</div>
+                <div style="font-size: 10px; line-height: 1.8;">
+                    <div><a href="solutions.html" style="color: black; text-decoration: none;">→ SOLUTIONS</a></div>
+                    <div><a href="barriers.html" style="color: black; text-decoration: none;">→ BARRIERS</a></div>
+                    <div><a href="stories.html" style="color: black; text-decoration: none;">→ REAL VOICES</a></div>
+                    <div><a href="index.html" style="color: black; text-decoration: none;">← BACK TO HOME</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('*').css({
+                'margin': '0',
+                'padding': '0',
+                'box-sizing': 'border-box'
+            });
+
+            $('body').css({
+                'font-family': "'Courier New', monospace",
+                'background': 'white',
+                'color': 'black',
+                'line-height': '1.4'
+            });
+
+            $('.header').css({
+                'border-bottom': '2px solid black',
+                'padding': '15px 20px',
+                'display': 'flex',
+                'justify-content': 'space-between',
+                'align-items': 'center',
+                'font-size': '11px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px',
+                'position': 'sticky',
+                'top': '0',
+                'background': 'white',
+                'z-index': '100'
+            });
+
+            $('.header-left').css({
+                'display': 'flex',
+                'gap': '15px',
+                'align-items': 'center'
+            });
+
+            $('.logo').css({
+                'font-size': '16px',
+                'font-weight': 'bold',
+                'letter-spacing': '2px'
+            });
+
+            $('.date').css({
+                'font-weight': 'bold'
+            });
+
+            $('.header-right').css({
+                'display': 'flex',
+                'gap': '20px'
+            });
+
+            $('.header-right a').css({
+                'color': 'black',
+                'text-decoration': 'none'
+            });
+
+            $('.subheader').css({
+                'border-bottom': '1px solid black',
+                'padding': '8px 20px',
+                'font-size': '9px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '0.5px',
+                'position': 'sticky',
+                'top': '50px',
+                'background': 'white',
+                'z-index': '99'
+            });
+
+            $('.main-content').css({
+                'display': 'grid',
+                'grid-template-columns': '250px 1fr 300px',
+                'gap': '0',
+                'border-bottom': '2px solid black',
+                'position': 'relative'
+            });
+
+            $('.sidebar-left').css({
+                'border-right': '2px solid black',
+                'padding': '20px',
+                'position': 'sticky',
+                'top': '85px',
+                'height': 'calc(100vh - 85px)',
+                'overflow-y': 'auto'
+            });
+
+            $('.sidebar-right').css({
+                'border-left': '2px solid black',
+                'padding': '20px',
+                'font-size': '10px',
+                'position': 'sticky',
+                'top': '85px',
+                'height': 'calc(100vh - 85px)',
+                'overflow-y': 'auto'
+            });
+
+            $('.center-content').css({
+                'padding': '40px',
+                'min-height': '100vh'
+            });
+
+            $('.page-title').css({
+                'font-size': '56px',
+                'font-weight': 'bold',
+                'letter-spacing': '3px',
+                'margin-bottom': '15px',
+                'line-height': '1.1'
+            });
+
+            $('.page-subtitle').css({
+                'font-size': '14px',
+                'font-style': 'italic',
+                'margin-bottom': '30px',
+                'letter-spacing': '1px'
+            });
+
+            $('.tag-box').css({
+                'display': 'inline-block',
+                'border': '1px solid black',
+                'padding': '5px 12px',
+                'margin-right': '10px',
+                'margin-bottom': '10px',
+                'font-size': '10px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px'
+            });
+
+            $('.resource-category').css({
+                'margin-bottom': '40px',
+                'border': '2px solid black',
+                'padding': '25px'
+            });
+
+            $('.category-header').css({
+                'font-size': '24px',
+                'font-weight': 'bold',
+                'letter-spacing': '2px',
+                'margin-bottom': '15px',
+                'text-transform': 'uppercase'
+            });
+
+            $('.category-description').css({
+                'font-size': '12px',
+                'line-height': '1.6',
+                'margin-bottom': '20px'
+            });
+
+            $('.resource-list').css({
+                'list-style': 'none'
+            });
+
+            $('.resource-item').css({
+                'padding': '15px 0',
+                'border-bottom': '1px solid #ccc',
+                'font-size': '11px',
+                'line-height': '1.6'
+            });
+
+            $('.resource-item:last-child').css({
+                'border-bottom': 'none'
+            });
+
+            $('.resource-item strong').css({
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px',
+                'font-size': '10px',
+                'display': 'block',
+                'margin-bottom': '5px'
+            });
+
+            $('.resource-item a').css({
+                'color': 'black',
+                'text-decoration': 'underline',
+                'display': 'block',
+                'margin-bottom': '5px'
+            });
+
+            $('.resource-desc').css({
+                'display': 'block',
+                'margin-top': '5px',
+                'color': '#333'
+            });
+
+            $('.sidebar-section').css({
+                'margin-bottom': '30px',
+                'padding-bottom': '20px',
+                'border-bottom': '1px solid black'
+            });
+
+            $('.sidebar-title').css({
+                'font-weight': 'bold',
+                'font-size': '11px',
+                'margin-bottom': '10px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px'
+            });
+
+            $('.sidebar-item').css({
+                'margin-bottom': '15px',
+                'padding-bottom': '15px',
+                'border-bottom': '1px solid #ccc',
+                'font-size': '10px'
+            });
+
+            $('.sidebar-item:last-child').css({
+                'border-bottom': 'none'
+            });
+
+            $('.stat-box').css({
+                'background': 'black',
+                'color': 'white',
+                'padding': '15px',
+                'margin-bottom': '20px',
+                'font-size': '10px',
+                'line-height': '1.6'
+            });
+
+            $('#clock-container').css({
+                'width': '100%',
+                'height': '200px',
+                'border': '2px solid black',
+                'margin-bottom': '30px'
+            });
+
+            $('.header-right a').hover(
+                function() {
+                    $(this).css('text-decoration', 'underline');
+                },
+                function() {
+                    $(this).css('text-decoration', 'none');
+                }
+            );
+
+            if ($(window).width() <= 1024) {
+                $('.main-content').css({
+                    'grid-template-columns': '1fr'
+                });
+
+                $('.sidebar-left, .sidebar-right').css({
+                    'border': 'none',
+                    'border-top': '2px solid black',
+                    'position': 'static',
+                    'height': 'auto'
+                });
+
+                $('.page-title').css({
+                    'font-size': '36px'
+                });
+            }
+        });
+
+        let clockCanvas;
+
+        function setup() {
+            clockCanvas = createCanvas(210, 200);
+            clockCanvas.parent("clock-container");
+            angleMode(DEGREES);
+        }
+
+        function draw() {
+            clear();
+            background(255);
+
+            stroke(0);
+            strokeWeight(2);
+            noFill();
+            rect(0, 0, width, height);
+
+            translate(width / 2, height / 2);
+
+            strokeWeight(2);
+            ellipse(0, 0, 150, 150);
+
+            let hr = hour();
+            let mn = minute();
+            let sc = second();
+
+            stroke(0);
+
+            push();
+            strokeWeight(1);
+            rotate(sc * 6);
+            line(0, 0, 55, 0);
+            pop();
+
+            push();
+            strokeWeight(2);
+            rotate(mn * 6 + sc * 0.1);
+            line(0, 0, 45, 0);
+            pop();
+
+            push();
+            strokeWeight(3);
+            rotate((hr % 12) * 30 + mn * 0.5);
+            line(0, 0, 30, 0);
+            pop();
+
+            fill(0);
+            noStroke();
+            circle(0, 0, 8);
+        }
+    </script>
 </body>
 </html>

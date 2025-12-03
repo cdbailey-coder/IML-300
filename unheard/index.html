@@ -1,289 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>(UN)HEARD - When Silence Isn't Golden</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Courier New', monospace;
-            background: white;
-            color: black;
-            line-height: 1.4;
-        }
-
-        .header {
-            border-bottom: 2px solid black;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .header-left {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 16px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .date {
-            font-weight: bold;
-        }
-
-        .header-right {
-            display: flex;
-            gap: 20px;
-        }
-
-        .header-right a {
-            color: black;
-            text-decoration: none;
-        }
-
-        .header-right a:hover {
-            text-decoration: underline;
-        }
-
-        .subheader {
-            border-bottom: 1px solid black;
-            padding: 8px 20px;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 250px 1fr 300px;
-            gap: 0;
-            border-bottom: 2px solid black;
-        }
-
-        .sidebar-left {
-            border-right: 2px solid black;
-            padding: 20px;
-        }
-
-        .sidebar-right {
-            border-left: 2px solid black;
-            padding: 20px;
-            font-size: 10px;
-        }
-
-        .center-content {
-            padding: 40px;
-        }
-
-        .hero-title {
-            font-size: 72px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 14px;
-            font-style: italic;
-            margin-bottom: 40px;
-            letter-spacing: 1px;
-        }
-
-        .tag-box {
-            display: inline-block;
-            border: 1px solid black;
-            padding: 5px 12px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .section-list {
-            margin-top: 30px;
-        }
-
-        .section-item {
-            padding: 15px;
-            border: 1px solid black;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .section-item:hover {
-            background: black;
-            color: white;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .section-description {
-            font-size: 11px;
-            line-height: 1.5;
-        }
-
-        .sidebar-section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid black;
-        }
-
-        .sidebar-title {
-            font-weight: bold;
-            font-size: 11px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .sidebar-item {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #ccc;
-            font-size: 10px;
-        }
-
-        .sidebar-item:last-child {
-            border-bottom: none;
-        }
-
-        .stat-box {
-            background: black;
-            color: white;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-size: 10px;
-            line-height: 1.6;
-        }
-
-        .footer-nav {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .footer-nav-item {
-            border: 1px solid black;
-            padding: 8px 15px;
-            font-size: 10px;
-            text-transform: uppercase;
-            cursor: pointer;
-            background: white;
-            transition: all 0.2s;
-        }
-
-        .footer-nav-item:hover {
-            background: black;
-            color: white;
-        }
-
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar-left,
-            .sidebar-right {
-                border: none;
-                border-top: 2px solid black;
-            }
-
-            .hero-title {
-                font-size: 48px;
-            }
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
 </head>
 <body>
-<script>
-let clockCanvas;
-
-function setup() {
-  clockCanvas = createCanvas(210, 200);
-  clockCanvas.parent("clock-container");
-  angleMode(DEGREES);
-}
-
-function draw() {
-  clear();
-  background(255);
-
-  stroke(0);
-  strokeWeight(2);
-  noFill();
-  rect(0, 0, width, height);
-
-  translate(width / 2, height / 2);
-
-  strokeWeight(2);
-  ellipse(0, 0, 150, 150);
-
-  let hr = hour();
-  let mn = minute();
-  let sc = second();
-
-  stroke(0);
-
-  push();
-  strokeWeight(1);
-  rotate(sc * 6);
-  line(0, 0, 55, 0);
-  pop();
-
-  push();
-  strokeWeight(2);
-  rotate(mn * 6 + sc * 0.1);
-  line(0, 0, 45, 0);
-  pop();
-
-  push();
-  strokeWeight(3);
-  rotate((hr % 12) * 30 + mn * 0.5);
-  line(0, 0, 30, 0);
-  pop();
-
-  fill(0);
-  noStroke();
-  circle(0, 0, 8);
-}
-</script>
-
     <div class="header">
         <div class="header-left">
             <div class="logo">(UN)HEARD</div>
-            <div class="date">MONDAY DECEMBER 01 2025</div>
+            <div class="date">MONDAY DECEMBER 02 2025</div>
         </div>
         <div class="header-right">
             <a href="data.html">DATA</a>
             <a href="stories.html">STORIES</a>
             <a href="barriers.html">BARRIERS</a>
             <a href="solutions.html">SOLUTIONS</a>
+            <a href="resources.html">RESOURCES</a>
             <a href="about.html">ABOUT</a>
         </div>
     </div>
@@ -294,7 +29,7 @@ function draw() {
 
     <div class="main-content">
         <div class="sidebar-left">
-            <div id="clock-container" style="width: 100%; height: 200px; border: 2px solid black; margin-bottom: 30px;"></div>
+            <div id="clock-container"></div>
             
             <div class="sidebar-section">
                 <div class="sidebar-title">Quick Facts</div>
@@ -317,7 +52,7 @@ function draw() {
             <h1 class="hero-title">(UN)HEARD<br>A CALL TO<br>CONTRIBUTION</h1>
             <p class="hero-subtitle">When silence isn't golden</p>
 
-            <div>
+            <div class="tag-container">
                 <span class="tag-box">(UN)HEARD</span>
                 <span class="tag-box">ISOLATION</span>
                 <span class="tag-box">HEARING LOSS</span>
@@ -325,34 +60,34 @@ function draw() {
             </div>
 
             <div class="section-list">
-                <div class="section-item" onclick="navigateTo('data')">
+                <div class="section-item" data-page="data">
                     <div class="section-title">Data & Research</div>
                     <div class="section-description">What the studies say about hearing loss and social isolation. Evidence-based research on how D/HH individuals face higher risks of loneliness and reduced social participation.</div>
                 </div>
 
-                <div class="section-item" onclick="navigateTo('stories')">
+                <div class="section-item" data-page="stories">
                     <div class="section-title">Real Voices</div>
                     <div class="section-description">Stories and lived experiences from the D/HH community. Personal narratives about isolation, identity, resilience, and finding connection.</div>
                 </div>
 
-                <div class="section-item" onclick="navigateTo('barriers')">
+                <div class="section-item" data-page="barriers">
                     <div class="section-title">Barriers & Challenges</div>
                     <div class="section-description">Why isolation happens. Explore the systemic, social, and environmental factors that contribute to social isolation for D/HH people.</div>
                 </div>
 
-                <div class="section-item" onclick="navigateTo('solutions')">
+                <div class="section-item" data-page="solutions">
                     <div class="section-title">Solutions & Support</div>
                     <div class="section-description">What helps and what we can do. Actionable resources, assistive technologies, community support, and tools to mitigate isolation.</div>
                 </div>
 
-                <div class="section-item" onclick="navigateTo('education')">
-                    <div class="section-title">Learn & Share</div>
-                    <div class="section-description">Educational tools and awareness resources. Help hearing individuals understand D/HH experiences, reduce stigma, and foster inclusion.</div>
+                <div class="section-item" data-page="resources">
+                    <div class="section-title">Resources & Organizations</div>
+                    <div class="section-description">Support networks, advocacy groups, and helpful materials. Find organizations, communities, and tools for the D/HH community.</div>
                 </div>
 
-                <div class="section-item" onclick="navigateTo('about')">
+                <div class="section-item" data-page="about">
                     <div class="section-title">About This Project</div>
-                    <div class="section-description">Learn more about this project and how you can contribute. Resources, contact information, and ways to get involved.</div>
+                    <div class="section-description">Learn more about this project and how you can contribute. Information about our mission and ways to get involved.</div>
                 </div>
             </div>
         </div>
@@ -380,21 +115,322 @@ function draw() {
 
             <div class="sidebar-section">
                 <div class="sidebar-title">Navigation</div>
-                <div style="font-size: 10px; line-height: 1.8;">
-                    <div><a href="#" style="color: black; text-decoration: none;">↑ TOP</a></div>
-                    <div><a href="data.html" style="color: black; text-decoration: none;">→ DATA</a></div>
-                    <div><a href="stories.html" style="color: black; text-decoration: none;">→ STORIES</a></div>
-                    <div><a href="barriers.html" style="color: black; text-decoration: none;">→ BARRIERS</a></div>
-                    <div><a href="solutions.html" style="color: black; text-decoration: none;">→ SOLUTIONS</a></div>
-                    <div><a href="about.html" style="color: black; text-decoration: none;">→ ABOUT</a></div>
+                <div class="nav-links">
+                    <div><a href="#" class="nav-link">↑ TOP</a></div>
+                    <div><a href="data.html" class="nav-link">→ DATA</a></div>
+                    <div><a href="stories.html" class="nav-link">→ STORIES</a></div>
+                    <div><a href="barriers.html" class="nav-link">→ BARRIERS</a></div>
+                    <div><a href="solutions.html" class="nav-link">→ SOLUTIONS</a></div>
+                    <div><a href="resources.html" class="nav-link">→ RESOURCES</a></div>
+                    <div><a href="about.html" class="nav-link">→ ABOUT</a></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function navigateTo(page) {
-            window.location.href = `${page}.html`;
+        $(document).ready(function() {
+            // Apply all styles using jQuery
+            $('*').css({
+                'margin': '0',
+                'padding': '0',
+                'box-sizing': 'border-box'
+            });
+
+            $('body').css({
+                'font-family': "'Courier New', monospace",
+                'background': 'white',
+                'color': 'black',
+                'line-height': '1.4'
+            });
+
+            $('.header').css({
+                'border-bottom': '2px solid black',
+                'padding': '15px 20px',
+                'display': 'flex',
+                'justify-content': 'space-between',
+                'align-items': 'center',
+                'font-size': '11px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px',
+                'position': 'sticky',
+                'top': '0',
+                'background': 'white',
+                'z-index': '100'
+            });
+
+            $('.header-left').css({
+                'display': 'flex',
+                'gap': '15px',
+                'align-items': 'center'
+            });
+
+            $('.logo').css({
+                'font-size': '16px',
+                'font-weight': 'bold',
+                'letter-spacing': '2px'
+            });
+
+            $('.date').css({
+                'font-weight': 'bold'
+            });
+
+            $('.header-right').css({
+                'display': 'flex',
+                'gap': '20px'
+            });
+
+            $('.header-right a').css({
+                'color': 'black',
+                'text-decoration': 'none'
+            });
+
+            $('.subheader').css({
+                'border-bottom': '1px solid black',
+                'padding': '8px 20px',
+                'font-size': '9px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '0.5px',
+                'position': 'sticky',
+                'top': '50px',
+                'background': 'white',
+                'z-index': '99'
+            });
+
+            $('.main-content').css({
+                'display': 'grid',
+                'grid-template-columns': '250px 1fr 300px',
+                'gap': '0',
+                'border-bottom': '2px solid black',
+                'position': 'relative'
+            });
+
+            $('.sidebar-left').css({
+                'border-right': '2px solid black',
+                'padding': '20px',
+                'position': 'sticky',
+                'top': '85px',
+                'height': 'calc(100vh - 85px)',
+                'overflow-y': 'auto'
+            });
+
+            $('.sidebar-right').css({
+                'border-left': '2px solid black',
+                'padding': '20px',
+                'font-size': '10px',
+                'position': 'sticky',
+                'top': '85px',
+                'height': 'calc(100vh - 85px)',
+                'overflow-y': 'auto'
+            });
+
+            $('.center-content').css({
+                'padding': '40px',
+                'min-height': '100vh'
+            });
+
+            $('.hero-title').css({
+                'font-size': '72px',
+                'font-weight': 'bold',
+                'letter-spacing': '3px',
+                'margin-bottom': '20px',
+                'line-height': '1.1'
+            });
+
+            $('.hero-subtitle').css({
+                'font-size': '14px',
+                'font-style': 'italic',
+                'margin-bottom': '40px',
+                'letter-spacing': '1px'
+            });
+
+            $('.tag-box').css({
+                'display': 'inline-block',
+                'border': '1px solid black',
+                'padding': '5px 12px',
+                'margin-right': '10px',
+                'margin-bottom': '10px',
+                'font-size': '10px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px'
+            });
+
+            $('.section-list').css({
+                'margin-top': '30px'
+            });
+
+            $('.section-item').css({
+                'padding': '15px',
+                'border': '1px solid black',
+                'margin-bottom': '15px',
+                'cursor': 'pointer',
+                'transition': 'all 0.2s'
+            });
+
+            $('.section-title').css({
+                'font-size': '16px',
+                'font-weight': 'bold',
+                'letter-spacing': '2px',
+                'margin-bottom': '8px',
+                'text-transform': 'uppercase'
+            });
+
+            $('.section-description').css({
+                'font-size': '11px',
+                'line-height': '1.5'
+            });
+
+            $('.sidebar-section').css({
+                'margin-bottom': '30px',
+                'padding-bottom': '20px',
+                'border-bottom': '1px solid black'
+            });
+
+            $('.sidebar-title').css({
+                'font-weight': 'bold',
+                'font-size': '11px',
+                'margin-bottom': '10px',
+                'text-transform': 'uppercase',
+                'letter-spacing': '1px'
+            });
+
+            $('.sidebar-item').css({
+                'margin-bottom': '15px',
+                'padding-bottom': '15px',
+                'border-bottom': '1px solid #ccc',
+                'font-size': '10px'
+            });
+
+            $('.sidebar-item:last-child').css({
+                'border-bottom': 'none'
+            });
+
+            $('.stat-box').css({
+                'background': 'black',
+                'color': 'white',
+                'padding': '15px',
+                'margin-bottom': '20px',
+                'font-size': '10px',
+                'line-height': '1.6'
+            });
+
+            $('#clock-container').css({
+                'width': '100%',
+                'height': '200px',
+                'border': '2px solid black',
+                'margin-bottom': '30px'
+            });
+
+            $('.nav-links').css({
+                'font-size': '10px',
+                'line-height': '1.8'
+            });
+
+            $('.nav-link').css({
+                'color': 'black',
+                'text-decoration': 'none'
+            });
+
+            // Hover effects
+            $('.header-right a').hover(
+                function() {
+                    $(this).css('text-decoration', 'underline');
+                },
+                function() {
+                    $(this).css('text-decoration', 'none');
+                }
+            );
+
+            $('.section-item').hover(
+                function() {
+                    $(this).css({
+                        'background': 'black',
+                        'color': 'white'
+                    });
+                },
+                function() {
+                    $(this).css({
+                        'background': 'transparent',
+                        'color': 'black'
+                    });
+                }
+            );
+
+            // Click handlers
+            $('.section-item').click(function() {
+                const page = $(this).data('page');
+                window.location.href = `${page}.html`;
+            });
+
+            // Responsive styles
+            if ($(window).width() <= 1024) {
+                $('.main-content').css({
+                    'grid-template-columns': '1fr'
+                });
+
+                $('.sidebar-left, .sidebar-right').css({
+                    'border': 'none',
+                    'border-top': '2px solid black',
+                    'position': 'static',
+                    'height': 'auto'
+                });
+
+                $('.hero-title').css({
+                    'font-size': '48px'
+                });
+            }
+        });
+
+        // p5.js clock
+        let clockCanvas;
+
+        function setup() {
+            clockCanvas = createCanvas(210, 200);
+            clockCanvas.parent("clock-container");
+            angleMode(DEGREES);
+        }
+
+        function draw() {
+            clear();
+            background(255);
+
+            stroke(0);
+            strokeWeight(2);
+            noFill();
+            rect(0, 0, width, height);
+
+            translate(width / 2, height / 2);
+
+            strokeWeight(2);
+            ellipse(0, 0, 150, 150);
+
+            let hr = hour();
+            let mn = minute();
+            let sc = second();
+
+            stroke(0);
+
+            push();
+            strokeWeight(1);
+            rotate(sc * 6);
+            line(0, 0, 55, 0);
+            pop();
+
+            push();
+            strokeWeight(2);
+            rotate(mn * 6 + sc * 0.1);
+            line(0, 0, 45, 0);
+            pop();
+
+            push();
+            strokeWeight(3);
+            rotate((hr % 12) * 30 + mn * 0.5);
+            line(0, 0, 30, 0);
+            pop();
+
+            fill(0);
+            noStroke();
+            circle(0, 0, 8);
         }
     </script>
 </body>

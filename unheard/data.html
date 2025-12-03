@@ -3,64 +3,394 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data & Research — (Un)Heard</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <header>
-        <h1>(Un)Heard</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="data.html">Data & Research</a></li>
-                <li><a href="stories.html">Stories</a></li>
-                <li><a href="barriers.html">Barriers</a></li>
-                <li><a href="solutions.html">Solutions</a></li>
-                <li><a href="resources.html">Resources</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
-    </header>
+    <title>Data & Research — (UN)HEARD</title>
 
-    <main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+ 
+        body {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            background: white;
+            color: black;
+        }
+
+        .page-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .viz-section {
+            margin: 80px 0;
+        }
+
+        .section-title {
+            font-size: 16px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #555;
+        }
+
+
+        .comparison-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .bar-container { text-align: center; }
+
+        .bar-label {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .bar-wrapper {
+            height: 250px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+        }
+
+        .bar {
+            width: 70px;
+            background: linear-gradient(180deg, #ddd 0%, #999 100%);
+            border-radius: 35px 35px 0 0;
+            height: 0;
+            transition: height 1.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .bar-percentage {
+            position: absolute;
+            top: -30px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #444;
+        }
+
+        .falling-container {
+            position: relative;
+            height: 450px;
+            background: linear-gradient(180deg, #f2f2f2 0%, #e0e0e0 100%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .age-group {
+            position: absolute;
+            width: 33.333%;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .age-label {
+            font-size: 15px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .figures-wrapper {
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .figure {
+            width: 20px;
+            height: 20px;
+            margin: 3px;
+            background: #bbb;
+            border-radius: 50%;
+            opacity: 0;
+            animation: fallIn 1.5s ease-out forwards;
+        }
+
+        .figure.isolated {
+            background: #444;
+            animation: fallAndFade 2s ease-out forwards;
+        }
+
+        @keyframes fallIn {
+            0% { transform: translateY(-400px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fallAndFade {
+            0% { transform: translateY(-400px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(400px); opacity: 0; }
+        }
+
+        .stat-label {
+            font-size: 32px;
+            font-weight: 800;
+            color: #333;
+            margin-top: 10px;
+        }
+
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .impact-card {
+            background: #eeeeee;
+            padding: 30px;
+            border-left: 4px solid #666;
+            border-radius: 6px;
+        }
+
+        .impact-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .impact-text {
+            color: #666;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+
+        .subheader {
+            border-bottom: 1px solid black;
+            padding: 8px 20px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+      
+        .header {
+            border-bottom: 2px solid black;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .date {
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-right a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">(UN)HEARD</div>
+            <div class="date">MONDAY DECEMBER 02 2025</div>
+        </div>
+
+        <div class="header-right">
+            <a href="data.html">DATA</a>
+            <a href="stories.html">STORIES</a>
+            <a href="barriers.html">BARRIERS</a>
+            <a href="solutions.html">SOLUTIONS</a>
+            <a href="resources.html">RESOURCES</a>
+            <a href="about.html">ABOUT</a>
+        </div>
+    </div>
+
+    <div class="subheader">
+        EXPLORING SOCIAL ISOLATION IN THE DEAF AND HARD-OF-HEARING COMMUNITY — A CALL TO AWARENESS AND ACTION
+    </div>
+
+
+    <div class="page-content">
+
         <section>
             <h2>Research on Social Isolation</h2>
             <p>Studies show that Deaf and Hard-of-Hearing individuals are at higher risk of social isolation, loneliness, and mental health challenges.</p>
         </section>
 
-        <section>
-            <h2>Statistics</h2>
-            <canvas id="hearingLossChart" width="400" height="200"></canvas>
-            <script>
-                const ctx = document.getElementById('hearingLossChart').getContext('2d');
-                const hearingLossChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Teenagers', 'Adults', 'Older Adults'],
-                        datasets: [{
-                            label: 'Percentage at Risk of Social Isolation (%)',
-                            data: [12, 20, 35],
-                            backgroundColor: ['#4caf50', '#2196f3', '#ff9800']
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
-                        scales: { y: { beginAtZero: true, max: 50 } }
-                    }
-                });
-            </script>
+    
+
+        <section class="viz-section">
+            <div class="section-title">Risk Increases With Age</div>
+
+            <div class="comparison-section" id="greyBars">
+                <div class="bar-container">
+                    <div class="bar-label">Teenagers<br>(13–19)</div>
+                    <div class="bar-wrapper">
+                        <div class="bar" data-height="120">
+                            <div class="bar-percentage">12%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bar-container">
+                    <div class="bar-label">Adults<br>(20–64)</div>
+                    <div class="bar-wrapper">
+                        <div class="bar" data-height="180">
+                            <div class="bar-percentage">20%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bar-container">
+                    <div class="bar-label">Older Adults<br>(65+)</div>
+                    <div class="bar-wrapper">
+                        <div class="bar" data-height="260">
+                            <div class="bar-percentage">35%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="viz-section">
+            <div class="section-title">Out of Every 100 People</div>
+            <div class="falling-container" id="fallingViz"></div>
+        </section>
+
+        <section class="viz-section">
+            <div class="section-title">The Real Impact</div>
+
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-number">3x</div>
+                    <div class="impact-text">Higher risk of depression and anxiety compared to hearing peers.</div>
+                </div>
+
+                <div class="impact-card">
+                    <div class="impact-number">50%</div>
+                    <div class="impact-text">Report feeling excluded from social conversations and activities.</div>
+                </div>
+
+                <div class="impact-card">
+                    <div class="impact-number">2.4x</div>
+                    <div class="impact-text">More likely to experience loneliness in older adulthood.</div>
+                </div>
+            </div>
         </section>
 
         <section>
             <h2>References</h2>
             <ul>
-                <li>Shukla et al., 2020. Hearing Loss, Loneliness, and Social Isolation.</li>
-                <li>Meta-analysis, 2023. Association Between Hearing Loss and Social Integration.</li>
-                <li>Loneliness in Older Deaf Adults, 2024.</li>
+                <li>Shukla et al., 2020 — Hearing Loss, Loneliness, and Social Isolation</li>
+                <li>Meta-analysis, 2023 — Social Integration in Older Adults</li>
+                <li>Loneliness in Older Deaf Adults, 2024</li>
             </ul>
         </section>
-    </main>
+
+    </div>
+
+    <script>
+       
+        const barObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.bar').forEach(bar => {
+                        bar.style.height = bar.dataset.height + 'px';
+                    });
+                    barObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        barObserver.observe(document.getElementById('greyBars'));
+
+        /* dots */
+        const fallingContainer = document.getElementById('fallingViz');
+
+        const ageGroups = [
+            { label: 'Teenagers', risk: 12 },
+            { label: 'Adults', risk: 20 },
+            { label: 'Older Adults', risk: 35 }
+        ];
+
+        function createFallingFigures() {
+            ageGroups.forEach((group, i) => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'age-group';
+                groupDiv.style.left = (i * 33.333) + '%';
+
+                const label = document.createElement('div');
+                label.className = 'age-label';
+                label.textContent = group.label;
+                groupDiv.appendChild(label);
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'figures-wrapper';
+
+                const total = 20;
+                const iso = Math.round(total * group.risk / 100);
+
+                for (let j = 0; j < total; j++) {
+                    const f = document.createElement('div');
+                    f.className = 'figure';
+                    if (j < iso) f.classList.add('isolated');
+                    f.style.animationDelay = (j * 0.08) + 's';
+                    wrapper.appendChild(f);
+                }
+
+                groupDiv.appendChild(wrapper);
+
+                const stat = document.createElement('div');
+                stat.className = 'stat-label';
+                stat.textContent = group.risk + '%';
+                groupDiv.appendChild(stat);
+
+                fallingContainer.appendChild(groupDiv);
+            });
+        }
+
+        const figureObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    createFallingFigures();
+                    figureObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        figureObserver.observe(fallingContainer);
+    </script>
+
 </body>
 </html>
