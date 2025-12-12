@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chip's Vibe Coding</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #344123;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            color: #B1C27D;
+            position: relative;
+        }
+
+        #p5-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background-color: #B1C27D;
+            color: #344123;
+            text-decoration: none;
+            border-radius: 0px;
+            font-weight: 600;
+            z-index: 1000;
+            transition: background-color 0.3s;
+            border: 2px solid #B1C27D;
+        }
+
+        .home-button:hover {
+            background-color: #344123;
+            color: #B1C27D;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 40px 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .project {
+            margin-bottom: 80px;
+        }
+
+        .project h2 {
+            font-size: 2em;
+            font-weight: 700;
+            color: #B1C27D;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .project-image {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .project-image a {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .project-image a:hover {
+            transform: scale(1.1);
+        }
+
+        .project-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+
+        .project-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #B1C27D;
+            text-align: center;
+            padding: 20px 30px;
+            border: 2px solid #B1C27D;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">HOME</a>
+
+    <div class="container">
+        <!-- Vibe Coding 1 -->
+        <div class="project">
+            <h2>Vibe Coding 1: Excuse Generator</h2>
+            <div class="project-image">
+                <a href="https://claude.ai/public/artifacts/51fc7d0e-5eb5-4fb3-9a79-0877bd8a24f3" target="_blank">
+                    <img src="vibecoding1.png" alt="Vibe Coding 1">
+                </a>
+            </div>
+            <p class="project-description">
+                While exploring Claude.ai, I asked it to make an excuse generator. You type in what someone has asked you to do, and it will give you a response to say to that person. Through the different iterations, the responses went from unbelievable because it was too vague, to unbelievable because it was so specific; my favorite one was, "I have to re-organize my spice drawer by name and molecular compound." By the end, the excuses are still pretty generalized, but somewhat usable if you really want to.
+            </p>
+        </div>
+
+        <!-- Vibe Coding 2 -->
+        <div class="project">
+            <h2>Vibe Coding 2: Olia Lialina</h2>
+            <div class="project-image">
+                <a href="https://v0.app/chat/my-space-aesthetic-website-nrIA8WFGOdb" target="_blank">
+                    <img src="vibecoding2.png" alt="Vibe Coding 2">
+                </a>
+            </div>
+            <p class="project-description">
+                For my vibe coding experiment I read the article about richer artist experience by Olia Lialina. An aspect I found really interesting was the reflection on web interfaces during the 1990s-early 2000s where technology was less about being a sleek tool, and more about fun and interesting ways of self expression. When thinking of what to ask of vibe code I kept thinking of cool websites that already exist, but all share the common thread of making technology more personal over minimal. With this in mind, I asked v0 to make a 3D museum of digital artifacts from the 1990s-2000s that share a similar story/personal way of storytelling like the "peeman pee" graphic Olia Lialina mentions in the article. The website glitches with its graphics quite a bit. But I asked it to try and match the vibe of MySpace and have interactive elements that go along with each "artifact".
+            </p>
+        </div>
+
+        <!-- Vibe Coding 4 -->
+        <div class="project">
+            <h2>Vibe Coding 4: Everyone Watches, Nobody Sees</h2>
+            <div class="project-image">
+                <a href="https://v0.app/chat/interactive-portraits-nDMcpMu0DQb?b=v0-preview-b_TXcb0dAuRLE&f=1&path=%2F" target="_blank">
+                    <img src="vibecoding4.png" alt="Vibe Coding 4">
+                </a>
+            </div>
+            <p class="project-description">
+                For my vibe coding experiment, I read the article "Everyone Watches, Nobody Sees: How Black Women Disrupt Surveillance Theory" and one concept that I found really interesting is the idea of being watched, but not being seen. Additionally, the African Americans who fought against the prejudice around surveillance. For my first website idea, I wanted to do an interactive portrait gallery where the images start out obscured, and visitors have to engage with them to bring them fully into view. This way it shows the same tension the article talks about: being watched versus truly being seen. By making the portraits interactive, it puts the user in a position where they have to actively look/act and pay attention, and it mirrors the way the article describes visibility as something that can be controlled or disrupted. It's not about surveillance or race directly, but about exploring how seeing and being seen are two different things. I used v0 for this project, because I haven't used it very much and wanted to try it again since I didn't like it last time. I found that v0 makes a lot more realistic looking websites than Claude. One difficulty I found was in getting it to find images of real people/make non-AI generated material. I wanted to showcase real African American women who challenged surveillance; the irony of having AI images of these women does not escape me. The images it found aren't great, but it's the best it could do before crashing.
+            </p>
+        </div>
+
+        <!-- Vibe Coding 5 -->
+        <div class="project">
+            <h2>Vibe Coding 5: Hito Steyerl's</h2>
+            <div class="project-image">
+                <a href="https://claude.ai/public/artifacts/45d6a6db-eca6-4f5c-9b0b-cdd15c78ec0e" target="_blank">
+                    <img src="vibecoding5.png" alt="Vibe Coding 5">
+                </a>
+            </div>
+            <p class="project-description">
+                For my vibe coding assignment I made an "Image Degradation Chamber" that takes Hito Steyerl's idea of the "poor image" from the reading, and turns it into something you can actually do. In her essay, Steyerl talks about how political and experimental films escaped from museums and archives by becoming "crappy copies". This website lets you watch that happen to your own image. Each of the 10 copies loses resolution and gains artifacts, simulating the digital networks that Steyerl describes. By the end, your image is pixelated and corrupt, but theoretically more "free" to circulate everywhere. I used Claude, and was really surprised at how well it followed my prompts and made it so you can actually input images and see the 10 degradations of the image.
+            </p>
+        </div>
+
+        <!-- Vibe Coding 6 -->
+        <div class="project">
+            <h2>Vibe Coding 6: Afro-now-ism</h2>
+            <div class="project-image">
+                <a href="https://claude.ai/public/artifacts/2080efe9-4bc1-44c9-b587-a5c00062caee" target="_blank">
+                    <img src="vibecoding6.png" alt="Vibe Coding 6">
+                </a>
+            </div>
+            <p class="project-description">
+                For my vibe coding experiment, I read "Afro-now-ism" and got really into this idea of releasing oppositional thinking. The article talks about how we're stuck in loops of fighting against things instead of imagining what we want to create. It describes "Afro-now-ism" as defining yourself beyond oppression in the present moment, instead of waiting for some future, but acting on your hopes today. I made "The Great Unburdening" where you write down an oppositional thought, choose a ritual to release it (shake your mouse, blow it away, or swipe), and watch it transform into a flower in your personal garden. The more burdens you release, the more your garden grows. I used Claude again, and I really feel like it does a good job at listening to exactly what you tell it, but I've found that I've had trouble getting it to look aesthetically pleasing. It's either super minimal, super "AI" looking, or that awful gradient.
+            </p>
+        </div>
+
+        <!-- Vibe Coding 7 -->
+        <div class="project">
+            <h2>Vibe Coding 7: Digital Douglass</h2>
+            <div class="project-image">
+                <a href="https://v0-article-to-website.vercel.app/" target="_blank">
+                    <img src="vibecoding7.png" alt="Vibe Coding 7">
+                </a>
+            </div>
+            <p class="project-description">
+                For this vibe coding project, I was reading Digital Doulas: Data Healing and got really inspired by the idea that the internet can be a place of care, not just exploitation. The article talks about how being tracked and categorized online can leave invisible wounds and how care can help heal them. I made this page where clicking creates ripples and floating words like "heal" and "community" that rise and fade, representing healing and connection in digital spaces. There is also a "Spread Care" button that gives you affirming messages, not information, just support, so every click feels like a small act of care. The more you interact, the more words and orbs fill the space, showing how healing can be collective. I wanted the digital environment to feel alive and tangible, something we can actually nurture and shape through our actions. I used v0 and it made me actually angry at how hard it was to make it change things like design.
+            </p>
+        </div>
+
+        <!-- Vibe Coding 8 -->
+        <div class="project">
+            <h2>Vibe Coding 8: Dougal MacPherson</h2>
+            <div class="project-image">
+                <a href="https://v0-article-to-website.vercel.app/" target="_blank">
+                    <img src="vibecoding8.png" alt="Vibe Coding 8">
+                </a>
+            </div>
+            <p class="project-description">
+                For this vibe coding I used v0 to make a garden of flowers based off of the flower and vase designs from Dougal MacPherson's essay "Designing for Cognitive Differences" which argues that good design isn't about making one size fits all solutions, and how it's about acknowledging that human brains process the world differently and then accommodating those differences. Much like the vases, I wanted there to be different gardens that acted like different modes representing how different neurotypes mentioned in the reading may perceive digital and physical environments. The biggest thing was that none of these perspectives is "wrong," and the garden hasn't changed. The same 280 flowers exist in all modes. What changes is the experience of them: opacity, motion, visual filtering.
+            </p>
+        </div>
+
+        <!-- Vibe Coding 9 -->
+        <div class="project">
+            <h2>Vibe Coding 9: Xiu Liu</h2>
+            <div class="project-image">
+                <a href="https://claude.ai/public/artifacts/54968249-f844-44bd-92b4-51694ae01865" target="_blank">
+                    <img src="vibecoding9.png" alt="Vibe Coding 9">
+                </a>
+            </div>
+            <p class="project-description">
+                This vibe coding assignment is inspired by Xin Liu and how her work explores what happens to identity when you send pieces of yourself into extreme technological or spatial environments. The vibe coding has a tooth structure spinning in space that is both intimate (it's a body part, it pulses like it's alive) and completely alienated (it's alone in the void, reduced to an object). The DNA helix turning into geometric patterns mirrors how she treats biology as convertible into data where your body becomes code, information, something that can be stored or transmitted. Claude was as cooperative as ever.
+            </p>
+        </div>
+
+        <!-- Vibe Coding 10 -->
+        <div class="project">
+            <h2>Vibe Coding 10: Olivia Jack</h2>
+            <div class="project-image">
+                <a href="https://claude.ai/public/artifacts/ded00400-4f8b-4e5e-8616-ffede161ffe7" target="_blank">
+                    <img src="vibecoding10.png" alt="Vibe Coding 10">
+                </a>
+            </div>
+            <p class="project-description">
+                This vibe coding project is based off of Olivia Jack/Hydra's live coding synthesizer. The piece captures Hydra's core philosophy of immediate visual feedback and parameter manipulation, where adjusting values instantly transforms the output. The kaleidoscopic patterns, color modulation, and layered geometric effects reference Hydra's signature aesthetic of feedback loops, oscillators, and video synthesis functions that build complex visuals from simple mathematical operations. By adding synchronized audio generation, this piece also shows the broader context of Jack's work in creating tools for VJs and audiovisual artists who perform in club and experimental music spaces. I used Claude for this one and I was pleasantly surprised that it was able to add its own audio to actually get the full point across.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // p5.js star trail sketch
+        let stars = [];
+
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.id('p5-canvas');
+            canvas.parent(document.body);
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        function draw() {
+            clear();
+            
+            // Create new stars when mouse is moving
+            if (mouseX !== pmouseX || mouseY !== pmouseY) {
+                stars.push(new Star(mouseX, mouseY));
+            }
+            
+            // Update and display all stars
+            for (let i = stars.length - 1; i >= 0; i--) {
+                stars[i].update();
+                stars[i].display();
+                
+                // Remove dead stars
+                if (stars[i].isDead()) {
+                    stars.splice(i, 1);
+                }
+            }
+        }
+
+        class Star {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = random(8, 20);
+                this.alpha = 255;
+                this.life = 1.0;
+                this.rotation = random(TWO_PI);
+                this.rotationSpeed = random(-0.05, 0.05);
+            }
+            
+            update() {
+                this.life -= 0.015;
+                this.alpha = this.life * 255;
+                this.rotation += this.rotationSpeed;
+            }
+            
+            display() {
+                push();
+                translate(this.x, this.y);
+                rotate(this.rotation);
+                
+                // Draw star outline only
+                stroke(177, 194, 125, this.alpha); // #B1C27D with alpha
+                strokeWeight(2);
+                noFill();
+                
+                // Draw a star shape
+                beginShape();
+                for (let i = 0; i < 5; i++) {
+                    let angle = TWO_PI / 5 * i - HALF_PI;
+                    let x1 = cos(angle) * this.size;
+                    let y1 = sin(angle) * this.size;
+                    vertex(x1, y1);
+                    
+                    angle = TWO_PI / 5 * (i + 0.5) - HALF_PI;
+                    let x2 = cos(angle) * this.size * 0.5;
+                    let y2 = sin(angle) * this.size * 0.5;
+                    vertex(x2, y2);
+                }
+                endShape(CLOSE);
+                
+                pop();
+            }
+            
+            isDead() {
+                return this.life <= 0;
+            }
+        }
+    </script>
+</body>
+</html>

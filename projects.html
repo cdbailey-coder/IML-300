@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chip's Projects</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #344123;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            color: #B1C27D;
+            position: relative;
+        }
+
+        #p5-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background-color: #B1C27D;
+            color: #344123;
+            text-decoration: none;
+            border-radius: 0px;
+            font-weight: 600;
+            z-index: 1000;
+            transition: background-color 0.3s;
+            border: 2px solid #B1C27D;
+        }
+
+        .home-button:hover {
+            background-color: #344123;
+            color: #B1C27D;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 40px 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .project {
+            margin-bottom: 80px;
+        }
+
+        .project h2 {
+            font-size: 2em;
+            font-weight: 700;
+            color: #B1C27D;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .project-image {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .project-image a {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .project-image a:hover {
+            transform: scale(1.1);
+        }
+
+        .project-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+
+        .project-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #B1C27D;
+            text-align: center;
+            padding: 20px 30px;
+            border: 2px solid #B1C27D;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">HOME</a>
+
+    <div class="container">
+        <!-- Project 1 -->
+        <div class="project">
+            <h2>Project 1: The character behind the voice</h2>
+            <div class="project-image">
+                <a href="https://editor.p5js.org/cdbailey/sketches/ZBAyZtsRZ" target="_blank">
+                    <img src="project1.png" alt="Project 1">
+                </a>
+            </div>
+            <p class="project-description">
+                I got inspiration from seeing collage art of people putting cartoon faces on top of other peoples faces that match up, so I thought I would take iconic voice actors and overlay one of their characters over their face. We always see the characters, but never the people behind them. Click on a profile of one of the voice actors and the image plus an audio clip of how they developed their character will show up/play. Voice actors in order from left to right Tom Kenny, Spongebob Walk Disney, Mickey Mouse Charles Martinet, Mario Rodger Criag Smith, Sonic
+            </p>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project">
+            <h2>Project Two: Cicada</h2>
+            <div class="project-image">
+                <a href="https://cdbailey-coder.github.io/IML-300/project-2/Cicada_project/cicada.html" target="_blank">
+                    <img src="Project 2.png" alt="Project 2">
+                </a>
+            </div>
+            <p class="project-description">
+                For my project 2 hyperlink narrative, I made a non-linear narrative going through my favorite poem, "Cicada" by Hosho McCreesh. In the hyperlink narrative, you have to navigate through different links, and do different interactive activities; all while going through the theme's of reflection, transformation, and growth. My biggest challenge was getting all of the transitions within my HTML to work, and not interfere with the others. Another challenge I had was putting in background sound. For some reason, it doesn't like when sound is automatically playing on the site, and so I tried to find different ways to cheat this. I tried to connect it to when the mouse moved, or when something in the page had a transition. However, I found that sound was most successful when it was in between effects, or had a direct interaction with the mouse. So, in some places where I wanted more ambience noise, I wasn't able to achieve it, because I couldn't find a way to add the sound without disrupting the visuals in the timeframe
+            </p>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project">
+            <h2>Project 3: UnHeard</h2>
+            <div class="project-image">
+                <a href="https://cdbailey-coder.github.io/IML-300/unheard/" target="_blank">
+                    <img src="Project 3.png" alt="Project 3">
+                </a>
+            </div>
+            <p class="project-description">
+                This project is a informational website about how people who are Hard of Hearing/Deaf face social isolation because of their disability. Through data-driven insights and personal narratives, we create a comprehensive picture of how communication barriers, social stigma, and systemic gaps contribute to isolation—and more importantly, how we can dismantle these obstacles together.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // p5.js star trail sketch
+        let stars = [];
+
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.id('p5-canvas');
+            canvas.parent(document.body);
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        function draw() {
+            clear();
+            
+            // Create new stars when mouse is moving
+            if (mouseX !== pmouseX || mouseY !== pmouseY) {
+                stars.push(new Star(mouseX, mouseY));
+            }
+            
+            // Update and display all stars
+            for (let i = stars.length - 1; i >= 0; i--) {
+                stars[i].update();
+                stars[i].display();
+                
+                // Remove dead stars
+                if (stars[i].isDead()) {
+                    stars.splice(i, 1);
+                }
+            }
+        }
+
+        class Star {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = random(8, 20);
+                this.alpha = 255;
+                this.life = 1.0;
+                this.rotation = random(TWO_PI);
+                this.rotationSpeed = random(-0.05, 0.05);
+            }
+            
+            update() {
+                this.life -= 0.015;
+                this.alpha = this.life * 255;
+                this.rotation += this.rotationSpeed;
+            }
+            
+            display() {
+                push();
+                translate(this.x, this.y);
+                rotate(this.rotation);
+                
+                // Draw star outline only
+                stroke(177, 194, 125, this.alpha); // #B1C27D with alpha
+                strokeWeight(2);
+                noFill();
+                
+                // Draw a star shape
+                beginShape();
+                for (let i = 0; i < 5; i++) {
+                    let angle = TWO_PI / 5 * i - HALF_PI;
+                    let x1 = cos(angle) * this.size;
+                    let y1 = sin(angle) * this.size;
+                    vertex(x1, y1);
+                    
+                    angle = TWO_PI / 5 * (i + 0.5) - HALF_PI;
+                    let x2 = cos(angle) * this.size * 0.5;
+                    let y2 = sin(angle) * this.size * 0.5;
+                    vertex(x2, y2);
+                }
+                endShape(CLOSE);
+                
+                pop();
+            }
+            
+            isDead() {
+                return this.life <= 0;
+            }
+        }
+    </script>
+</body>
+</html>

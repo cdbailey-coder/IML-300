@@ -1,50 +1,349 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Chip's Homepage</title>
-    <!--Update with your name-->
-  </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chip's IML-300 Home Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <body>
-    <div>
-      <h1>Chip</h1>
-      <!--Update with your name-->
-      <p>
-        This is my website for <i>IML300 class</i>. Write a little bit about
-        yourself.
-      </p>
+        body {
+            background-color: #344123;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            color: #B1C27D;
+            position: relative;
+        }
+
+        #p5-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background-color: #B1C27D;
+            color: #344123;
+            text-decoration: none;
+            border-radius: 0px;
+            font-weight: 600;
+            z-index: 1000;
+            transition: background-color 0.3s;
+            border: 2px solid #B1C27D;
+        }
+
+        .home-button:hover {
+            background-color: #344123;
+            color: #B1C27D;
+        }
+
+        .header {
+            text-align: center;
+            padding: 50px 20px 30px;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #B1C27D;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        .info-section {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            margin-top: 30px;
+            transition: all 0.5s ease;
+            text-align: center;
+        }
+
+        .info-section.visible {
+            opacity: 1;
+            height: auto;
+        }
+
+        .info-content {
+            text-align: center;
+        }
+
+        .info-content h2 {
+            font-size: 2em;
+            color: #B1C27D;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .info-content p {
+            font-size: 1.2em;
+            color: #B1C27D;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .keychain-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .keychain-items-wrapper {
+            position: relative;
+            width: 1800px;
+            height: 975px;
+            margin-top: -150px;
+        }
+
+        .keychain-container .interactive-item {
+            position: absolute;
+            top: 150px;
+        }
+
+        .keychain-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .keychain-item img {
+            width: 250px;
+            height: 250px;
+            object-fit: contain;
+            display: block;
+        }
+
+        #bear img {
+            width: 625px;
+            height: 625px;
+        }
+
+        #egg img {
+            width: 750px;
+            height: 750px;
+        }
+
+        #carabiner {
+            width: 440px;
+            height: 440px;
+            margin-bottom: -50px;
+            z-index: 5;
+            transform: translateY(-100px) translateX(50px);
+        }
+
+        #bear {
+            transform: rotate(-25deg);
+            left: 75px;
+            transform-origin: top center;
+            z-index: 4;
+        }
+
+        #egg {
+            transform: rotate(5deg);
+            left: 600px;
+            transform-origin: top center;
+            z-index: 100;
+        }
+
+        #keys {
+            transform: rotate(-50deg);
+            left: 0px;
+            transform-origin: top center;
+            z-index: 2;
+        }
+
+        #home {
+            transform: rotate(25deg);
+            left: 1275px;
+            transform-origin: top center;
+            z-index: 1;
+        }
+
+        .lifted {
+            transform: translateY(-20px) rotate(-15deg) !important;
+        }
+
+        #bear.lifted {
+            transform: translateY(-20px) rotate(-25deg) !important;
+        }
+
+        #egg.lifted {
+            transform: translateY(-20px) rotate(5deg) !important;
+        }
+
+        #keys.lifted {
+            transform: translateY(-20px) rotate(-50deg) !important;
+        }
+
+        #home.lifted {
+            transform: translateY(-20px) rotate(25deg) !important;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">HOME</a>
+
+    <div class="header">
+        Welcome to Chip's IML-300 Home Page!<br>Click the carabiner to look around!
     </div>
 
-    <div>
-      <h1>Presentation</h1>
-      <a href="">Pecha Kucha: Lorem Ipsum</a>
+    <div class="main-container">
+        <div class="info-section" id="infoSection">
+            <div class="info-content">
+                <h2 id="infoTitle"></h2>
+                <p id="infoText"></p>
+            </div>
+        </div>
+
+        <div class="keychain-container" id="keychainContainer">
+            <div class="keychain-item" id="carabiner-container">
+                <img src="carabiner.jpeg" alt="carabiner" id="carabiner">
+            </div>
+            
+            <a href="exercises.html" class="keychain-item interactive-item" data-title="EXERCISES" data-text="Click on the keys to see my exercises I did over the semester!">
+                <img src="keys.jpeg" alt="keys" id="keys">
+            </a>
+
+            <a href="kp.html" class="keychain-item interactive-item" data-title="PECHA KUCHA" data-text="Click on these keychains to see my Pecha Kucha presentation">
+                <img src="home.jpeg" alt="home" id="home">
+            </a>
+
+            <a href="projects.html" class="keychain-item interactive-item" data-title="PROJECTS" data-text="Click here to look at my projects 1, 2, and 3!">
+                <img src="bear.jpeg" alt="bear" id="bear">
+            </a>
+
+            <a href="vibecoding.html" class="keychain-item interactive-item" data-title="VIBE CODING" data-text="Click on the tamagotchi to look at my Vibe coding assignments!">
+                <img src="egg.jpeg" alt="egg" id="egg">
+            </a>
+        </div>
     </div>
 
-    <div>
-      <h1>Projects</h1>
-      <h2>Project 1: Interactive Audio & Visual with p5.js</h2>
-      <a href="">Final: Lorem Ipsum</a>
-      <h2>Project 2: HyperNarrative</h2>
-      <a href="">Concept</a><br />
-      <a href="">Final: Lorem Ipsum</a>
-      <h2>Project 3: Networked Care</h2>
-      <a href="">Final: Lorem Ipsum</a>
-    </div>
+    <script>
+        $(document).ready(function() {
+            $('.interactive-item').hover(
+                function() {
+                    const title = $(this).data('title');
+                    const text = $(this).data('text');
+                    
+                    $('#infoTitle').text(title);
+                    $('#infoText').text(text);
+                    
+                    $(this).find('img').addClass('lifted');
+                    
+                    $('#infoSection').addClass('visible');
+                },
+                function() {
+                    $(this).find('img').removeClass('lifted');
+                    
+                    $('#infoSection').removeClass('visible');
+                }
+            );
+        });
 
-    <div>
-      <h1>Exercises</h1>
-      <ul>
-        <li><a href="">p5.js sketch 1</a></li>
-        <li><a href="">p5.js sketch 2</a></li>
-        <li><a href="">p5.js sketch 3</a></li>
-        <li><a href="">p5.js sketch 4</a></li>
-      </ul>
-    </div>
+        // p5.js star trail sketch
+        let stars = [];
 
-    <!--add a h1 element called 'Thoughts' Below-->
-    <h1>Thoughts</h1>
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.id('p5-canvas');
+            canvas.parent(document.body);
+        }
 
-    <footer>Fall, 2025.</footer>
-  </body>
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        function draw() {
+            clear();
+            
+            // Create new stars when mouse is moving
+            if (mouseX !== pmouseX || mouseY !== pmouseY) {
+                stars.push(new Star(mouseX, mouseY));
+            }
+            
+            // Update and display all stars
+            for (let i = stars.length - 1; i >= 0; i--) {
+                stars[i].update();
+                stars[i].display();
+                
+                // Remove dead stars
+                if (stars[i].isDead()) {
+                    stars.splice(i, 1);
+                }
+            }
+        }
+
+        class Star {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = random(8, 20);
+                this.alpha = 255;
+                this.life = 1.0;
+                this.rotation = random(TWO_PI);
+                this.rotationSpeed = random(-0.05, 0.05);
+            }
+            
+            update() {
+                this.life -= 0.015;
+                this.alpha = this.life * 255;
+                this.rotation += this.rotationSpeed;
+            }
+            
+            display() {
+                push();
+                translate(this.x, this.y);
+                rotate(this.rotation);
+                
+                // Draw star outline only
+                stroke(177, 194, 125, this.alpha); // #B1C27D with alpha
+                strokeWeight(2);
+                noFill();
+                
+                // Draw a star shape
+                beginShape();
+                for (let i = 0; i < 5; i++) {
+                    let angle = TWO_PI / 5 * i - HALF_PI;
+                    let x1 = cos(angle) * this.size;
+                    let y1 = sin(angle) * this.size;
+                    vertex(x1, y1);
+                    
+                    angle = TWO_PI / 5 * (i + 0.5) - HALF_PI;
+                    let x2 = cos(angle) * this.size * 0.5;
+                    let y2 = sin(angle) * this.size * 0.5;
+                    vertex(x2, y2);
+                }
+                endShape(CLOSE);
+                
+                pop();
+            }
+            
+            isDead() {
+                return this.life <= 0;
+            }
+        }
+    </script>
+</body>
 </html>

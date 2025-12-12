@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laurel Schwulst Pecha Kucha</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #344123;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            color: #B1C27D;
+            position: relative;
+        }
+
+        #p5-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background-color: #B1C27D;
+            color: #344123;
+            text-decoration: none;
+            border-radius: 0px;
+            font-weight: 600;
+            z-index: 1000;
+            transition: background-color 0.3s;
+            border: 2px solid #B1C27D;
+        }
+
+        .home-button:hover {
+            background-color: #344123;
+            color: #B1C27D;
+        }
+
+        .header {
+            text-align: center;
+            padding: 80px 20px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #B1C27D;
+            margin-bottom: 15px;
+        }
+
+        .header a {
+            color: #B1C27D;
+            font-size: 1.1em;
+            font-weight: 600;
+            word-break: break-all;
+            text-decoration: underline;
+        }
+
+        .header a:hover {
+            color: #c5d494;
+        }
+
+        .slideshow-container {
+            max-width: 900px;
+            margin: 40px auto;
+            position: relative;
+            padding: 0 20px;
+            z-index: 10;
+        }
+
+        .slide {
+            display: none;
+            text-align: center;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .controls button {
+            padding: 12px 30px;
+            margin: 0 10px;
+            background-color: #B1C27D;
+            color: #344123;
+            border: 2px solid #B1C27D;
+            border-radius: 0px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .controls button:hover {
+            background-color: #344123;
+            color: #B1C27D;
+        }
+
+        .slide-counter {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #B1C27D;
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">HOME</a>
+
+    <div class="header">
+        <h1>Laurel Schwulst Pecha Kucha</h1>
+        <a href="https://www.canva.com/design/DAGxHKlbz_Q/hdOp7kwEzsNObljeskmngA/edit?utm_content=DAGxHKlbz_Q&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">View on Canva</a>
+    </div>
+
+    <div class="slideshow-container">
+        <div class="slide active">
+            <img src="pechakucha1.png" alt="Slide 1">
+        </div>
+        <div class="slide">
+            <img src="pechakucha2.png" alt="Slide 2">
+        </div>
+        <div class="slide">
+            <img src="pechakucha3.png" alt="Slide 3">
+        </div>
+        <div class="slide">
+            <img src="pechakucha4.png" alt="Slide 4">
+        </div>
+        <div class="slide">
+            <img src="pechakucha5.png" alt="Slide 5">
+        </div>
+        <div class="slide">
+            <img src="pechakucha6.png" alt="Slide 6">
+        </div>
+        <div class="slide">
+            <img src="pechakucha7.png" alt="Slide 7">
+        </div>
+        <div class="slide">
+            <img src="pechakucha8.png" alt="Slide 8">
+        </div>
+        <div class="slide">
+            <img src="pechakucha9.png" alt="Slide 9">
+        </div>
+        <div class="slide">
+            <img src="pechakucha10.png" alt="Slide 10">
+        </div>
+        <div class="slide">
+            <img src="pechakucha11.png" alt="Slide 11">
+        </div>
+        <div class="slide">
+            <img src="pechakucha12.png" alt="Slide 12">
+        </div>
+        <div class="slide">
+            <img src="pechakucha13.png" alt="Slide 13">
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / 13
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn">← Previous</button>
+        <button id="nextBtn">Next →</button>
+    </div>
+
+    <script>
+        // p5.js star trail sketch
+        let stars = [];
+
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.id('p5-canvas');
+            canvas.parent(document.body);
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        function draw() {
+            clear();
+            
+            // Create new stars when mouse is moving
+            if (mouseX !== pmouseX || mouseY !== pmouseY) {
+                stars.push(new Star(mouseX, mouseY));
+            }
+            
+            // Update and display all stars
+            for (let i = stars.length - 1; i >= 0; i--) {
+                stars[i].update();
+                stars[i].display();
+                
+                // Remove dead stars
+                if (stars[i].isDead()) {
+                    stars.splice(i, 1);
+                }
+            }
+        }
+
+        class Star {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = random(8, 20);
+                this.alpha = 255;
+                this.life = 1.0;
+                this.rotation = random(TWO_PI);
+                this.rotationSpeed = random(-0.05, 0.05);
+            }
+            
+            update() {
+                this.life -= 0.015;
+                this.alpha = this.life * 255;
+                this.rotation += this.rotationSpeed;
+            }
+            
+            display() {
+                push();
+                translate(this.x, this.y);
+                rotate(this.rotation);
+                
+                // Draw star outline only
+                stroke(177, 194, 125, this.alpha); // #B1C27D with alpha
+                strokeWeight(2);
+                noFill();
+                
+                // Draw a star shape
+                beginShape();
+                for (let i = 0; i < 5; i++) {
+                    let angle = TWO_PI / 5 * i - HALF_PI;
+                    let x1 = cos(angle) * this.size;
+                    let y1 = sin(angle) * this.size;
+                    vertex(x1, y1);
+                    
+                    angle = TWO_PI / 5 * (i + 0.5) - HALF_PI;
+                    let x2 = cos(angle) * this.size * 0.5;
+                    let y2 = sin(angle) * this.size * 0.5;
+                    vertex(x2, y2);
+                }
+                endShape(CLOSE);
+                
+                pop();
+            }
+            
+            isDead() {
+                return this.life <= 0;
+            }
+        }
+
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+            if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+        });
+    </script>
+</body>
+</html>
